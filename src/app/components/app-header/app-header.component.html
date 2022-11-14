@@ -1,0 +1,30 @@
+<header class="app-header navbar">
+  <button class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" style="background-color:lightgray" href="#"></a>
+  <button class="navbar-toggler d-md-down-none" type="button" appSidebarToggler>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+ 
+  
+  <ul class="nav navbar-nav ml-auto">
+    <li class=" d-md-down-none mr-2">Usuário: <span class="text-truncate font-weight-bold">{{userName}}</span><br/>
+      <span class="d-down-none d-inline-block text-truncate" style="max-width: 200px;" *ngIf="dealerName">Empresa: <span class="text-truncate font-weight-bold">{{dealerName}}</span></span>
+      <span class="d-down-none d-inline-block text-truncate" style="max-width: 200px;" *ngIf="companyName">Fornecedor: <span class="text-truncate font-weight-bold">{{companyName}}</span></span></li>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link nav-pill avatar" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <img src="assets/img/avatars/default.png" class="img-avatar" alt="{{userName}}"/>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        
+        <a class="dropdown-item" href="#" routerLink="/{{role}}/change-password"><i class="fa fa-user"></i> Alterar senha</a>
+
+
+
+        <div class="divider"></div>
+        <a class="dropdown-item" href="" (click)="logout()" ><i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</header>

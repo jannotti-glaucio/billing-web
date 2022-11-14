@@ -1,0 +1,141 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-accent-info">
+          <div class="card-header text-center">
+            <div class="h4 m-0">Recebidos</div>
+          </div>
+          <div class="card-body  font-weight-bold text-center bg-info p-1">
+            <div>75 Faturas</div>
+          </div>
+          <div class="card-footer text-center p-2">
+            <div class="h4 mb-0">R$ 26.658,00</div>
+          </div>
+        </div>
+      </div><!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-accent-warning">
+          <div class="card-header text-center">
+            <div class="h4 m-0">Solicitadas</div>
+          </div>
+          <div class="card-body font-weight-bold text-center bg-warning p-1 ">
+              <div>12 Transferências</div>
+          </div>
+          <div class="card-footer text-center p-2">
+            <div class="h4">R$ 2.725,00</div>
+          </div>
+        </div>
+      </div><!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-accent-danger">
+          <div class="card-header text-center">
+            <div class="h4 m-0">Pendentes</div>
+          </div>
+          <div class="card-body font-weight-bold text-center bg-danger p-1">
+              <div>8 Transferências</div>
+          </div>
+          <div class="card-footer text-center p-2">
+              <div class="h4">R$ 1.725,00</div>
+          </div>
+        </div>
+      </div><!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-accent-success">
+          <div class="card-header text-center">
+            <div class="h4 m-0">Realizadas</div>
+          </div>
+          <div class="card-body font-weight-bold text-center bg-success p-1">
+            <div>4 Transferências</div>
+          </div>
+          <div class="card-footer text-center p-2">
+              <div class="h4">R$ 1.000,00</div>
+          </div>
+        </div>
+      </div><!--/.col-->
+    </div><!--/.row-->
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">  
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="card-title clearfix mb-0"> Transferências solicitadas</h3>
+            </div> 
+          </div>
+          <br>
+          <hr class="m-0">
+          <br>
+          <table class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-center">#</th>
+                <th>Cliente</th>
+                <th class="text-center">Solicitação</th>
+                <th class="text-center">Valor</th>
+                <th class="text-center">Conta</th>
+                <th class="text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transfer of transferList; let i = index">
+                <td class="text-center">
+                    {{transfer?.id}}
+                </td>
+                <td>
+                    {{transfer?.dealer.nome}}
+                </td>
+                <td class="text-center">
+                    {{transfer?.requestDate | date:'dd/MM/yyyy':'pt' }}
+                </td>
+                <td class="text-center">
+                    {{transfer?.amount | currency:'R$'}}
+                </td>
+                <td class="text-center">
+                    {{transfer?.bankAccount?.alias}}
+                </td>
+                <td class="text-center">
+                  <strong> {{transfer?.status}}</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-5">
+                  <h3 class="card-title clearfix mb-0"> Transferências/Mês</h3>
+                </div>
+                <div class="col-sm-7 text-right">
+                    <a class="" href="#">
+                      <small class="text-muted"><i class="fa fa-file-pdf-o fa-2x"></i></small>
+                    </a>
+                    <a class="ml-2" href="#">
+                      <small class="text-muted"><i class="fa fa-print fa-2x"></i></small>
+                    </a>
+                </div>
+              </div>
+          <div class="chart-wrapper">
+            <canvas baseChart class="chart"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+  

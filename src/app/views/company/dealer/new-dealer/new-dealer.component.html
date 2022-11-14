@@ -1,0 +1,466 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.newDealer.label.newDealer' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>{{'screen.newDealer.label.personalData' | translate}}</h5>
+              <hr/>
+              <form #insertForm="ngForm" (ngSubmit)="onSubmit(insertForm)">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="personType">{{'screen.newDealer.label.personType' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-group">
+                          <select class="custom-select  form-control form-control-sm" id="personType" name="personType"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="dealer.personType"
+                          (change)="documentTypeComboConfig();" required>
+                          <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.personType' | translate}}</option> 
+                          <option value="INDIVIDUAL">{{'screen.newDealer.label.personTypeIndividual' | translate}}</option>
+                            <option value="LEGAL">{{'screen.newDealer.label.personTypeLegal' | translate}}</option>
+                          </select>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">{{'screen.newDealer.label.name' | translate}} <span class="required-mark">*</span></label>
+                      <input type="text" class="form-control form-control-sm" id="name" name="name" 
+                      maxlength="100"
+                      placeholder="{{'screen.newDealer.placeholder.dealerName' | translate}}" 
+                      [class.ng-touched]="insertForm.submitted"
+                      [(ngModel)]="dealer.name" required>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group ">
+                      <label for="documento">{{'screen.newDealer.label.document' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{dealer?.documentType?.name}}</span>
+                        </div>
+                        <input type="text" class="form-control" id="documentNumber" name="documentNumber" 
+                        placeholder="{{'screen.newDealer.placeholder.documentNumber' | translate}}" 
+                        [documentType]="dealer?.documentType?.code"
+                        documentValidator
+                        mask='{{documentMask}}'
+                        [class.ng-touched]="insertForm.submitted"
+                        [disabled]="!dealer.documentType"
+                        [(ngModel)]="dealer.documentNumber" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+               <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="phoneNumber">{{'screen.newDealer.label.phone' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm" id="phoneNumber" name="phoneNumber" 
+                        placeholder="{{'screen.newDealer.placeholder.phone' | translate}}" 
+                        mask='{{phoneNumberMask}}'
+                        [(ngModel)]="dealer.phoneNumber">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="mobileNumber">{{'screen.newDealer.label.mobile' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm" id="mobileNumber" name="mobileNumber" 
+                        placeholder="{{'screen.newDealer.placeholder.mobile' | translate}}" 
+                        mask='{{mobileNumberMask}}'
+                        [(ngModel)]="dealer.mobileNumber">
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="email">{{'screen.newDealer.label.email' | translate}} <span class="required-mark">*</span></label>
+                          <input type="email" class="form-control form-control-sm" id="email" name="email" 
+                          placeholder="{{'screen.newDealer.placeholder.email' | translate}}"
+                          maxlength="60"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="dealer.email" required>
+                        </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="comments">{{'screen.newDealer.label.comments' | translate}}</label>
+                          <textarea rows="4" class="form-control form-control-sm" id="comments" name="comments" 
+                          placeholder="{{'screen.newDealer.placeholder.comments' | translate}}" 
+                          maxlength="500"
+                          rows="4"
+                          [(ngModel)]="dealer.comments"></textarea>
+                        </div>
+                  </div>
+
+
+                </div>
+
+                <br/>
+         
+                  <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.newDealer.label.feeData' | translate}}</h5>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="billingPlan">{{'screen.newDealer.label.feePlan' | translate}}<span class="required-mark">*</span></label>
+                        <select class="custom-select form-control form-control-sm" id="billingPlan" name="billingPlan"
+                        [class.ng-touched]="insertForm.submitted"
+                        [(ngModel)]="dealer.billingPlan.token" 
+                        (change)="getBillingPlan(dealer.billingPlan.token)" 
+                        required>
+                        <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.feePlan' | translate}}</option>
+                          <option *ngFor="let billingPlan of billingPlansList" value="{{billingPlan.token}}">{{billingPlan.description}}</option>
+                        </select> 
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" *ngIf="paidBankBilletFee">
+                      <div class="form-group">
+                        <label for="paidBankBilletFee">{{'screen.newDealer.label.paidBankBilletFee' | translate}}</label>
+                        
+                        <div class="input-prepend input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                          </div>
+                          <input type="text" class="form-control form-control-sm" id="paidBankBilletFee"  name="paidBankBilletFee" 
+                          [(ngModel)]="paidBankBilletFee" 
+                          currencyMask 
+                          [options]="{ 
+                            prefix: '', 
+                            thousands: formatService.getCurrencyThousandsFormat(), 
+                            decimal: formatService.getCurrencyDecimalFormat()}"
+                          disabled>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3" *ngIf="marketWithdrawFee">
+                      <div class="form-group">
+                        <label for="marketWithdrawFee">{{'screen.newDealer.label.marketWithdrawFee' | translate}}</label>
+                        <div class="input-prepend input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                          </div>
+                          <input type="text" class="form-control form-control-sm" id="marketWithdrawFee"  name="marketWithdrawFee" 
+                          [(ngModel)]="marketWithdrawFee" 
+                          currencyMask 
+                          [options]="{ 
+                            prefix: '', 
+                            thousands: formatService.getCurrencyThousandsFormat(), 
+                            decimal: formatService.getCurrencyDecimalFormat()}"
+                          disabled>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.newDealer.label.bankBillet' | translate}}</h5>
+              <hr/>
+
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="companyBankAccount">{{'screen.newDealer.label.accountToSend' | translate}}</label>
+                    <select class="custom-select form-control form-control-sm" id="companyBankAccount" name="companyBankAccount"
+                    [class.ng-touched]="insertForm.submitted"
+                    [(ngModel)]="dealer.companyBankAccount.token" required>
+                    <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.accountToSend' | translate}}</option>
+                      <option *ngFor="let companyBankAccount of companyBankAccountsList" value="{{companyBankAccount.token}}">{{companyBankAccount.description}}</option>
+                    </select> 
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="bankBilletInstructions">{{'screen.newDealer.label.bankInstructions' | translate}}</label>
+                    <textarea rolls="4" type="text" class="form-control form-control-sm" id="bankBilletInstructions" name="bankBilletInstructions"
+                    maxlength="500"
+                    [(ngModel)]="dealer.bankBilletInstructions"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-sm-3">{{'screen.newDealer.label.receiveExpired' | translate}}</div>
+                <div class="col-md-9 col-form-label text-left">
+                  <div class="form-check form-check-inline mr-2">
+                    <input class="form-check-input" type="radio" id="inline-checkbox1" name="bankBilletExpiredPayment1" [value]="true" [(ngModel)]="dealer.bankBilletExpiredPayment">
+                    <label class="form-check-label" for="inline-checkbox1">{{'screen.newDealer.label.yes' | translate}}</label>
+                  </div>
+                  <div class="form-check form-check-inline mr-2">
+                    <input class="form-check-input" type="radio" id="inline-checkbox2" name="bankBilletExpiredPayment2" [value]="false" (click)="resetJurosMulta()" [(ngModel)]="dealer.bankBilletExpiredPayment">
+                    <label class="form-check-label" for="inline-checkbox2">{{'screen.newDealer.label.no' | translate}}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="bankBilletPenaltyPercent">{{'screen.newDealer.label.penalty' | translate}}</label>
+                    <div class="controls">
+                        <div class="input-prepend input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" id="bankBilletPenaltyPercent" name="bankBilletPenaltyPercent" 
+                            maxlength="2"
+                            placeholder="0" 
+                            [class.ng-touched]="insertForm.submitted"
+                            [(ngModel)]="dealer.bankBilletPenaltyPercent" 
+                            [disabled]="dealer?.bankBilletExpiredPayment == false" required>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="bankBilletInterestPercent">{{'screen.newDealer.label.interest' | translate}}</label>
+                    <div class="controls">
+                        <div class="input-prepend input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" id="bankBilletInterestPercent" name="bankBilletInterestPercent" 
+                            maxlength="2"
+                            placeholder="0" 
+                            [class.ng-touched]="insertForm.submitted"
+                            [(ngModel)]="dealer.bankBilletInterestPercent" 
+                            [disabled]="dealer.bankBilletExpiredPayment == false" required>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>              
+              </div>
+
+
+                <br/>
+                <div class="section">
+                  <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.newDealer.label.bankData' | translate}}</h5>
+                  <hr/>
+                  
+                  <div *ngFor="let bankAccount of dealer.bankAccounts; let i = index">
+                    <h6 class="text-muted">{{'screen.newDealer.label.account' | translate}} {{i+1}}</h6>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="bankName">{{'screen.newDealer.label.bank' | translate}} <span class="required-mark">*</span></label>
+                          <select class="custom-select form-control form-control-sm" id="bankName{{i}}" name="bankName{{i}}"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="bankAccount.bank.code" required>
+                          <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.bank' | translate}}</option>
+                          <option *ngFor="let bank of banks" value="{{bank.code}}">{{bank.name}}</option>
+                          </select> 
+                        </div>
+                      </div>
+                    
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label for="agency">{{'screen.newDealer.label.agency' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="agency{{i}}"  name="agency{{i}}" 
+                          placeholder="{{'screen.newDealer.placeholder.agency' | translate}}"
+                          maxlength="4"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="bankAccount.agencyNumber" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-1">
+                        <div class="form-group">
+                          <label for="agencyDigit">{{'screen.newDealer.label.agencyDigit' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="agencyDigit{{i}}"  name="agencyDigit{{i}}" 
+                          placeholder="{{'screen.newDealer.placeholder.digit' | translate}}"
+                          maxlength="1"
+                          [(ngModel)]="bankAccount.agencyCheckDigit">
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label for="account">{{'screen.newDealer.label.account' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="account{{i}}"  name="account{{i}}" 
+                          placeholder="{{'screen.newDealer.placeholder.account' | translate}}"
+                          maxlength="7"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="bankAccount.accountNumber" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-1">
+                        <div class="form-group">
+                          <label for="accountDigit">{{'screen.newDealer.label.accountDigit' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="accountDigit{{i}}"  name="accountDigit{{i}}" 
+                          placeholder="{{'screen.newDealer.placeholder.digit' | translate}}"
+                          maxlength="1"
+                          [(ngModel)]="bankAccount.accountCheckDigit">
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="description">{{'screen.newDealer.label.description' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="description{{i}}"  name="description{{i}}" 
+                          placeholder="{{'screen.newDealer.placeholder.description' | translate}}"
+                          maxlength="50"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="bankAccount.description" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row  text-right">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-outline-danger btn-sm" *ngIf="i !== 0" (click)="removeAccount(i)"><i class="fa fa-minus-circle"></i> {{'screen.newDealer.button.remove' | translate}}</button>
+                      <hr/>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+
+                </div>
+
+                <div class="row text-left">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-outline-success btn-sm" (click)="addAccount()"> <i class="fa fa-plus-circle"></i> {{'screen.newDealer.button.addAccount' | translate}}</button>
+                  </div>
+                </div>
+
+                <br/>
+                <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.newDealer.label.address' | translate}}</h5>
+                <hr/>
+                <div *ngFor="let address of dealer.addresses; let i = index">
+                  <h6 class="text-muted">{{'screen.newDealer.label.address' | translate}} {{i+1}}</h6>
+                  <div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="addressType">{{'screen.newDealer.label.addressType' | translate}} <span class="required-mark">*</span></label>
+                          <select class="custom-select form-control form-control-sm" id="addressType{{i}}" name="addressType{{i}}"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="address.addressType" required>
+                          <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.addressType' | translate}}</option>
+                            <option value="HOME">{{'screen.newDealer.label.addressTypeHome' | translate}}</option>
+                            <option value="BUSINESS">{{'screen.newDealer.label.addressTypeBusiness' | translate}}</option>
+                            <option value="MAILING">{{'screen.newDealer.label.addressTypeMailing' | translate}}</option>
+                          </select> 
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="checkbox" id="billingAddress{{i}}" name="billingAddress{{i}}" value="true" [(ngModel)]="address.billingAddress">
+                            <label class="form-check-label" for="billingAddress">{{'screen.newDealer.label.billingAddress' | translate}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="zipCode">{{'screen.newDealer.label.zipCode' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="zipCode{{i}}"  name="zipCode{{i}}" 
+                          placeholder="{{'screen.newDealer.placeholder.zipCode' | translate}}"
+                          maxlength="10"
+                          mask='{{zipCodeMask}}'
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="address.zipCode" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="street">{{'screen.newDealer.label.street' | translate}} <span class="required-mark">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="street{{i}}" name="street{{i}}"
+                            placeholder="{{'screen.newDealer.placeholder.street' | translate}}"
+                            maxlength="80"
+                            [class.ng-touched]="insertForm.submitted"
+                            [(ngModel)]="address.street" required>
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="number">{{'screen.newDealer.label.number' | translate}}</label>
+                            <input type="text" class="form-control form-control-sm" id="number{{i}}" name="number{{i}}"
+                            placeholder="{{'screen.newDealer.placeholder.number' | translate}}"
+                            maxlength="10"
+                            [(ngModel)]="address.number" >
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="complement">{{'screen.newDealer.label.complement' | translate}}</label>
+                            <input type="text" class="form-control form-control-sm" id="complement{{i}}" name="complement{{i}}"
+                            placeholder="{{'screen.newDealer.placeholder.complement' | translate}}"
+                            maxlength="20"
+                            [(ngModel)]="address.complement" >
+                          </div>
+                      </div>
+                    </div>
+                  
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="district">{{'screen.newDealer.label.district' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="district{{i}}" name="district{{i}}"
+                          placeholder="{{'screen.newDealer.placeholder.district' | translate}}" 
+                          maxlength="30"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="address.district" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="state">{{'screen.newDealer.label.state' | translate}} <span class="required-mark">*</span></label>
+                            <select class="custom-select  form-control form-control-sm" id="state{{i}}" name="state{{i}}"
+                            [class.ng-touched]="insertForm.submitted"
+                            [(ngModel)]="address.state"
+                            (change)="getCities(i, address?.state)" required>
+                            <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.state' | translate}}</option>
+                              <option *ngFor="let state of states" value="{{state.code}}">{{state.name}}</option>
+                            </select> 
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="city">{{'screen.newDealer.label.city' | translate}} <span class="required-mark">*</span></label>
+                            <select class="custom-select  form-control form-control-sm" id="city{{i}}" name="city{{i}}" 
+                            [disabled]="cities?.length == 0"
+                            [class.ng-touched]="insertForm.submitted"
+                            [(ngModel)]="address.city" required>
+                            <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.city' | translate}}</option>
+                              <option *ngFor="let city of cities[i]" value="{{city.name}}">{{city.name}}</option>
+                            </select> 
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="row  text-right">
+                    <div class="col-sm-12">
+                      <button type="button" class="btn btn-outline-danger btn-sm" *ngIf="i !== 0" (click)="removeAddress(i)"><i class="fa fa-minus-circle"></i> {{'screen.newDealer.button.remove' | translate}}</button>
+                    <hr/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row text-left">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-outline-success btn-sm" (click)="addAddress()"> <i class="fa fa-plus-circle"></i> {{'screen.newDealer.button.addAddress' | translate}}</button>
+                  </div>
+                </div>
+                <div class="row mt-4 float-right">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary  btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('newDealerSaveButton')" >{{'screen.commons.button.save' | translate}}</button>
+                    <button class="btn btn-default" routerLink="/company/dealer">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

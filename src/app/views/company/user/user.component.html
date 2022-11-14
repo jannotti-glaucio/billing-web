@@ -1,0 +1,148 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <h4 class="card-title clearfix mb-0">{{'screen.user.label.users' | translate}}</h4>
+                </div>
+                <div class="col-sm-7">
+                  <a class="btn btn-primary float-right" routerLink="./new-user"><i class="icon-plus"></i> {{'screen.user.button.new' | translate}}</a>
+                </div>
+              </div>
+              <br/>
+              <form #searchForm="ngForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label for="search" class="col-md-3 col-form-label">{{'screen.user.label.dealer' | translate}}</label>
+                            <fieldset class="col form-group">
+                            <ng-select 
+                            [allowClear]="true"
+                            id="dealerToken" name="dealerToken"
+                            class="bootstrap"
+                            placeholder="Digite uma empresa"
+                            notFoundMsg="{{'screen.commons.placeholder.lookup' | translate}}"
+                            [class.ng-touched]="searchForm.submitted"
+                            [options]="dealerList"
+                            [(ngModel)]="dealerToken" required></ng-select>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="">
+                          <button class="btn btn-secondary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('userSearchDealersButton')" (click)="searchUsers()" [disabled]="!searchForm.valid"><i class="fa fa-search"></i> &nbsp; {{'screen.commons.button.search' | translate}}</button>
+                      </div>
+                    </div>
+                </div>
+              </form>
+              <hr/>
+              
+  
+              <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th class="text-center">{{'screen.user.label.user' | translate}}</th>
+                    <th class="text-center">{{'screen.user.label.name' | translate}}</th>
+                    <th class="text-center">{{'screen.user.label.dealer' | translate}}</th>
+                    <th class="text-center">{{'screen.user.label.mail' | translate}}</th>
+                    <th class="text-center">{{'screen.user.label.status' | translate}}</th>
+                    <th class="text-center">{{'screen.user.label.action' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="userList == null"> <td class="text-muted text-center" colspan="6">{{'screen.commons.text.emptySearch' | translate}}</td></tr>
+                  <tr *ngFor="let user of userList; let i = index">
+                    <td class="text-center">
+                      {{user.username}}
+                    </td>
+                    <td class="text-center">
+                      {{user.realName}}
+                    </td>
+                    <td class="text-center">
+                      {{user.dealer.name}}
+                    </td>
+                    <td class="text-center">
+                      {{user.email}}
+                    </td>
+                    <td class="text-center">
+                        <span class="cell-color-box" [ngClass]="[(user?.status == 'ACTIVE') ? 'bg-success' : '',
+                        (user?.status == 'BLOCKED') ? 'bg-danger' : '']">
+                       {{statusConverterService.convertEntityStatus(user.status)}}</span>
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.user.tooltip.edit' | translate}}" placement="top" (click)="updateUser(user.token)" *ngIf="user.status == 'ACTIVE'"><i class="fa fa-eye"></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.user.tooltip.changePassword' | translate}}" placement="top" (click)="loadUserToChangePassword(user); passwordModal.show()" *ngIf="user.status == 'ACTIVE'"><i class="fa fa-lock ml-2"></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.user.tooltip.unlock' | translate}}" placement="top" (click)="unblockUser(user.token)" *ngIf="user.status == 'BLOCKED'"><i class="fa fa-check ml-2" style="color: green;" ></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.user.tooltip.block' | translate}}" placement="top" (click)="blockUser(user.token)" *ngIf="user.status == 'ACTIVE'"><i class="fa fa-ban ml-2" style="color: red;" ></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.user.tooltip.delete' | translate}}" placement="top" (click)="deleteModal.show(); loadUserToRemove(user);"><i class="fa fa-trash ml-2" style="color: red;"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{'screen.user.label.deleteUser' | translate}}</h4>
+          <button type="button" class="close" (click)="deleteModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{'screen.user.label.user' | translate}}: <strong>{{userToRemove?.username}}</strong><br/>
+          {{'screen.user.label.name' | translate}}: <strong>{{userToRemove?.realName}}</strong><br/>
+          {{'screen.user.label.dealer' | translate}}: <strong>{{userToRemove?.dealer?.name}}</strong>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="deleteModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+          <button type="button" class="btn btn-danger" (click)="deleteUser(userToRemove.token); deleteModal.hide()">{{'screen.commons.button.delete' | translate}}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div bsModal #passwordModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-primary modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{'screen.user.label.changePassword' | translate}}</h4>
+            <button type="button" class="close" (click)="passwordModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {{'screen.user.label.user' | translate}}: <strong>{{userToChangePassword?.username}}</strong><br/>
+            {{'screen.user.label.name' | translate}}: <strong>{{userToChangePassword?.realName}}</strong><br/>
+            {{'screen.user.label.dealer' | translate}}: <strong>{{userToChangePassword?.dealer?.name}}</strong>
+            <hr/>
+            <div class="form-group">
+                <label for="newPassword">{{'screen.user.label.newPassword' | translate}}:</label>
+                <input type="password" class="form-control form-control-sm" id="newPassword" name="newPassword" 
+                #inputPassword
+                [(ngModel)]="newPassword" >
+            </div>
+
+            <div class="form-group">
+                <label for="newPasswordConfirmation">{{'screen.user.label.passwordConfirmation' | translate}}:</label>
+                <input type="password" class="form-control form-control-sm" id="newPasswordConfirmation" name="newPasswordConfirmation" 
+                #inputPasswordConfirmation
+                [(ngModel)]="passwordConfirmation" >
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="passwordModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="updateUserPassword(userToChangePassword.token);">Alterar</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  
+  

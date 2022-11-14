@@ -1,0 +1,155 @@
+<div class="animated fadeIn">
+    <div class="row d-print-none">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                <form #searchForm="ngForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4 class="card-title clearfix mb-0">{{'screen.subscriptionReport.label.subscriptionsReport' | translate}}</h4>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="search" class="col-md-3 col-form-label">{{'screen.commons.label.searchBy' | translate}}</label>
+                            <input type="text" id="search" name="search" class="col-md-9 form-control" 
+                            [(ngModel)]="searchKeyword" placeholder="{{'screen.commons.placeholder.searchBy' | translate}}">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                            <label class="col-md-3 col-form-label" for="dateToFilter">{{'screen.commons.label.filterBy' | translate}}</label>
+                                <select class="col custom-select  form-control form-control-md" id="dateToFilter" name="dateToFilter"
+                                
+                                [(ngModel)]="dateToFilter" required>
+                                <option value="EXPIRATION" >{{'screen.subscriptionReport.label.expirationDate' | translate}}</option>
+                                <option value="PAYMENT">{{'screen.subscriptionReport.label.paymentDate' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <div class="form-group row">
+                            <div class="col-md-3"></div>
+                            <div class="col">
+                                <div class="row text-right">
+                                <input type="text" 
+                                class="form-control" id="startDate" name="startDate"
+                                bsDatepicker
+                                [(ngModel)]="bsStartDate"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}">
+                                <small class="text-muted">{{'screen.invoice.label.startDate' | translate}}</small>
+                                </div>
+                            </div>
+                            <div class="col ml-3 float-right">
+                                <div class="row text-right">
+                                <input type="text"
+                                class="form-control" id="endDate" name="endDate"
+                                bsDatepicker 
+                                [(ngModel)]="bsEndDate"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
+                                <small class="text-muted">{{'screen.invoice.label.endDate' | translate}}</small>
+                                </div>
+                            </div>  
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="inline-radios">{{'screen.subscriptionReport.label.status' | translate}}</label>
+                            <div class="col-md-10 col-form-label row">
+                            <div class="form-check form-check-inline mr-2">
+                                <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" value="" [(ngModel)]="status" checked>
+                                <label class="form-check-label" for="inline-checkbox1">{{'screen.subscriptionReport.label.statusType.all' | translate}}</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-2">
+                                <input class="form-check-input" type="radio" id="inline-checkbox2" name="status" [value]="subscriptionStatus.open" [(ngModel)]="status">
+                                <label class="form-check-label" for="inline-checkbox2">{{'screen.subscriptionReport.label.statusType.open' | translate}}</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-2">
+                                <input class="form-check-input" type="radio" id="inline-checkbox3" name="status" [value]="subscriptionStatus.canceled" [(ngModel)]="status">
+                                <label class="form-check-label" for="inline-checkbox3">{{'screen.subscriptionReport.label.statusType.canceled' | translate}}</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-2">
+                                <input class="form-check-input" type="radio" id="inline-checkbox4" name="status" [value]="subscriptionStatus.suspended" [(ngModel)]="status">
+                                <label class="form-check-label" for="inline-checkbox4">{{'screen.subscriptionReport.label.statusType.suspended' | translate}}</label>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-sm-3">
+                        <div class="float-right">
+                            <button class="btn btn-secondary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('dealerSubscriptionReportSearchButton')" (click)="searchSubscription(0)"><i class="fa fa-search"></i> {{'screen.commons.button.search' | translate}}</button>
+                        </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-secondary d-print-none" (click)="printReport()"><i class="fa fa-print"></i> {{'screen.subscriptionReport.button.print' | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="d-none d-print-block mb-2">
+                                <h3>{{'screen.subscriptionReport.label.subscriptionsReport' | translate}}</h3>
+                                <p>{{'screen.subscriptionReport.label.generatedBy' | translate}}: {{user}}<br/>
+                                    {{'screen.subscriptionReport.label.in' | translate}} {{today}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">{{'screen.subscriptionReport.label.customer' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.document' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.email' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.frequency' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.expirationDay' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.createdInvoices' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.total' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.paidInvoices' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.expiredInvoices' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.canceledInvoices' | translate}}</th>
+                                        <th class="text-center">{{'screen.subscriptionReport.label.status' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="subscriptionList.length < 1"><td class="text-center bg-light" colspan="11"><span class="text-muted">-- Sem registros --</span></td></tr>
+                                    <tr *ngFor="let subscription of subscriptionList; let i = index">
+                                        <td class="text-left">{{subscription?.customer?.name}}</td>
+                                        <td class="text-center">{{subscription?.customer?.documentNumber | mask:subscription?.customer?.documentType?.webMask}}</td>
+                                        <td class="text-center">{{subscription?.customer?.email}}</td>
+                                        <td class="text-center">{{converterService.frequencyTypeConvert(subscription?.frequencyType)}}</td>
+                                        <td class="text-center">{{subscription?.expirationDay}}</td>
+                                        <td class="text-center">{{subscription?.createdInvoices}}</td>
+                                        <td class="text-center">{{subscription?.amount | currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{subscription?.paidInvoices}}</td>
+                                        <td class="text-center">{{subscription?.expiredInvoices}}</td>
+                                        <td class="text-center">{{subscription?.canceledInvoices}}</td>
+                                        <td class="text-center">{{statusConverterService.convertSubscriptionStatus(subscription?.status)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

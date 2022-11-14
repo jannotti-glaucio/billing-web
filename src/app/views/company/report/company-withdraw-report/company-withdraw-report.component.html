@@ -1,0 +1,182 @@
+<div class="animated fadeIn">
+    <div class="row d-print-none">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title clearfix mb-0"> {{'screen.companyWithdrawReport.label.transferReport' | translate}}</h4>
+                    </div>
+                    
+                    </div>
+                    <hr/>
+                    <form #searchForm="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                        <label for="search" class="col-md-3 col-form-label">{{'screen.companyWithdrawReport.label.dealer' | translate}} </label>
+                                    <fieldset class="col form-group">
+                                        <ng-select 
+                                        [allowClear]="true"
+                                        id="dealerToken" name="dealerToken"
+                                        class="bootstrap form-control p-0"
+                                        placeholder="{{'screen.companyWithdrawReport.placeholder.selectDealer' | translate}}"
+                                        notFoundMsg="{{'screen.commons.placeholder.lookup' | translate}}"
+                                        [class.ng-touched]="searchForm.submitted"
+                                        [options]="dealerList"
+                                        [(ngModel)]="dealerToken"></ng-select>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="dateToFilter">{{'screen.companyWithdrawReport.label.filterBy' | translate}}</label>
+                                    <select class="col custom-select  form-control form-control-md" id="dateToFilter" name="dateToFilter"
+                                
+                                    [(ngModel)]="dateToFilter">
+                                    <option value="EXPIRATION" >{{'screen.companyWithdrawReport.label.expirationDate' | translate}}</option>
+                                    <option value="PAYMENT">{{'screen.companyWithdrawReport.label.paymentDate' | translate}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                            <div class="form-group row">
+                                <div class="col-md-3"></div>
+                                <div class="col">
+                                    <div class="row text-right">
+                                    <input type="text" id="startDate" name="startDate"
+                                    class="form-control"
+                                    bsDatepicker
+                                    [(ngModel)]="startDate"
+                                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}">
+                                    <small class="text-muted">{{'screen.commons.label.startDate' | translate}}</small>
+                                    </div>
+                                </div>
+                                <div class="col ml-3 float-right">
+                                    <div class="row text-right">
+                                    <input type="text" id="endDate" name="endDate"
+                                    class="form-control"
+                                    bsDatepicker 
+                                    [(ngModel)]="endDate"
+                                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
+                                    <small class="text-muted">{{'screen.commons.label.endDate' | translate}}</small>
+                                    </div>
+                                </div>  
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                              <div class="form-group row">
+                                <label class="col-md-2 col-form-label" for="inline-radios">{{'screen.companyWithdrawReport.label.status' | translate}}</label>
+                                <div class="col-md-10 col-form-label row">
+                                  <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" value="" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox1">{{'screen.companyWithdrawReport.label.statusType.all' | translate}}</label>
+                                  </div>
+                                  <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" [value]="withdrawStatus.requested" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox1">{{'screen.companyWithdrawReport.label.statusType.requested' | translate}}</label>
+                                  </div>
+                                  <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox2" name="status" [value]="withdrawStatus.approved" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox2">{{'screen.companyWithdrawReport.label.statusType.approved' | translate}}</label>
+                                  </div>
+                                  <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox5" name="status" [value]="withdrawStatus.denied" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox5">{{'screen.companyWithdrawReport.label.statusType.denied' | translate}}</label>
+                                  </div>
+                                  <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox3" name="status" [value]="withdrawStatus.released" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox3">{{'screen.companyWithdrawReport.label.statusType.released' | translate}}</label>
+                                  </div>
+                                  <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox4" name="status" value="CANCELED" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox4">{{'screen.companyWithdrawReport.label.statusType.canceled' | translate}}</label>
+                                  </div> 
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-3">
+                              <div class="float-right">
+                                <button class="btn btn-secondary  btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('companyWithdrawReportSearchButton')" (click)="searchWithdraws(searchForm, 0)" ><i class="fa fa-search"></i>&nbsp;{{'screen.commons.button.search' | translate}}</button>
+                              </div>
+                            </div>
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-secondary d-print-none" (click)="printReport()"><i class="fa fa-print"></i> {{'screen.companyWithdrawReport.button.print' | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="d-none d-print-block mb-2">
+                                <h3>{{'screen.companyWithdrawReport.label.transferReport' | translate}}</h3>
+                                <p>{{'screen.companyWithdrawReport.label.generatedBy' | translate}}: {{user}}<br/>
+                                {{'screen.companyWithdrawReport.label.in' | translate}} {{today}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">{{'screen.companyWithdrawReport.label.dealer' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.document' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.amount' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.fees' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.netAmount' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.request' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.review' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.release' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyWithdrawReport.label.status' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="withdrawList.length < 1"><td class="text-center bg-light"colspan="9"><span class="text-muted">{{'screen.commons.text.emptySearch' | translate}}</span></td></tr>
+                                    <tr *ngFor="let withdraw of withdrawList; let i = index">
+                                        <td class="text-left">{{withdraw?.marketAccount?.dealer?.name}}</td>
+                                        <td class="text-truncate text-center">{{withdraw?.marketAccount?.dealer?.documentNumber | mask:withdraw?.marketAccount?.dealer?.documentType?.webMask}}</td>
+                                        <td class="text-center">{{withdraw?.amount| currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{withdraw?.fees| currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{withdraw?.netAmount| currency:formatService.getCurrencyFormat()}}</td>
+
+                                        <td class="text-center">{{withdraw?.requestDate | date: formatService.getDateFormat()}}</td>
+                                        <td class="text-center">{{withdraw?.reviewDate | date: formatService.getDateFormat()}}</td>
+                                        <td class="text-center">{{withdraw?.releaseDate | date: formatService.getDateFormat()}}</td>
+                                        <td class="text-center">{{statusConverterService.convertWithdrawStatus(withdraw?.status)}}</td>
+                                    </tr>
+                                    <tr class="bg-secondary" *ngIf="withdrawList.length > 0">
+                                            <td class="border-top border-dark">{{'screen.invoiceReport.label.total' | translate}}</td>
+                                            <td class="border-top border-dark text-center"></td>
+                                            <td class="border-top border-dark text-center">{{totalAmount | currency:formatService.getCurrencyFormat()}}</td>
+                                            <td class="border-top border-dark text-center">{{totalFees | currency:formatService.getCurrencyFormat()}}</td>
+                                            <td class="border-top border-dark text-center">{{totalNetAmount | currency:formatService.getCurrencyFormat()}}</td>
+                                            <td class="border-top border-dark text-center"></td>
+                                            <td class="border-top border-dark text-center"></td>
+                                            <td class="border-top border-dark text-center"></td>
+                                            <td class="border-top border-dark text-center"></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

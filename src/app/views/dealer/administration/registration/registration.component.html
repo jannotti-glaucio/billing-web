@@ -1,0 +1,130 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"> 
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h4 class="card-title clearfix mb-0"> Dados Cadastrais</h4>
+            </div>
+          </div>
+          <hr/>
+          <br/>
+          <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>Dados pessoais</h5>
+          <hr/>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control form-control-sm" id="name" [(ngModel)]="company.name" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group ">
+                <label for="documento">Documento</label>
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                      <span *ngIf="tipoPessoa == 'f'" class="input-group-text">CPF</span>
+                      <span *ngIf="tipoPessoa == 'j'" class="input-group-text">CNPJ</span>
+                  </div>
+                  <input type="text" id="documento" class="form-control" [(ngModel)]="company.numeroDocumento" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                  <label for="email">E-mail</label>
+                  <input type="email" class="form-control form-control-sm" id="email" [(ngModel)]="company.email" disabled/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="text" id="telefone" class="form-control form-control-sm" [(ngModel)]="company.telefone" disabled/>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="telefone">Celular</label>
+                <input type="text" id="celular" class="form-control form-control-sm" [(ngModel)]="company.celular" disabled>
+              </div>
+            </div>
+          </div>
+          <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>Endereço</h5>
+          <hr/>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="tipoendereco">Tipo de endereço</label>
+                <select class="form-control form-control-sm" id="tipoendereco" [(ngModel)]="company.endereco.addressType" disabled >
+                  <option></option>
+                  <option value="res">Residencial</option>
+                  <option value="com">Comercial</option>
+                  <option value="cob">Cobrança</option>
+                </select> 
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="cep">Cep</label>
+                <input type="text" id="cep" class="form-control form-control-sm" [(ngModel)]="company.endereco.zipCode" disabled/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="logradouro">Logradouro</label>
+                  <input type="text" id="logradouro" class="form-control form-control-sm" [(ngModel)]="company.endereco.street" disabled/>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="number">Número</label>
+                  <input type="text" id="number" class="form-control form-control-sm" [(ngModel)]="company.endereco.number" disabled/>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="complemento">Complemento</label>
+                  <input type="text" id="complemento" class="form-control form-control-sm" [(ngModel)]="company.endereco.complement" disabled/>
+                </div>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="bairro">Bairro</label>
+                <input type="text" id="bairro" class="form-control form-control-sm" [(ngModel)]="company.endereco.district" disabled/>
+              </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="estado">Estado</label>
+                  <select class="form-control form-control-sm" id="estado" [(ngModel)]="company.endereco.state" disabled>
+                    <option></option>
+                    <option value="RJ">Rio de Janeiro</option>
+                  </select> 
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="cidade">Cidade</label>
+                  <select class="form-control form-control-sm" id="cidade" [(ngModel)]="company.endereco.city" disabled>
+                    <option></option>
+                    <option value="Niterói">Niterói</option>
+                    <option value="Friburgo">Nova Friburgo</option>
+                  </select> 
+                </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>

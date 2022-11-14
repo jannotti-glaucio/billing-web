@@ -1,0 +1,105 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">NOVA EMPRESA</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>Dados Pessoais</h5>
+              <hr/>
+              <form>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="tipoPessoa">Tipo</label>
+                      <div class="input-group">
+                          <select id="tipoPessoa" class="form-control form-control-sm">
+                            <option></option>
+                            <option value="f">Física</option>
+                            <option value="j">Jurídica</option>
+                          </select>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">Nome</label>
+                      <input type="text" class="form-control form-control-sm" id="name" placeholder="Nome do cliente">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group ">
+                      <label for="documento">Documento</label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span *ngIf="tipoPessoa == 'f'" class="input-group-text">CPF</span>
+                            <span *ngIf="tipoPessoa == 'j'" class="input-group-text">CNPJ</span>
+                        </div>
+                        <input type="text" id="documento" class="form-control" placeholder="documento">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" id="telefone" class="form-control form-control-sm" placeholder="Telefone">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="telefone">Celular</label>
+                        <input type="text" id="celular" class="form-control form-control-sm" placeholder="Celular">
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="email">E-mail</label>
+                          <input type="email" class="form-control form-control-sm" id="email" />
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="observacoes">Observações</label>
+                          <textarea id="observacoes" rows="4" class="form-control form-control-sm" placeholder="Observações"></textarea>
+                        </div>
+                  </div>
+                </div>
+
+                <div *ngFor="let endereco of listaEnderecos; let i = index">
+                  <div [innerHTML]="endereco"></div>
+                  <div class="row  text-right">
+                    <div class="col-sm-12">
+                      <button type="button" class="btn btn-outline-danger btn-sm" *ngIf="i !== 0" (click)="removeEndereco(i)"><i class="fa fa-minus-circle"></i> Endereco</button>
+                    <hr/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row text-right">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-outline-success btn-sm" (click)="addEndereco()"> <i class="fa fa-plus-circle"></i> Endereco</button>
+                  </div>
+                </div>
+
+
+                <button class="btn btn-primary float-left">Salvar</button>
+                <button class="btn btn-default float-left" routerLink="/admin/company">Cancelar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

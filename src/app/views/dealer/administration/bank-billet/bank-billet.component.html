@@ -1,0 +1,91 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card"> 
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title clearfix mb-0"> Boleto</h4>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label for="tarifaBoleto">Tarifa por Boleto</label>
+                <div class="controls">
+                  <div class="input-prepend input-group input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">R$</span>
+                    </div>
+                    <input type="text" class="form-control form-control-sm" id="tarifaBoleto" value="5,00" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="paymentInstructions">Instruções de pagamento</label>
+                <input type="text" class="form-control form-control-sm" value="Pagável preferencialmente no Banco XX" id="paymentInstructions" >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 col-sm-6">
+              <label for="juros">Juros</label><br/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-1  ml-3">
+              <label class="switch switch-3d switch-primary">
+                <input type="checkbox" class="switch-input" checked>
+                <span class="switch-label"></span>
+                <span class="switch-handle"></span>
+              </label>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="controls">
+                  <div class="input-prepend input-group input-group-sm">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text">%</span>
+                    </div>
+                    <input type="text" class="col-sm-2 form-control form-control-sm" value="2" id="juros">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="multa">Multa</label><br/>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-xs-1 ml-3">
+                <label class="switch switch-3d switch-primary">
+                  <input type="checkbox" class="switch-input" checked>
+                  <span class="switch-label"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <div class="controls">
+                    <div class="input-prepend input-group input-group-sm">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text">%</span>
+                      </div>
+                      <input type="text" class="col-sm-2 form-control form-control-sm" value="20" id="multa">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>

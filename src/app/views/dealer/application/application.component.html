@@ -1,0 +1,91 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-5">
+                  <h4 class="card-title clearfix mb-0"> {{'screen.application.title.applications' | translate}}</h4>
+                </div>
+                <div class="col-md-7">
+                  <a class="btn btn-primary float-right" routerLink="./new-application"><i class="icon-plus"></i> &nbsp; {{'screen.application.button.new' | translate}}</a>
+                </div>
+              </div>
+              <hr/>            
+            </div>
+          </div>
+          <div class="card">  
+            <div class="card-body">
+              <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>{{'screen.application.label.name' | translate}}</th>
+                    <th>{{'screen.application.label.clientId' | translate}}</th>
+                    <th class="text-center">{{'screen.application.label.action' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="applicationList == ''"> <td class="text-muted text-center" colspan="5">{{'screen.commons.text.emptySearch' | translate}}</td></tr>
+                  <tr *ngFor="let application of applicationList; let i = index">
+                    <td>
+                      {{application.name}}
+                    </td>
+                    <td>
+                      {{application.clientId}}
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.application.tooltip.newSecret' | translate}}" placement="top" (click)="generateNewSecret(application.token)"><i class="fa fa-key"></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.application.tooltip.edit' | translate}}" placement="top" (click)="updateApplication(application.token)"><i class="fa fa-eye"></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.application.tooltip.delete' | translate}}" placement="top" (click)="dangerModal.show(); loadApplicationToRemove(application);"><i class="fa fa-trash ml-2" style="color: red;"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{'screen.application.message.confirmation.delete' | translate}}</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{'screen.application.label.name' | translate}}: <strong>{{applicationToRemove?.name}}</strong><br/>
+          {{'screen.application.label.clientId' | translate}}: <strong>{{applicationToRemove?.clientId}}</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+        <button type="button" class="btn btn-danger" (click)="deleteApplication(applicationToRemove.token); dangerModal.hide()">{{'screen.commons.button.confirm' | translate}}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->
+
+ 
+<ng-template #secretModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">{{'screen.application.title.modalClientSecret' | translate}}</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">  
+      <div class="input-group mb-2">
+        <input class="form-control" id="clientSecret" name="clientSecret" [(ngModel)]="applicationToShow.clientSecret"/>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" ngxClipboard [cbContent]="applicationToShow.clientSecret"><i class="fa fa-copy"></i> {{'screen.application.button.copy' | translate}}</button>
+        </div>
+      </div>
+      <span class="text-danger">{{'screen.application.message.information.secretDontShowAgain' | translate}}</span>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="btn" (click)="modalRef.hide()">{{'screen.commons.button.close' | translate}}</button>
+    </div>
+  </ng-template>

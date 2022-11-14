@@ -1,0 +1,38 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-body">
+          <div class="row"> 
+            <div class="col-sm-5">
+              <h4 class="card-title clearfix mb-0">Videos</h4>
+            </div>
+          </div>
+          <hr/>
+          <div class="row ">
+            <div class="col-md-12 text-center">
+                <h4 class="text-primary "> Categoria: </h4>
+                <button class="btn btn-outline-primary mr-2" (click)="categorySelected = 'todos'" [ngClass]="(categorySelected == 'todos') ? 'active' : ''">Todos</button>
+                <button class="btn btn-outline-primary mr-2" *ngFor="let category of videoCategories" (click)="categorySelected = category" [ngClass]="(categorySelected == category) ? 'active' : ''">{{category}}</button>
+            </div>
+          </div>
+          <div class="row mt-4"> 
+              <ng-container *ngFor="let video of videosList">
+                <div class="col-md-3" *ngIf="showVideo(video.category)">
+                  <p class="text-muted mb-0">Categoria: {{video.category}}</p>
+                  <hr class="video-hr mb-0 mt-0"/>
+                  <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" [src]="video.safeUrl" allowfullscreen></iframe>
+                  </div>
+                  <h4 class="video-title mt-1">{{video.title}}</h4>
+                  
+                  <p class="video-description">{{video.description}}</p>
+                </div>
+              </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

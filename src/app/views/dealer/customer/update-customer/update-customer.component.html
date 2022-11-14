@@ -1,0 +1,240 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.customer.title.updateCustomer' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>{{'screen.customer.subtitle.personalData' | translate}}</h5>
+              <hr/>
+              <form #updateForm="ngForm" (ngSubmit)="onSubmit(updateForm)">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="personType">{{'screen.customer.label.type' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-group">
+                          <select class="form-control form-control-sm"  id="personType" name="personType"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="customer.personType" 
+                          (change)="documentTypeComboConfig();" required>
+                            <option value="INDIVIDUAL">{{'screen.customer.label.personTypeIndividual' | translate}}</option>
+                            <option value="LEGAL">{{'screen.customer.label.personTypeLegal' | translate}}</option>
+                          </select>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">{{'screen.customer.label.name' | translate}} <span class="required-mark">*</span></label>
+                      <input type="text" class="form-control form-control-sm" id="name" name="name" 
+                      maxlength="100"
+                      [class.ng-touched]="updateForm.submitted"
+                      [(ngModel)]="customer.name" required>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group ">
+                      <label for="documentNumber">{{'screen.customer.label.document' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">{{customer?.documentType?.name}}</span>
+                        </div>
+                        <input type="text" class="form-control" id="documentNumber" name="documentNumber"
+                        [documentType]="customer?.documentType?.code"
+                        documentValidator
+                        mask='{{documentMask}}'
+                        [class.ng-touched]="updateForm.submitted"
+                        [(ngModel)]="customer.documentNumber" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="phoneNumber">{{'screen.customer.label.phone' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm"  id="phoneNumber" name="phoneNumber"
+                        mask='{{phoneNumberMask}}'
+                        [(ngModel)]="customer.phoneNumber">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="mobileNumber">{{'screen.customer.label.mobile' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm"  id="mobileNumber" name="mobileNumber"
+                        mask='{{mobileNumberMask}}'
+                        [(ngModel)]="customer.mobileNumber">
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="email">{{'screen.customer.label.email' | translate}}</label>
+                          <input type="email" class="form-control form-control-sm" id="email" name="email"
+                          maxlength="60"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="customer.email">
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="comments">{{'screen.customer.label.comments' | translate}}</label>
+                          <textarea class="form-control form-control-sm"  id="comments" name="comments" 
+                          rows="4" 
+                          maxlength="500"
+                          [(ngModel)]="customer.comments"></textarea>
+                        </div>
+                  </div>
+                </div>
+
+                <div *ngFor="let address of customerAddresses; let i = index">
+                  <div>
+                    <br/>
+                    <div class="row">
+                      <div class="col-md-7">
+                        <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.customer.subtitle.address' | translate}}</h5>
+                      </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="addressType">{{'screen.customer.label.addressType' | translate}} <span class="required-mark">*</span></label>
+                          <select class="form-control form-control-sm" id="addressType{{i}}" name="addressType{{i}}"
+                          [(ngModel)]="address.addressType" 
+                          [class.ng-touched]="updateForm.submitted"
+                          [disabled]="!address.operation "
+                          required>
+                            <option></option>
+                            <option value="HOME">{{'screen.customer.label.addressTypeHome' | translate}}</option>
+                            <option value="BUSINESS">{{'screen.customer.label.addressTypeBusiness' | translate}}</option>
+                            <option value="MAILING">{{'screen.customer.label.addressTypeMailing' | translate}}</option>
+                          </select> 
+                          <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="checkbox" id="billingAddress{{i}}" name="billingAddress{{i}}" [(ngModel)]="address.billingAddress" [disabled]="!address.operation">
+                            <label class="form-check-label" for="billingAddress">{{'screen.customer.label.billingAddress' | translate}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="zipCode">{{'screen.customer.label.zipCode' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="zipCode{{i}}"  name="zipCode{{i}}" 
+                          maxlength="10"
+                          mask='{{zipCodeMask}}'
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="address.zipCode" 
+                          [disabled]="!address.operation "
+                          required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="street">{{'screen.customer.label.street' | translate}} <span class="required-mark">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="street{{i}}" name="street{{i}}"
+                            maxlength="80"
+                            [class.ng-touched]="updateForm.submitted"
+                            [(ngModel)]="address.street" 
+                            [disabled]="!address.operation "
+                            required>
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="number">{{'screen.customer.label.number' | translate}}</label>
+                            <input type="text" class="form-control form-control-sm" id="number{{i}}" name="number{{i}}"
+                            maxlength="10"
+                            [(ngModel)]="address.number" 
+                            [disabled]="!address.operation ">
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="complement">{{'screen.customer.label.complement' | translate}}</label>
+                            <input type="text" class="form-control form-control-sm" id="complement{{i}}" name="complement{{i}}"
+                            maxlength="20"
+                            [(ngModel)]="address.complement" 
+                            [disabled]="!address.operation ">
+                          </div>
+                      </div>
+                    </div>
+                  
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="district">{{'screen.customer.label.district' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="district{{i}}" name="district{{i}}"
+                          [class.ng-touched]="updateForm.submitted"
+                          maxlength="30"
+                          [(ngModel)]="address.district"
+                          [disabled]="!address.operation "
+                          required>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="state">{{'screen.customer.label.state' | translate}} <span class="required-mark">*</span></label>
+                            <select class="form-control form-control-sm" id="state{{i}}" name="state{{i}}"
+                            [class.ng-touched]="updateForm.submitted"
+                            [(ngModel)]="address.state"
+                            [disabled]="!address.operation"
+                            (change)="getCities(i, address?.state)" required>
+                              <option></option>
+                              <option class="text-capitalize" *ngFor="let state of states" value="{{state.code}}">{{state.name}}</option>
+                            </select> 
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="city">{{'screen.customer.label.city' | translate}} <span class="required-mark">*</span></label>
+                            <select class="form-control form-control-sm" id="city{{i}}" name="city{{i}}" 
+                            [class.ng-touched]="updateForm.submitted"
+                            [(ngModel)]="address.city"
+                            [disabled]="cities?.length == 0 || !address.operation" required>
+                              <option></option>
+                              <option class="text-capitalize" *ngFor="let city of cities[i]" value="{{city.name}}">{{city.name}}</option>
+                            </select> 
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="row  text-right">
+                    <div class="col-sm-12">
+                      <button type="button" class="btn btn-secondary btn-sm" (click)="address.operation = 'UPDATE'" *ngIf="address.operation == null" >{{'screen.customer.button.edit' | translate}}</button>
+                      <button type="button" class="btn btn-danger btn-sm" *ngIf="customerAddresses?.length > 1" (click)="removeAddress(address, i)"><i class="fa fa-minus-circle"></i> {{'screen.customer.button.removeAddress' | translate}}</button>
+                      <hr/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row text-left">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-outline-success btn-sm" *ngIf="customerAddresses?.length < 5" (click)="addAddress()"> <i class="fa fa-plus-circle"></i> {{'screen.customer.button.addAddress' | translate}}</button>
+                  </div>
+                </div>
+
+                <div class="row mt-4 float-right">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('updateUserSaveButton')" >{{'screen.commons.button.save' | translate}}</button>
+                    <button type="button" class="btn btn-defaut" routerLink="/dealer/customer">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

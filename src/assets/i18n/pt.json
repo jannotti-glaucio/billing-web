@@ -1,0 +1,1286 @@
+{
+    "screen" : {
+        "application" : {
+            "button" : {
+                "new" : "Nova",
+                "copy":"Copiar"
+            },
+            "label" : {
+                "action" : "Ação",
+                "name" : "Nome",
+                "clientId" : "Client Id",
+                "clientSecret":"Client Secret",
+                "statusType" : {
+                    "active" : "Ativo",
+                    "blocked" : "Bloqueado"
+                },
+                "type" : "Tipo"
+            },
+            "message" : {
+                "information" : {
+                    "secretDontShowAgain" : "O Client Secret não será exibido novamente!"
+                },
+                "confirmation" :{
+                    "delete":"Excluir a aplicação?"
+                },
+                "success" : {
+                    "successInsert" : "Aplicação inserida com sucesso!",
+                    "successUpdate" : "Aplicação atualizada com sucesso!",
+                    "successDelete" : "Aplicação removida com sucesso!"
+                },
+                "error" : {
+
+                }
+            },
+            "placeholder" :{
+                "searchFilter" : "Nome, Documento ou Email",
+                "applicationName" : "Nome da aplicação"
+            },
+            "tooltip" : {
+                "edit" : "Alterar",
+                "newSecret" :"Gerar Client Secret",
+                "delete" : "Excluir"
+            },
+            "title" : {
+                "applications" : "Aplicações",
+                "newApplication" : "Nova Aplicação",
+                "updateApplication" : "Alterar Aplicação",
+                "modalNewApplication" : "Dados da Nova Aplicação",
+                "modalClientSecret" : "Novo Client Secret"
+            }
+        },
+        "billingPlan":{
+            "button" : {
+                "new" : "Novo"
+            },
+            "label":{
+                "billingPlans" : "Planos Tarifários",
+                "description" : "Descrição",
+                "paidBankBilletFee" : "Taxa por Boleto Pago",
+                "marketWithdrawFee" : "Taxa de Saque",
+                "status" : "Status",
+                "action" : "Ação",
+                "deleteBillingPlan" : "Excluir Plano Tarifário"
+            },
+            "tooltip" : {
+                "edit" : "Alterar",
+                "delete" : "Excluir"
+            }
+        },
+        "collection": {
+            "button": {
+                "new" : "Novo"
+            },
+            "label" : {
+                "amount" : "Valor",
+                "alertHistory" : "Histórico de alertas",
+                "canceledInstalments" : "Parcelas Canceladas",
+                "customer" : "Cliente",
+                "detail" : "Detalhe",
+                "description" : "Descrição",
+                "document" : "Documento",
+                "documentNumber" : "Número do documento",
+                "email" : "E-mail",
+                "endDate" : "Data final",
+                "expiredInstalments" : "Parcelas Vencidas",
+                "expirationDate" : "Vencimento",
+                "fees" : "Taxas",
+                "invoice" : "Fatura",
+                "instalment" : "Parcela",
+                "numberOfInstalments" : "Número de Parcelas",
+                "name" : "Nome",
+                "netAmount" : "Valor liquido",
+                "totalAmount" : "Total do Parcelamento",
+                "totalPaid" : "Total Liquidado",
+                "paidAmount" : "Valor pago",
+                "paidInstalments" : "Parcelas Liquidadas",
+                "personalData" : "Dados Pessoais",
+                "searchBy" : "Buscar por",
+                "status" : "Status",
+                "startDate" : "Data Inicial",
+                "statusType": {
+                    "all" : "Todos",
+                    "open" : "Aberto",
+                    "canceled" : "Cancelado",
+                    "finished" : "Finalizado"
+                },
+                "search" : "Pesquisar"
+            },
+            "message" : {
+                "confirmation" : {
+                    "cancelInvoice" : "Cancelar Fatura?",
+                    "resendInvoice" : "Reenviar Fatura?"
+                }
+            },
+            "placeholder" : {
+                "searchBy" : "Nome, Documento ou Email"
+            },
+            "text" : {
+
+            },
+            "title" : {
+                "collections" : "Parcelamentos",
+                "collectionDetails" : "Detalhes do Parcelamento"
+            }
+        },
+        "customer" : {
+            "button" : {
+                "new" : "Novo",
+                "removeAddress" : "Remover",
+                "addAddress" : "Endereço",
+                "edit" : "Alterar"
+            },
+            "label" : {
+                "addressTypeHome": "Residencial",
+                "addressTypeBusiness" : "Comercial",
+                "addressTypeMailing" : "Correspondência",
+                "action" : "Ação",
+                "addressType" : "Tipo de endereço",
+                "billingAddress" : "Endereço de cobrança",
+                "city" : "Cidade",
+                "complement" : "Complemento",
+                "comments" : "Observações",
+                "district" : "Bairro",
+                "document" : "Documento",
+                "documentType" : "Tipo de documento",
+                "documentNumber" : "Número do documento",
+                "email" : "E-mail",
+                "mobile" : "Celular",
+                "name" : "Nome",
+                "number" : "Número",
+                "pageRegister":"Registros por página",
+                "personTypeIndividual" : "Física",
+                "personTypeLegal" : "Jurídica",
+                "phone" : "Telefone",
+                "status" : "Status",
+                "street" : "Logradouro",
+                "state" : "Estado",
+                "statusType" : {
+                    "active" : "Ativo",
+                    "blocked" : "Bloqueado"
+                },
+                "type" : "Tipo",
+                "zipCode" : "Cep"
+            },
+            "message" : {
+                "success" : {
+                    "successInsert" : "Cliente inserido com sucesso!",
+                    "successUpdate" : "Cliente atualizado com sucesso!",
+                    "successDelete" : "Cliente removido com sucesso!"
+                },
+                "error" : {
+
+                }
+            },
+            "placeholder" :{
+                "searchFilter" : "Nome, Documento ou Email",
+                "customerName" : "Nome do cliente",
+                "documentNumber" : "Número do documento",
+                "phone" : "Telefone",
+                "mobile" : "Celular",
+                "email" : "E-mail",
+                "comments" : "Observações",
+                "street" : "Logradouro",
+                "zipCode" : "Cep",
+                "number" : "Número",
+                "state" : "Selecione o estado",
+                "city" : "Selecione a cidade",
+                "complement" : "Complemento",
+                "district" : "Bairro",
+                "personType": "Selecione o tipo de pessoa",
+                "addressType": "Selecione o tipo de endereço"
+
+            },
+            "tooltip" : {
+                "edit" : "Alterar",
+                "delete" : "Excluir"
+            },
+            "title" : {
+                "customers" : "Clientes",
+                "newCustomer" : "Novo Cliente",
+                "updateCustomer" : "Alterar Cliente",
+                "deleteCustomer" : "Excluir Cliente?"
+            },
+            "subtitle" : {
+                "personalData" : "Dados pessoais",
+                "address" : "Endereço"
+            }
+        },
+        "companyInvoiceReport" : {
+            "button" : {
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "invoiceReport" : "Relatório de Faturas",
+                "generatedBy" : "Gerado por",
+                "in" : "Em",
+                "invoices" : "Faturas",
+                "dealer" : "Empresa",
+                "filterBy" : "Filtrar por",
+                "expirationDate" : "Data de vencimento",
+                "paymentDate" : "Data de pagamento",
+                "creationDate" : "Data de emissão",
+                "customer" : "Cliente",
+                "mail" : "E-mail",
+                "document" : "Documento",
+                "paidAmount" : "Valor Pago",
+                "amount" : "Valor da Fatura",
+                "fees":"Taxas",
+                "netAmount":"Valor Líquido",
+                "expiration" : "Vencimento",
+                "payment" : "Pagamento",
+                "status" : "Status",
+                "statusType" : {
+                    "all" : "Todas",
+                    "open" : "Aberta",
+                    "canceled" : "Cancelada",
+                    "expired" : "Vencida",
+                    "paid" : "Paga"                }
+            },
+            "placeholder" : {
+                "selectDealer" : "Digite uma empresa"
+            }
+        },
+        "companyWithdrawReport" : {
+            "button" : {
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "transferReport" : "Relatório de Transferências",
+                "generatedBy" : "Gerado por",
+                "in" : "Em",
+                "transfer" : "Transferências",
+                "dealer" : "Empresa",
+                "filterBy" : "Filtrar por",
+                "expirationDate" : "Data de vencimento",
+                "paymentDate" : "Data de Pagamento",
+                "document" : "Documento",
+                "amount" : "Valor solicitado",
+                "fees" :"Taxas",
+                "netAmount":"Valor da transferência",
+                "request" : "Solicitação",
+                "review" : "Revisão",
+                "release" : "Liberação",
+                "status" : "Status",
+                "statusType" : {
+                    "all" : "Todas",
+                    "requested" :"Solicitada",
+                    "approved" : "Aprovada",
+                    "denied" : "Negada",
+                    "released" : "Liberada",
+                    "canceled" : "Cancelada"
+                 }
+            },
+            "placeholder" : {
+                "selectDealer" : "Digite uma empresa"
+            }
+        },
+        "collectionReport": {
+            "button" : {
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "collectionsReport" : "Relatório de Parcelamentos",
+                "print" : "Imprimir",
+                "customer" : "Cliente",
+                "document" : "Documento",
+                "email" : "E-mail",
+                "instalments" : "Parcelas",
+                "total" : "Total",
+                "totalPaid" : "Liquidado",
+                "totalOpen" : "Pendente",
+                "status" : "Status",
+                "expirationDate" : "Vencimento",
+                "paymentDate" : "Pagamento",
+                "statusType": {
+                    "all" : "Todos",
+                    "open" : "Aberto",
+                    "canceled" : "Cancelado",
+                    "finished" : "Finalizado"
+                },
+                "collectionReport" : "Relatório de Parcelamento",
+                "generatedBy" : "Gerado por",
+                "in" : "Em"
+            }
+        },
+        "subscriptionReport": {
+            "button" : {
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "subscriptionsReport" : "Relatório de Assinaturas",
+                "print" : "Imprimir",
+                "customer" : "Cliente",
+                "document" : "Documento",
+                "email" : "E-mail",
+                "frequency" : "Frequência",
+                "expirationDay" : "Dia de vencimento",
+                "createdInvoices" : "Faturas Criadas",
+                "total" : "Total",
+                "paidInvoices" : "Liq",
+                "expiredInvoices" : "Venc",
+                "expirationDate":"Data de vencimento",
+                "paymentDate" : "Data de pagamento",
+                "status" : "Status",
+                "canceledInvoices" : "Canc",
+                "statusType": {
+                    "all" : "Todos",
+                    "open" : "Aberto",
+                    "canceled" : "Cancelado",
+                    "suspended" : "Suspensa"
+                },
+                "generatedBy" : "Gerado por",
+                "in" : "Em"
+            }
+        },
+        "dealerStatementReport" : {
+            "button" : {
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "dealerStatement" : "Extrato de Empresa",
+                "generatedBy" : "Gerado por",
+                "in" : "Em",
+                "dealer" : "Empresa",
+                "filterBy" : "Filtrar por",
+                "date" : "Data",
+                "movementType" : "Tipo de movimentação",
+                "paidAmount" : "Bruto",
+                "fees" : "Taxas",
+                "netAmount" : "Liquido",
+                "amount" : "Valor",
+                "balance" : "Saldo"
+            },
+            "placeholder" : {
+                "selectDealer" : "Digite uma empresa"
+            }
+        },
+        "invoiceReport" : {
+            "button" : {
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "invoicesReport" : "Relatório de Faturas",
+                "print" : "Imprimir",
+                "customer" : "Cliente",
+                "document" : "Documento",
+                "email" : "E-mail",
+                "fees" : "Taxas",
+                "instalments" : "Parcelas",
+                "amount" : "Valor da Fatura",
+                "paidAmount" : "Valor Pago",
+                "netAmount" : "Valor Líquido",
+                "total" : "Total",
+                "status" : "Status",
+                "creation" : "Emissão",
+                "expiration" : "Vencimento",
+                "payment" : "Pagamento",
+                "expirationDate" : "Data de vencimento",
+                "paymentDate" : "Data de pagamento",
+                "creationDate" : "Data de emissão",
+                "statusType": {
+                    "all" : "Todos",
+                    "open" : "Aberto",
+                    "canceled" : "Cancelado",
+                    "finished" : "Finalizado"
+                },
+                "totalAmountReceived":"Total líquido no período",
+                "invoiceReport" : "Relatório de Faturas",
+                "generatedBy" : "Gerado por",
+                "in" : "Em"
+            }
+        },
+        "changePassword" : {
+            "label" : {
+                "changePassword" : "Alterar senha",
+                "currentPassword" : "Primeiro digite sua senha atual"
+            },
+            "placeholder" : {
+                "currentPassword" : "Senha Atual",
+                "newPassword" : "Nova senha",
+                "newPasswordConfirmation" : "Repita a nova senha"
+            },
+            "text" : {
+                "newPasswordInfo" : "Sua nova senha deve conter letras, números, caracteres especiais e pelo menos 1 letra maiúscula."
+            }
+        },
+        "dealer" : {
+            "button" : {
+                "edit" : "Alterar",
+                "new" : "Novo",
+                "next" : "Próx",
+                "previous" : "Ant",
+                "removeAddress" : "Remover",
+                "addAddress" : "Endereço"
+            },
+            "label" : {
+                "action" : "Ação",
+                "addressType" : "Tipo de endereço",
+                "addressTypeHome": "Residencial",
+                "addressTypeBusiness" : "Comercial",
+                "addressTypeMailing" : "Correspondência",
+                "billingAddress" : "Endereço de cobrança",
+                "comments" : "Observações",
+                "city" : "Cidade",
+                "complement" : "Complemento",
+                "dealers" : "Empresas",
+                "document" : "Documento",
+                "district" : "Bairro",
+                "documentType" : "Tipo de documento",
+                "documentNumber" : "Número do documento",
+                "email" : "E-mail",
+                "mobile" : "Celular",
+                "name" : "Nome",
+                "number" : "Número",
+                "pageRegister":"Registros por página",
+                "personTypeIndividual" : "Física",
+                "personTypeLegal" : "Jurídica",
+                "phone" : "Telefone",
+                "state" : "Estado",
+                "statusType" : {
+                    "active" : "Ativo",
+                    "blocked" : "Bloqueado"
+                },
+                "street" : "Logradouro",
+                "status" : "Status",
+                "type" : "Tipo",
+                "zipCode" : "Cep"
+            },
+            "message" : {
+                "success" : {
+                    "successInsert" : "Empresa inserida com sucesso!",
+                    "successUpdate" : "Empresa atualizada com sucesso!",
+                    "successDelete" : "Empresa removida com sucesso!"
+                },
+                "confirmation": {
+                    "deleteDealer" : "Excluir Empresa?"
+                },
+                "error" : {
+
+                }
+            },
+            "placeholder" :{
+                "searchFilter" : "Nome, Documento ou Email",
+                "dealerName" : "Nome da Empresa",
+                "documentNumber" : "Número do documento",
+                "phone" : "Telefone",
+                "mobile" : "Celular",
+                "email" : "E-mail",
+                "comments" : "Observações",
+                "street" : "Logradouro",
+                "zipCode" : "Cep",
+                "number" : "Número",
+                "state" : "Selecione o estado",
+                "city" : "Selecione a cidade",
+                "complement" : "Complemento",
+                "district" : "Bairro",
+                "personType": "Selecione o tipo de pessoa",
+                "addressType": "Selecione o tipo de endereço"
+            },
+            "tooltip" : {
+                "edit" : "Alterar",
+                "delete" : "Excluir"
+            },
+            "text" : {
+                "emptySearch" : " - Sua pesquisa não retornou resultados - "
+            },
+            "title" : {
+                "newDealer" : "Nova Empresa",
+                "updateDealer" : "Alterar Empresa"
+            }
+        },
+        "invoice" : {
+            "button" : {
+                "alerts" : "Alertas",
+                "new" : "Nova",
+                "search" : "Pesquisar",
+                "details" : "Detalhes",
+                "subscriptionDetails" : "Detalhes da assinatura",
+                "collectionDetails" : "Detalhes do parcelamento",
+                "resend" : "Reenviar",
+                "print" : "Imprimir"
+            },
+            "label" : {
+                "alertType" : {
+                    "invoiceSend" : "Envio manual",
+                    "collectionInvoiceExpiring": "Aviso de vencimento"
+                },
+                "alertHistory" : "Histórico de alertas",
+                "customer" : "Cliente",
+                "findBy" : "Buscar por",
+                "creationDate" : "Emissão",
+                "expirationDate" : "Vencimento",
+                "description" : "Descrição",
+                "startDate" : "Data inicial",
+                "endDate" : "Data final",
+                "status" : "Status",
+                "amount" : "Valor",
+                "paymentMethod" : "Forma de pagamento",
+                "installment" : "Parcela",
+                "statusType" : {
+                    "all" : "Todas",
+                    "open" : "Aberta",
+                    "canceled" : "Cancelada",
+                    "expired" : "Vencida",
+                    "paid" : "Paga"
+                },
+                "invoiceDetails" : "Detalhes da fatura",
+                "personalData" : "Dados Pessoais",
+                "name" : "Nome",
+                "email" : "E-mail",
+                "details" : "Detalhes",
+                "documentNumber" : "Número do documento",
+                "invoice" : "Fatura",
+                "payment" : "Pagamento",
+                "paymentDate":"Pagamento",
+                "cancelation" : "Cancelamento",
+                "bankBillet" : "Boleto",
+                "lineCode" : "Linha Digitável",
+                "paidAmount" : "Valor Pago",
+                "fees" : "Taxas",
+                "netAmount" : "Liquido"
+            },
+            "message" : {
+                "success" : {
+                    "successInsert" : "Fatura criada com sucesso!",
+                    "successUpdate" : "Fatura atualizada com successo!",
+                    "successDelete" : "Fatura cancelada com sucesso!",
+                    "successResend" : "Fatura enviada com sucesso!"
+                },
+                "info" : {
+                    "maxCustomerExceeded" : "Você só pode adicionar 1 cliente por fatura!",
+                    "alertListEmpty" : "Ainda não foram enviados alertas para esta fatura."
+                },
+                "confirmation" : {
+                    "cancelInvoice" : "Cancelar Fatura?",
+                    "resendInvoice" : "Reenviar Fatura?"
+                }
+
+            },
+            "placeholder" : {
+                "searchFilter" : "Nome, Documento ou Email"
+            },
+            "text" : {
+
+            },
+            "title" : {
+                "invoices" : "Faturas"
+            }
+        },
+        "invoiceExpiration" :{
+            "label" : {
+                "invoiceExpiration" : "Faturas Pendentes",
+                "expired" : "Vencidas",
+                "expiring" : "Vencendo hoje"
+            }
+        },
+        "login" : {
+            "title" : {
+                "enter" : "Entrar",
+                "register" : "Cadastrar"
+            },
+            "text" : {
+                "enter" : "Entre com sua conta",
+                "register" : "Efetue seu cadastro para ter acesso a plataforma e começar a gerar seus boletos."
+            },
+            "placeholder" : {
+                "username" : "Usuário",
+                "password" : "Senha"
+            },
+            "button" : {
+                "enter" : "Entrar",
+                "register" : "Cadastrar agora!"
+            },
+            "link": {
+                "forgotPassword" : "Esqueci minha senha"
+            }
+        },
+        "manageTransfer" : {
+            "button" : {
+                "approve" : "Aprovar",
+                "approved" : "Aprovada",
+                "deny" : "Negar",
+                "denied" : "Negada",
+                "release" : "Liberar",
+                "released" : "Liberada"
+            },
+            "label" : {
+                "allWithdraws" : "Todas as Transferências",
+                "amount" : "Valor solicitado",
+                "agency" : "Agência",
+                "account" : "Conta",
+                "balance" : "Saldo",
+                "bank" : "Banco",
+                "date" : "Data",
+                "denyReason" : "Motivo da negação",
+                "dealer" : "Empresa",
+                "fees" : "Taxas",
+                "netAmount": "Valor a transferir",
+                "netAmountReleased" : "Valor transferido",
+                "operation" : "Operação",
+                "request" : "Solicitação",
+                "status" : "Status",
+                "statusType" : {
+                    "all" : "Todas",
+                    "requested" :"Solicitada",
+                    "approved" : "Aprovada",
+                    "denied" : "Negada",
+                    "released" : "Liberada",
+                    "canceled" : "Cancelada"
+                }
+            },
+            "message" : {
+                "success" : {
+                    "successApproved" : "Aprovada com sucesso!",
+                    "successDenied" : "Negada com successo!",
+                    "successReleased" : "Liberada com sucesso!"
+                },
+                "confirmation" : {
+                    "approveWithdraw" :"Aprovar solicitação?",
+                    "denyWithdraw" : "Negar solicitação?",
+                    "releaseWithdraw" : "Liberar Saque?"
+                }
+
+            }
+        },
+        "requestedTransfer" : {
+            "button" : {
+                "approve" : "Aprovar",
+                "approved" : "Aprovada",
+                "deny" : "Negar",
+                "denied" : "Negada",
+                "release" : "Liberar",
+                "released" : "Liberada"
+            },
+            "label" : {
+                "requestedWithdraws" : "Transferências Pendentes",
+                "amount" : "Valor",
+                "agency" : "Agência",
+                "account" : "Conta",
+                "balance" : "Saldo",
+                "bank" : "Banco",
+                "date" : "Data",
+                "denyReason" : "Motivo da negação",
+                "dealer" : "Empresa",
+                "operation" : "Operação",
+                "request" : "Solicitação",
+                "status" : "Status",
+                "statusType" : {
+                    "all" : "Todas",
+                    "requested" :"Solicitada",
+                    "approved" : "Aprovada",
+                    "denied" : "Negada",
+                    "released" : "Liberada",
+                    "canceled" : "Cancelada"
+                }
+            },
+            "message" : {
+                "success" : {
+                    "successApproved" : "Aprovada com sucesso!",
+                    "successDenied" : "Negada com successo!",
+                    "successReleased" : "Liberada com sucesso!"
+                },
+                "confirmation" : {
+                    "approveWithdraw" :"Aprovar solicitação?",
+                    "denyWithdraw" : "Negar solicitação?",
+                    "releaseWithdraw" : "Liberar Saque?"
+                }
+            }
+        },
+        "newBillingPlan":{
+            "label":{
+                "newBillingPlan" : "Novo Plano Tarifário",
+                "billingPlanData" : "Dados do Plano",
+                "description" : "Descrição",
+                "paidBankBilletFee" : "Taxa por Boleto Pago",
+                "marketWithdrawFee" : "Taxa de Saque"
+            }
+        },
+        "newDealer" : {
+            "button" : {
+                "addAddress" : "Endereço",
+                "addAccount" : "Conta",
+                "remove" : "Remover"
+            },
+            "label" : {
+                "account" : "Conta",
+                "address" : "Endereço",
+                "addressType" : "Tipo de endereço",
+                "addressTypeHome": "Residencial",
+                "addressTypeBusiness" : "Comercial",
+                "addressTypeMailing" : "Correspondência",
+                "accountToSend" : "Conta para emissão",
+                "agency" : "Agência",
+                "accountDigit": "Dígito",
+                "agencyDigit" : "Dígito",
+                "bank": "Banco",
+                "billingAddress" : "Endereço de cobrança",
+                "bankBillet" : "Boleto",
+                "bankInstructions" : "Instruções bancárias",
+                "bankData" : "Dados Bancários",
+                "comments" : "Observações",
+                "city" : "Cidade",
+                "complement" : "Complemento",
+                "description" : "Descrição",
+                "document" : "Documento",
+                "district" : "Bairro",
+                "documentType" : "Tipo de documento",
+                "documentNumber" : "Número do documento",
+                "email" : "E-mail",
+                "mobile" : "Celular",
+                "name" : "Nome",
+                "newDealer" : "Nova Empresa",
+                "number" : "Número",
+                "personalData" : "Dados pessoais",
+                "personTypeIndividual" : "Física",
+                "personTypeLegal" : "Jurídica",
+                "phone" : "Telefone",
+                "receiveExpired": "Receber boleto após vencimento",
+                "yes": "Sim",
+                "no": "Não",
+                "penalty":"Multa",
+                "interest":"Juros",
+                "daily":"Diária",
+                "monthly":"Mensal",
+                "feeData" : "Dados Tarifários",
+                "feePlan" : "Plano Tarifário",
+                "paidBankBilletFee" : "Taxa por boleto pago",
+                "marketWithdrawFee" : "Taxa por saque",
+                "state" : "Estado",
+                "street" : "Logradouro",
+                "status" : "Status",
+                "personType" : "Tipo de pessoa",
+                "zipCode" : "Cep"
+            },
+            "placeholder" :{
+                "accountToSend" : "Selecione a conta",
+                "searchFilter" : "Nome, documento ou email",
+                "dealerName" : "Nome da Empresa",
+                "documentNumber" : "Número do documento",
+                "description" : "Descrição",
+                "phone" : "Telefone",
+                "mobile" : "Celular",
+                "email" : "E-mail",
+                "comments" : "Observações",
+                "street" : "Logradouro",
+                "zipCode" : "Cep",
+                "number" : "Número",
+                "state" : "Selecione o estado",
+                "city" : "Selecione a cidade",
+                "complement" : "Complemento",
+                "district" : "Bairro",
+                "bank": "Selecione o banco",
+                "personType": "Selecione o tipo de pessoa",
+                "addressType": "Selecione o tipo de endereço",
+                "feePlan" : "Selecione o plano",
+                "agency" : "Agência",
+                "account" : "Conta",
+                "digit": "Dígito"
+            }
+        },
+        "newCollection" : {
+            "button": {
+                "calculateInstalments" : "Cacular Parcelas"
+            },
+            "label" : {
+                "action" : "Ação",
+                "add" : "Adicionar",
+                "amountToReceive" : "Valor a Receber",
+                "amountOfInvoice" : "Valor de cada fatura",
+                "amountOfCollection" : "Valor total do parcelamento",
+                "bankBillet" : "Boleto Bancário",
+                "collectionDescription" : "Descrição do Parcelamento",
+                "customers" : "Clientes",
+                "document" : "Documento",
+                "documentNumber" : "Número do documento",
+                "details" : "Detalhes",
+                "email" : "E-mail",
+                "expirationDate" : "Vencimento",
+                "fees" : "Taxas",
+                "firstExpiredDate" : "Primeiro vencimento",
+                "instalments" : "Parcelas",
+                "instalmentsAndFess" : "Parcelas e Tarifas",
+                "instalment": "Parcela",
+                "invoiceAmount" : "Valor da Fatura",
+                "name" : "Nome",
+                "payment" : "Pagamento",
+                "paymentMethod" : "Forma de pagamento",
+                "remove" : "Remover"
+
+            },
+            "message" : {
+                "confirmation" : {
+                    "removeCustomer" : "Deseja remover cliente da lista?"
+                }
+            },
+            "placeholder" : {
+                "collectionDescription" : "Descrição do parcelamento",
+                "documentNumber" : "Número do documento",
+                "invoiceAmount" : "0,00",
+                "firstExpiredDate" : "Primeiro vencimento"
+            },
+            "title" : {
+                "newCollection" : "Novo Parcelamento"
+            }
+        },
+        "newInvoice" : {
+            "button" : {
+                "selectCustomer" : "Selecionar Cliente"
+            },
+            "label" : {
+                "add" : "Adicionar",
+                "actions" : "Ações",
+                "customers" : "Clientes",
+                "name" : "Nome",
+                "email" : "E-mail",
+                "details" : "Detalhes",
+                "description" : "Descrição",
+                "documentNumber" : "Número do documento",
+                "document" : "Documento",
+                "payment" : "Pagamento",
+                "invoiceAmount" : "Valor da Fatura",
+                "expirationDate" : "Vencimento",
+                "paymentMethod" : "Forma de pagamento",
+                "methodOfSend" : "Método de envio",
+                "bankBillet" : "Boleto Bancário",
+                "print" : "Impressão",
+                "emailAndPrint" : "E-mail + Impressão",
+                "remove" : "Remover",
+                "selectedCustomers" : "Clientes Selecionados",
+                "fees": "Taxas",
+                "netAmount": "Valor Líquido"
+            },
+            "message" : {
+                "confirmation": {
+                    "removeCustomer" : "Deseja remover cliente da lista?"
+                }
+            },
+            "placeholder" : {
+                "invoiceDescription" : "Descrição da fatura",
+                "documentNumber" : "Número do documento",
+                "expirationDate" : "Data de vencimento",
+                "amount" : "0,00"
+            },
+            "title" : {
+                "newInvoice" : "Nova Fatura"
+            }
+        },
+        "newUser":{
+            "label":{
+                "newUser" : "Novo Usuário",
+                "userData" : "Dados do Usuário",
+                "dealer" : "Empresa",
+                "user" : "Usuário",
+                "name" : "Nome",
+                "mail" : "E-mail",
+                "password" : "Senha",
+                "passwordConfirmation" : "Confirmação de senha"
+            }
+        },
+        "newSubscription" : {
+            "button": {
+                "calculateInstalments" : "Cacular Parcelas"
+            },
+            "label" : {
+                "action" : "Ação",
+                "add" : "Adicionar",
+                "amountToReceive" : "Valor a Receber",
+                "amountOfInvoice" : "Valor de cada fatura",
+                "amountOfCollection" : "Valor total da assinatura",
+                "bankBillet" : "Boleto Bancário",
+                "customers" : "Clientes",
+                "document" : "Documento",
+                "documentNumber" : "Número do documento",
+                "details" : "Detalhes",
+                "email" : "E-mail",
+                "expirationDate" : "Vencimento",
+                "expirationDay" : "Dia de vencimento",
+                "endDate" : "Fim da Assinatura",
+                "fees" : "Taxas",
+                "startDate" : "Primeiro vencimento",
+                "frequencyType" : {
+                    "monthly" : "Mensal"
+                },
+                "instalments" : "Parcelas",
+                "instalmentsAndFess" : "Parcelas e Tarifas",
+                "instalment": "Parcela",
+                "subscriptionAmount" : "Valor da Assinatura",
+                "name" : "Nome",
+                "payment" : "Pagamento",
+                "paymentMethod" : "Forma de pagamento",
+                "remove" : "Remover",
+                "subscriptionDescription" : "Descrição da Assinatura",
+                "subscriptionFrequency" : "Frequência da Assinatura"
+
+            },
+            "message" : {
+                "confirmation" : {
+                    "removeCustomer" : "Deseja remover cliente da lista?"
+                },
+                "success" : {
+                    "successInsert" : "Assinatura inserida com sucesso!"
+                }
+            },
+            "placeholder" : {
+                "subscriptionDescription" : "Descrição da Assinatura",
+                "documentNumber" : "Número do documento",
+                "subscriptionAmount" : "0,00",
+                "startDate" : "Primeiro vencimento",
+                "endDate" : "Fim da Assinatura"
+            },
+            "title" : {
+                "newSubscription" : "Nova Assinatura"
+            }
+        },
+        "statement" :{
+            "button" : {
+                "requestWithdraw" : "Solicitar Saque",
+                "details" : "Detalhes",
+                "request" : "Solicitar"
+            },
+            "label" : {
+                "currentBalance" : "Saldo atual",
+                "statement" : "Extrato",
+                "date" : "Data",
+                "movementType" : "Tipo de movimentação",
+                "paidAmount" : "Bruto",
+                "fees" : "Taxas",
+                "netAmount" : "Liquido",
+                "amountToTransfer" : "Valor a transferir",
+                "detail" : "Detalhe",
+                "amount" : "Valor",
+                "balance" : "Saldo",
+                "wantedAmount" : "Valor solicitado",
+                "destinyAccount" : "Conta de destino"
+            },
+            "message" : {
+                "modalTitle" : {
+                    "paymentDetail" : "Detalhes da fatura paga",
+                    "requestWithdraw" : "Solicitar Saque"
+                }
+            }
+        },
+        "subscription": {
+            "button": {
+                "new" : "Novo",
+                "suspend" : "Suspender",
+                "reactivate" : "Reativar"
+            },
+            "label" : {
+                "amount" : "Valor da Assinatura",
+                "alertHistory" : "Histórico de alertas",
+                "createdInvoices" : "Faturas Criadas",
+                "canceledInvoices" : "Faturas Canceladas",
+                "customer" : "Cliente",
+                "detail" : "Detalhe",
+                "description" : "Descrição",
+                "document" : "Documento",
+                "documentNumber" : "Número do documento",
+                "email" : "E-mail",
+                "endDate" : "Data final",
+                "expiredInvoices" : "Faturas Vencidas",
+                "expirationDate" : "Vencimento",
+                "expirationDay" : "Dia de vencimento",
+                "frequencyType" : "Frequência",
+                "fees" : "Taxas",
+                "invoice" : "Fatura",
+                "instalment" : "Parcela",
+                "name" : "Nome",
+                "netAmount" : "Valor liquido",
+                "paidInvoices" : "Faturas Liquidadas",
+                "personalData" : "Dados Pessoais",
+                "searchBy" : "Buscar por",
+                "status" : "Status",
+                "startDate" : "Data Inicial",
+                "statusType": {
+                    "all" : "Todos",
+                    "open" : "Aberto",
+                    "canceled" : "Cancelado",
+                    "suspended" : "Suspensa"
+                },
+                "search" : "Pesquisar"
+            },
+            "message" : {
+                "confirmation" : {
+                    "cancelSubscription" : "Cancelar Assinatura?"
+                },
+                "success" : {
+                    "successUpdate" : "Assinatura atualizada com sucesso!",
+                    "successSuspended" : "Assinatura suspensa com sucesso!",
+                    "successReopen" : "Assinatura reaberta com sucesso!"
+                }
+            },
+            "placeholder" : {
+                "searchBy" : "Nome, Documento ou Email"
+            },
+            "text" : {
+
+            },
+            "title" : {
+                "subscriptions" : "Assinaturas",
+                "subscriptionDetails" : "Detalhes da Assinatura"
+            }
+        },
+        "user":{
+            "button" : {
+                "new" : "Novo"
+            },
+            "label":{
+                "users" : "Usuários",
+                "dealer" : "Empresa",
+                "user" : "Usuário",
+                "name" : "Nome",
+                "mail" : "E-mail",
+                "status" : "Status",
+                "action" : "Ação",
+                "changePassword" : "Alterar senha",
+                "deleteUser" : "Excluir Usuário",
+                "newPassword" : "Nova senha",
+                "passwordConfirmation" : "Confirmação de senha"
+            },
+            "message" : {
+                "success":{
+                    "delete" : "Usuário excluído",
+                    "blocked" : "Usuário bloqueado",
+                    "unblocked" : "Usuário desbloqueado",
+                    "passwordChanged" : "Senha alterada"
+                }
+            },
+            "tooltip" : {
+                "edit" : "Alterar",
+                "delete" : "Excluir",
+                "changePassword" : "Alterar senha",
+                "block" : "Bloquear",
+                "unlock" : "Desbloquear"
+            }
+        },
+        "updateBillingPlan":{
+            "label":{
+                "updateBillingPlan" : "Atualizar Plano Tarifário",
+                "billingPlanData" : "Dados do Plano",
+                "description" : "Descrição",
+                "paidBankBilletFee" : "Taxa por Boleto Pago",
+                "marketWithdrawFee" : "Taxa de Saque",
+                "impactedDealers" : "Empresas utilizando esse Plano"
+            }
+        },
+        "updateUser":{
+            "label":{
+                "updateUser" : "Atualizar Usuário",
+                "userData" : "Dados do Usuário",
+                "dealer" : "Empresa",
+                "user" : "Usuário",
+                "name" : "Nome",
+                "mail" : "E-mail"
+            }
+        },
+        "updateDealer" : {
+            "button" : {
+                "addAddress" : "Endereço",
+                "removeAddress" : "Remover",
+                "addAccount" : "Conta",
+                "remove" : "Remover",
+                "update" : "Alterar"
+            },
+            "label" : {
+                "account" : "Conta",
+                "address" : "Endereço",
+                "addressType" : "Tipo de endereço",
+                "addressTypeHome": "Residencial",
+                "addressTypeBusiness" : "Comercial",
+                "addressTypeMailing" : "Correspondência",
+                "accountToSend" : "Conta para emissão",
+                "agency" : "Agência",
+                "accountDigit": "Dígito",
+                "agencyDigit" : "Dígito",
+                "bank": "Banco",
+                "billingAddress" : "Endereço de cobrança",
+                "bankBillet" : "Boleto",
+                "bankInstructions" : "Instruções bancárias",
+                "bankData" : "Dados Bancários",
+                "comments" : "Observações",
+                "city" : "Cidade",
+                "complement" : "Complemento",
+                "description" : "Descrição",
+                "document" : "Documento",
+                "district" : "Bairro",
+                "documentType" : "Tipo de documento",
+                "documentNumber" : "Número do documento",
+                "email" : "E-mail",
+                "mobile" : "Celular",
+                "name" : "Nome",
+                "newDealer" : "Nova Empresa",
+                "number" : "Número",
+                "personalData" : "Dados pessoais",
+                "personTypeIndividual" : "Física",
+                "personTypeLegal" : "Jurídica",
+                "phone" : "Telefone",
+                "receiveExpired": "Receber boleto após vencimento",
+                "yes": "Sim",
+                "no": "Não",
+                "penalty":"Multa",
+                "interest":"Juros",
+                "daily":"Diária",
+                "monthly":"Mensal",
+                "feeData" : "Dados Tarifários",
+                "feePlan" : "Plano Tarifário",
+                "state" : "Estado",
+                "street" : "Logradouro",
+                "status" : "Status",
+                "type" : "Tipo",
+                "updateDealer" : "Atualizar Empresa",
+                "zipCode" : "Cep"
+            }
+        },
+        "withdraw" : {
+            "button" : {
+                "requestWithdraw" : "Solicitar Saque",
+                "request" : "Solicitar"
+            },
+            "label" : {
+                "manageWithdraw" : "Saques",
+                "balance" : "Saldo",
+                "request" : "Solicitação",
+                "amount" : "Valor",
+                "destinyAccount" : "Conta destino",
+                "status" : "Status",
+                "detail" : "Detalhe",
+                "destiny" : "Destino",
+                "response" : "Resposta",
+                "action" : "Ação",
+                "fees" : "Taxas",
+                "netAmount" : "Valor a transferir",
+                "amountToTransfer" : "Valor a transferir",
+                "paidAmount" : "Valor pago",
+                "wantedAmount" : "Valor solicitado",
+                "denyReason" : "Motivo da negação",
+                "statusType" : {
+                   "requested" :"Solicitado",
+                   "approved" : "Aprovado",
+                   "denied" : "Negado",
+                   "released" : "Liberado",
+                   "canceled" : "Cancelado"
+                }
+            },
+            "message" : {
+                "modalTitle" : {
+                    "requestDetails" : "Detalhes do Saque",
+                    "cancelRequest" : "Deseja cancelar a solicitação?",
+                    "requestWithdraw" : "Solicitar Saque"
+                }
+            },
+            "tooltip" : {
+                "requestDetails" : "Detalhes do Saque",
+                "cancelRequest" : "Cancelar Solicitação"
+            }
+        },
+        "sidebarNav" : {
+            "admin" : {
+                "panel" : "Painel",
+                "companies" : "Empresas",
+                "users" : "Usuários"
+            },
+            "company" : {
+                "panel" : "Painel",
+                "companies" : "Empresas",
+                "users" : "Usuários",
+                "transfers" : "Transferências",
+                "transfersPending" : "Pendentes",
+                "transferAll" : "Todas",
+                "conciliation" : "Conciliação",
+                "plans" : "Planos",
+                "report" : "Relatórios",
+                "reportInvoices" : "Faturas",
+                "reportTransfers" : "Transferências",
+                "reportStatement" : "Extrato"
+            },
+            "dealer" : {
+                "panel" : "Painel",
+                "customers" : "Clientes",
+                "billing" : "Cobranca",
+                "billingPending" : "Pendentes",
+                "billingInvoices" : "Faturas",
+                "billingCollections" : "Parcelamentos",
+                "billingSubscriptions" : "Assinaturas",
+                "bankAccount" : "Conta",
+                "bankAccountStatement" : "Extrato",
+                "bankAccountWithdrawal" : "Saques",
+                "applications" : "Aplicações",
+                "report" : "Relatórios",
+                "reportInvoices" : "Faturas",
+                "reportCollections" : "Parcelamentos",
+                "reportSubscriptions" : "Assinaturas",
+                "administration" : "Administração",
+                "administrationRegistrationInfo" : "Dados Cadastrais",
+                "administrationBankBillets" : "Boletos",
+                "administrationBankAccounts" : "Contas Bancárias",
+                "help" : "Ajuda",
+                "helpFAQ" : "FAQ",
+                "helpVideos" : "Vídeos"
+            }
+        },
+        "commons" : {
+            "button" : {
+                "confirm" : "Confirmar",
+                "cancel" : "Cancelar",
+                "close" : "Fechar",
+                "delete" : "Excluir",
+                "details" : "Detalhes",
+                "edit" : "Editar",
+                "first" :"Prim",
+                "next" : "Próx",
+                "previous" : "Ant",
+                "last" : "Ult",
+                "save" : "Salvar",
+                "search" : "Pesquisar"
+            },
+            "label" : {
+                "pageRegister":"Registros por página",
+                "startDate" : "Data Inicial",
+                "endDate" : "Data final",
+                "filterBy" : "Filtrar por",
+                "searchBy" : "Buscar por",
+                "orderType" : {
+                    "subscription" : "Assinatura",
+                    "collection" : "Parcelamento"
+                },
+                "paymentDate": "Data de Pagamento",
+                "expirationDate" : "Data de vencimento",
+                "frequencyType" : {
+                    "monthly" : "Mensal"
+                }
+            },
+            "format" : {
+                "currency" : "R$",
+                "thousands" : ".",
+                "decimals" : ",",
+                "date" : "dd/MM/yyyy",
+                "datepicker" : "DD/MM/YYYY"
+            },
+            "message" : {
+                "success" :{
+                    "title" : "Sucesso"
+                },
+                "error" : {
+                    "title" : "Erro",
+                    "invalidInput" : "Existem campos inválidos!"
+                },
+                "info" : {
+                    "title" : "Atenção",
+                    "maxAddressExceeded" : "Número máximo de endereços atingido"
+                }
+            },
+            "placeholder" : {
+                "lookup" : "Empresa não encontrada!",
+                "searchBy" : "Nome, documento ou email"
+            },
+            "text" : {
+                "emptySearch" : " - Sua pesquisa não retornou resultados - "
+            },
+            "tooltip" : {
+                "paymentDetails" : "Detalhes do Pagamento",
+                "withdrawDetails" : "Detalhes do Saque"
+            }
+        }
+    }
+}

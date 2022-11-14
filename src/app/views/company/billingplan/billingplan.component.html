@@ -1,0 +1,77 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <h4 class="card-title clearfix mb-0">{{'screen.billingPlan.label.billingPlans' | translate}}</h4>
+                </div>
+                <div class="col-sm-7">
+                  <a class="btn btn-primary float-right" routerLink="./new-billingplan"><i class="icon-plus"></i> {{'screen.billingPlan.button.new' | translate}}</a>
+                </div>
+              </div>
+              <br/>
+         
+              <hr/>
+              
+  
+              <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th class="text-center">{{'screen.billingPlan.label.description' | translate}}</th>
+                    <th class="text-center">{{'screen.billingPlan.label.paidBankBilletFee' | translate}}</th>
+                    <th class="text-center">{{'screen.billingPlan.label.marketWithdrawFee' | translate}}</th>
+                    <th class="text-center">{{'screen.billingPlan.label.action' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="billingPlanList == null"> <td class="text-muted text-center" colspan="6">{{'screen.commons.text.emptySearch' | translate}}</td></tr>
+                  <tr *ngFor="let billingPlan of billingPlanList; let i = index">
+                    <td class="text-center">
+                      {{billingPlan.description}}
+                    </td>
+                    <td class="text-center">
+                      {{billingPlan.paidBankBilletFee | currency: formatService.getCurrencyFormat()}}
+                    </td>
+                    <td class="text-center">
+                      {{billingPlan.marketWithdrawFee | currency: formatService.getCurrencyFormat()}}
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.billingPlan.tooltip.edit' | translate}}" placement="top" (click)="updateBillingPlan(billingPlan.token)" *ngIf="billingPlan.status == 'ACTIVE'"><i class="fa fa-eye"></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.billingPlan.tooltip.delete' | translate}}" placement="top" (click)="deleteModal.show(); loadBillingPlanToRemove(billingPlan);"><i class="fa fa-trash ml-2" style="color: red;"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{'screen.billingPlan.label.deleteBillingPlan' | translate}}</h4>
+          <button type="button" class="close" (click)="deleteModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{'screen.billingPlan.label.description' | translate}}: <strong>{{billingPlanToRemove?.description}}</strong><br/>
+          {{'screen.billingPlan.label.paidBankBilletFee' | translate}}: <strong>{{billingPlanToRemove?.paidBankBilletFee | currency: formatService.getCurrencyFormat()}}</strong><br/>
+          {{'screen.billingPlan.label.marketWithdrawFee' | translate}}: <strong>{{billingPlanToRemove?.marketWithdrawFee | currency: formatService.getCurrencyFormat()}}</strong>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="deleteModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+          <button type="button" class="btn btn-danger" (click)="deleteBillingPlan(billingPlanToRemove.token); deleteModal.hide()">{{'screen.commons.button.delete' | translate}}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  
+  

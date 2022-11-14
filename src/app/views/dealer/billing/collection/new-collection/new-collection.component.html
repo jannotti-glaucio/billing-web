@@ -1,0 +1,394 @@
+<div class="animated fadeIn">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="card">  
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4 class="card-title clearfix mb-0">{{'screen.newCollection.title.newCollection' | translate}}</h4>
+                <hr/>
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-sm-12">
+                <h5 class="text-muted">{{'screen.newCollection.label.customers' | translate}}</h5>
+                <hr>
+                <button class="btn btn-primary" (click)="customerSelection.show();"><i class="fa fa-user-plus"></i> Selecionar Clientes</button>
+              </div>
+
+            </div>  
+           
+            <div class="row mt-4" *ngIf="customerSelectedList != null">
+              <div class="col-sm-12">
+                <table class="table table-sm table-responsive-sm table-hover table-outline mb-0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>{{'screen.newCollection.label.name' | translate}}</th>
+                      <th class="text-center">{{'screen.newCollection.label.document' | translate}}</th>
+                      <th>{{'screen.newCollection.label.email' | translate}}</th>
+                      <th>{{'screen.newCollection.label.action' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let customerSelected of customerSelectedList; let i = index">
+                      <td>
+                        {{customerSelected?.name}}
+                      </td>
+                      <td class="text-center">
+                        {{customerSelected?.documentNumber}}
+                      </td>
+                      <td>
+                        {{customerSelected?.email}}
+                      </td>
+                      <td>
+                        <i class="fa fa-trash btn ml-2" style="color: red;" (click)="dangerModal.show(); modalExcluir(customerSelected, i);"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <form #insertForm="ngForm" (ngSubmit)="onSubmit(insertForm)" autocomplete="off">
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <h5 class="text-muted">{{'screen.newCollection.label.details' | translate}}</h5>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="invoiceDescription">{{'screen.newCollection.label.collectionDescription' | translate}} <span class="required-mark">*</span></label>
+                        <textarea type="text" class="col form-control" id="invoiceDescription" name="invoiceDescription"
+                        rols="4" maxlegth="100" placeholder="{{'screen.newCollection.placeholder.collectionDescription' | translate}}"
+                        
+                        [class.ng-touched]="insertForm.submitted"
+                        [(ngModel)]="invoiceDescription" required></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="collectionDocumentNumber">{{'screen.newCollection.label.documentNumber' | translate}}</label>
+                        <input type="text" class="col form-control" id="collectionDocumentNumber" name="collectionDocumentNumber"
+                        onlyNumbers
+                        maxlength="10"
+                        placeholder="{{'screen.newCollection.placeholder.documentNumber' | translate}}"
+                        [class.ng-touched]="insertForm.submitted"
+                        [(ngModel)]="collectionDocumentNumber">
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  <h5 class="text-muted">{{'screen.newCollection.label.payment' | translate}}</h5>
+                  <hr/>
+                  <div class="row">
+                      <div class="col-md-6">
+                        <label for="amount ">{{'screen.newCollection.label.invoiceAmount' | translate}} <span class="required-mark">*</span></label>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group ">
+                        
+                        <div class="input-prepend input-group">
+                          <div class="input-group-prepend">
+                          <span class="input-group-text">R$</span>
+                          </div>
+                          <input type="text" class="form-control" id="amount" name="amount"
+                          placeholder="{{'screen.newCollection.placeholder.invoiceAmount' | translate}}"
+                          [class.ng-touched]="insertForm.submitted"
+                          (ngModelChange)="showInstalments = false"
+                          [(ngModel)]="amount" 
+                          currencyMask 
+                          [options]="{ 
+                            prefix: '', 
+                            thousands: formatService.getCurrencyThousandsFormat(), 
+                            decimal: formatService.getCurrencyDecimalFormat()}"
+                          required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="col-form-label  pt-0">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" id="amountType1" name="amountType"
+                          [(ngModel)]="amountType"  value="INVOICE"
+                          (ngModelChange)="showInstalments = false">
+                          <label class="form-check-label" for="amountType1">
+                            {{'screen.newCollection.label.amountOfInvoice' | translate}}
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" id="amountType2" name="amountType" 
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="amountType"  value="COLLECTION"
+                          (ngModelChange)="showInstalments = false">
+                          <label class="form-check-label" for="amountType2">
+                            {{'screen.newCollection.label.amountOfCollection' | translate}}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group ">
+                        <label for="instalments">{{'screen.newCollection.label.instalments' | translate}}</label>
+                        <input type="number" class="col form-control" id="instalments" name="instalments"
+                        max="12" min="1"
+                        [class.ng-touched]="insertForm.submitted"
+                        [(ngModel)]="instalments"
+                        (ngModelChange)="showInstalments = false">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group ">
+                          <label for="expirationDate" >{{'screen.newCollection.label.firstExpiredDate' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="col form-control" id="expirationDate" name="expirationDate"
+                          placeholder="{{'screen.newCollection.placeholder.firstExpiredDate' | translate}}"
+                          [class.ng-touched]="insertForm.submitted"
+
+                          [minDate]="minDate"
+                          bsDatepicker
+                          [(ngModel)]="expirationDate" 
+                          [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}"
+                          required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group ">
+                        <label for="paymentMethod">{{'screen.newCollection.label.paymentMethod' | translate}} <span class="required-mark">*</span></label>
+                          <select class="col custom-select  form-control form-control-md" id="paymentMethod" name="paymentMethod"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="paymentMethod" disabled required>
+                          <option value="BANK_BILLET">{{'screen.newCollection.label.bankBillet' | translate}}</option> 
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <button type="button" class="btn btn-primary" (click)="getInstalments(insertForm)" [disabled]="showInstalments">{{'screen.newCollection.button.calculateInstalments' | translate}}</button>
+                </div>
+              </div>
+
+              <div *ngIf="showInstalments">
+                <div class="row mt-4">
+                  <div class="col-md-12">
+                    <h5>{{'screen.newCollection.label.instalmentsAndFess' | translate}}</h5>
+                  </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-1"><strong>{{'screen.newCollection.label.instalment' | translate}}</strong></div>
+                    <div class="col-md-2 text-center"><strong>{{'screen.newCollection.label.expirationDate' | translate}}</strong></div>
+                    <div class="col-md-2 text-center"><strong>{{'screen.newCollection.label.invoiceAmount' | translate}}</strong></div>
+                    <div class="col-md-2 text-center"><strong>{{'screen.newCollection.label.fees' | translate}}</strong></div>
+                    <div class="col-md-2 text-center"><strong>{{'screen.newCollection.label.amountToReceive' | translate}}</strong></div>
+                </div>
+                <hr/>
+                <div class="mt-4" *ngFor="let newInstalment of instalmentList; let i = index">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <input type="text" class="form-control form-control-sm col" value="{{newInstalment.instalment}}" disabled/>
+                    </div>
+                    <div class="col-md-2">
+                      <input type="text" class="form-control form-control-sm text-center col" id="newInstalmentExpirationDate{{i}}" name="newInstalmentExpirationDate{{i}}"
+                      bsDatepicker
+                      [(ngModel)]="newInstalment.expirationDate" 
+                      [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}" disabled/>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="input-prepend input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">R$</span>
+                        </div>
+                        <input type="text" class="form-control form-control-sm col" id="newInstalmenAmount{{i}}" name="newInstalmenAmount{{i}}" [(ngModel)]="newInstalment.amount" 
+                        currencyMask 
+                        [options]="{ 
+                            prefix: '', 
+                            thousands: formatService.getCurrencyThousandsFormat(), 
+                            decimal: formatService.getCurrencyDecimalFormat()}"
+                        disabled/>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="input-prepend input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">R$</span>
+                        </div>
+                        <input type="text" class="form-control form-control-sm col" id="newInstalmenFees{{i}}" name="newInstalmenFees{{i}}" [(ngModel)]="newInstalment.fees" 
+                        currencyMask 
+                          [options]="{ 
+                            prefix: '', 
+                            thousands: formatService.getCurrencyThousandsFormat(), 
+                            decimal: formatService.getCurrencyDecimalFormat()}"
+                        disabled/>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="input-prepend input-group input-group-sm">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">R$</span>
+                        </div>
+                        <input type="text" class="form-control form-control-sm col" id="newInstalmenNetAmount{{i}}" name="newInstalmenNetAmount{{i}}" [(ngModel)]="newInstalment.netAmount" 
+                        currencyMask 
+                        [options]="{ 
+                          prefix: '', 
+                          thousands: formatService.getCurrencyThousandsFormat(), 
+                          decimal: formatService.getCurrencyDecimalFormat()}"
+                        disabled/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-4 float-right">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('newCollectionSaveButton')" >{{'screen.commons.button.save' | translate}}</button>
+                  <button type="button" class="btn btn-default" routerLink="/dealer/billing/collection">{{'screen.commons.button.cancel' | translate}}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-danger modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{'screen.newCollection.message.confirmation.removeCustomer' | translate}}</h4>
+      <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>{{'screen.newCollection.label.name' | translate}}: <strong>{{customerToRemove?.name}}</strong><br/>
+        {{customerToRemove?.documentType?.name}}: <strong>{{customerToRemove?.documentNumber}}</strong></p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+      <button type="button" class="btn btn-danger" (click)="remove(); dangerModal.hide()">{{'screen.commons.button.confirm' | translate}}</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #customerSelection="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-primary modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">{{'screen.newCollection.label.customers' | translate}}</h4>
+      <button type="button" class="close" (click)="customerSelection.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-xs-12 col-md-5 mt-2">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" class="form-control" 
+              placeholder="{{'screen.customer.placeholder.searchFilter' | translate}}"
+              [(ngModel)]="searchKeyword" 
+              (keyup.enter)="searchCustomer()">
+              <span class="input-group-prepend">
+                <button type="button" class="btn btn-primary" (click)="searchCustomer()"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-sm-12">
+          <table class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>{{'screen.newCollection.label.name' | translate}}</th>
+                <th class="text-center">{{'screen.newCollection.label.document' | translate}}</th>
+                <th>{{'screen.newCollection.label.email' | translate}}</th>
+                <th>{{'screen.newCollection.label.add' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customer of customerList; let i = index">
+                <td>
+                  {{customer?.name}}
+                </td>
+                <td class="text-center">
+                  {{customer?.documentNumber}}
+                </td>
+                <td>
+                  {{customer?.email}}
+                </td>
+                <td>
+                  <i class="fa fa-plus btn ml-2" style="color:green" (click)="customerTempSelectedListAdd(customer);"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination mt-2">
+            <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchCustomer(pagingService?.getPrevPage())" >{{'screen.commons.button.previous' | translate}}</a></li>
+            <li class="page-item" *ngFor="let number of pagingService?.page?.pageNumbersList" [ngClass]="{'active' : (number == pagingService?.page.number)}" ><a class="page-link"  (click)="searchCustomer(number)">{{number + 1 }}</a></li>
+            <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchCustomer(pagingService?.getNextPage())" >{{'screen.commons.button.next' | translate}}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row mt-2" *ngIf="customerTempSelectedList != null">
+        <div class="col-sm-12">
+          <br/>
+          <h5 class="text-muted"><i class="fa fa-users mr-2"></i>Clientes selecionados</h5>
+          <hr/>
+          <table class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>{{'screen.newCollection.label.name' | translate}}</th>
+                <th class="text-center">{{'screen.newCollection.label.document' | translate}}</th>
+                <th>{{'screen.newCollection.label.email' | translate}}</th>
+                <th>{{'screen.newCollection.label.remove' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let customerTempSelected of customerTempSelectedList; let i = index">
+                <td>
+                  {{customerTempSelected?.name}}
+                </td>
+                <td class="text-center">
+                  {{customerTempSelected?.documentNumber}}
+                </td>
+                <td>
+                  {{customerTempSelected?.email}}
+                </td>
+                <td>
+                  <i class="fa fa-close btn ml-2" style="color: red;" (click)="removeTempCustomer(i);"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="customerSelection.hide(); customerTempSelectedList = [];">{{'screen.commons.button.cancel' | translate}}</button>
+      <button type="button" class="btn btn-primary" (click)="customerSelectedListAdd(); customerSelection.hide()">{{'screen.commons.button.save' | translate}}</button>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

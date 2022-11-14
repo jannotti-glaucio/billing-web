@@ -1,0 +1,399 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-5">
+              <h4 class="card-title clearfix mb-0">{{'screen.invoiceExpiration.label.invoiceExpiration' | translate}}</h4> 
+            </div>
+          </div>
+          <hr/>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <label for="pesquisa" class="col-md-3 col-form-label">{{'screen.invoice.label.findBy' | translate}}</label>
+                  <input type="text" id="pesquisa" class="col-md-9 form-control" placeholder="{{'screen.invoice.placeholder.searchFilter' | translate}}" [(ngModel)]="searchKeyword">
+                </div>
+              </div>
+            </div>
+           
+            <div class="row">
+              <div class="col-md-9">
+                <div class="form-group row">
+                  <label class="col-md-2 col-form-label" for="inline-radios">{{'screen.invoice.label.status' | translate}}</label>
+                  <div class="col-md-10 col-form-label row">
+                    <div class="form-check form-check-inline mr-2">
+                      <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" value="EXPIRED" [(ngModel)]="status">
+                      <label class="form-check-label" for="inline-checkbox1">{{'screen.invoiceExpiration.label.expired' | translate}}</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-2">
+                      <input class="form-check-input" type="radio" id="inline-checkbox5" name="status" value="TODAY" [(ngModel)]="status">
+                      <label class="form-check-label" for="inline-checkbox5">{{'screen.invoiceExpiration.label.expiring' | translate}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="float-right">
+                  <button class="btn btn-secondary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('invoiceExpirationSearchButton')"  (click)="searchInvoice(0)" ><i class="fa fa-search"></i>&nbsp;{{'screen.invoice.button.search' | translate}}</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" >
+    <div class="col-md-12">
+      <div class="form-group float-right">
+          <small class="form-text">{{'screen.commons.label.pageRegister' | translate}}</small>
+          <select 
+          class="custom-select form-control form-control-sm" 
+          id="pageSize" 
+          name="pageSize" 
+          [(ngModel)]="pageSize"
+          (change)="searchInvoice(pagingService?.page.number);" [disabled]="invoiceList.length < 1">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          </select>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="invoiceList.length < 1">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row ">
+              <div class="col-md-12 text-center">
+                <span class="text-muted ">{{'screen.commons.text.emptySearch' | translate}}</span>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngFor="let invoice of invoiceList; let i = index" >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="text-truncate font-weight-bold mb-2">{{invoice?.customer?.name}}</div>
+              </div>
+              <div class="col-md-6 text-sm-right">
+                  <div class="text-truncate font-weight-bold mb-2">
+                      <span [ngClass]="[(invoice?.status == 'OPEN') ? 'bg-success pl-3 pt-1 pr-3 pb-1' : '',
+                                        (invoice?.status == 'CANCELED') ? 'bg-secondary pl-3 pt-1 pr-3 pb-1' : '',
+                                        (invoice?.status == 'PAID') ? 'bg-secondary pl-3 pt-1 pr-3 pb-1' : '',
+                                        (invoice?.status == 'EXPIRED') ? 'bg-danger pl-3 pt-1 pr-3 pb-1' : '']"><strong>{{statusConverterService.convertInvoiceStatus(invoice?.status)}}</strong></span></div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-4">
+                <div class="text-truncate"><i class="fa fa-address-card-o"></i>&nbsp;{{invoice?.customer?.documentType?.name}}:&nbsp;{{invoice?.customer?.documentNumber | mask:invoice?.customer?.documentType?.webMask}}</div>
+                <div class="" *ngIf="invoice?.customer?.email"><i class="fa fa-envelope-o"></i>&nbsp; {{invoice?.customer?.email}}</div>
+              </div>
+              <div class="col-md-4 text-sm-right">
+                  
+                  <div class="text-truncate">{{'screen.invoice.label.amount' | translate}}: {{invoice?.amount  | currency: formatService.getCurrencyFormat()}}</div>
+                  <div class="text-truncate">{{'screen.invoice.label.paymentMethod' | translate}}: 
+                    <i class="fa fa-barcode fa-1x" *ngIf="invoice?.paymentMethod == 'BANK_BILLET'"></i>
+                    <i class="fa fa-credit-card fa-1x" *ngIf="invoice?.paymentMethod == 'CreditCard' || invoice?.paymentMethod == 'DebitCard' "></i>
+                  </div>
+                  <div class="text-truncate" *ngIf="invoice?.instalment">{{'screen.invoice.label.installment' | translate}}: {{invoice?.instalment}}</div>  
+              </div>
+              
+              <div class="col-md-4 text-sm-right">
+                
+                  <div class="text-truncate">{{'screen.invoice.label.expirationDate' | translate}}: {{invoice?.expirationDate | date: formatService.getDateFormat()}}</div>
+                  <div class="text-truncate" *ngIf="invoice.paymentDate">Pagamento: {{invoice?.paymentDate | date: formatService.getDateFormat()}}</div>
+                  <div class="text-truncate" *ngIf="invoice.cancelationDate">Cancelamento: {{invoice?.cancelationDate | date: formatService.getDateFormat()}}</div>
+                </div>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button type="button" class="btn btn-secondary btn-sm" 
+          (click)="loadInvoiceToShow(invoice?.token); detailModal.show();">
+            <i class="fa fa-info"></i>
+            <span class="d-none d-sm-inline ml-1">{{'screen.invoice.button.details' | translate}}</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" 
+            *ngIf="showButton('screen.invoice.button.resend' | translate, invoice)" 
+            (click)="loadInvoiceToSend(invoice); resendModal.show()">
+            <i class="fa fa-paper-plane-o"></i>
+            <span class="d-none d-sm-inline ml-1">{{'screen.invoice.button.resend' | translate}}</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" 
+            *ngIf="showButton('screen.invoice.button.print' | translate, invoice)" 
+            (click)="printInvoice(invoice?.token)">
+            <i class="fa fa-print"></i>
+            <span class="d-none d-sm-inline ml-1">{{'screen.invoice.button.print' | translate}}</span>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" 
+            *ngIf="showButton('screen.commons.button.cancel' | translate, invoice)" 
+            (click)="loadInvoiceToCancel(invoice); cancelationModal.show();">
+            <i class="fa fa-times-rectangle"></i>
+            <span class="d-none d-sm-inline ml-1">{{'screen.commons.button.cancel' | translate}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-md-center" *ngIf="invoiceList.length > 0">
+    <div class="col-md-4">
+      <ul class="pagination mt-2" >
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchInvoice(0)" >{{'screen.commons.button.first' | translate}}</a></li>
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchInvoice(pagingService?.getPrevPage())" >{{'screen.commons.button.previous' | translate}}</a></li>
+        <li class="page-item" *ngFor="let number of pagingService?.page?.pageNumbersList" [ngClass]="{'active' : (number == pagingService?.page.number)}" ><a class="page-link" *ngIf="pagingService?.showNumber(number)" (click)="searchInvoice(startDate, endDate, status, number)">{{number + 1 }}</a></li>
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchInvoice(pagingService?.getNextPage())" >{{'screen.commons.button.next' | translate}}</a></li>
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchInvoice(pagingService?.page.totalPages - 1)" >{{'screen.commons.button.last' | translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div bsModal #cancelationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{'screen.invoice.message.confirmation.cancelInvoice' | translate}}</h4>
+        <button type="button" class="close" (click)="cancelationModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{'screen.invoice.label.customer' | translate}}: <strong>{{invoiceToCancel?.customer.name}}</strong><br/>
+          {{invoiceToCancel?.customer?.documentType?.name}}: <strong>{{invoiceToCancel?.customer?.documentNumber | mask: invoiceToCancel?.customer?.documentType?.webMask}}</strong><br/>
+          {{'screen.invoice.label.description' | translate}}: <strong>{{invoiceToCancel?.description}}</strong><br/>
+          {{'screen.invoice.label.amount' | translate}}: <strong>{{invoiceToCancel?.amount | currency: formatService.getCurrencyFormat()}}</strong><br/>
+          {{'screen.invoice.label.expirationDate' | translate}}: <strong>{{invoiceToCancel?.expirationDate | date: formatService.getDateFormat()}}</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelationModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+        <button type="button" class="btn btn-danger" (click)="cancelInvoice(invoiceToCancel?.token); cancelationModal.hide()">{{'screen.commons.button.confirm' | translate}}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->
+
+
+<div bsModal #resendModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-primary modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{'screen.invoice.message.confirmation.resendInvoice' | translate}}</h4>
+        <button type="button" class="close" (click)="resendModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{'screen.invoice.label.customer' | translate}}: <strong>{{invoiceToResend?.customer.name}}</strong><br/>
+          {{invoiceToResend?.customer?.documentType?.name}}: <strong>{{invoiceToResend?.customer?.documentNumber | mask: invoiceToResend?.customer?.documentType?.webMask}}</strong><br/>
+          {{'screen.invoice.label.description' | translate}}: <strong>{{invoiceToResend?.description}}</strong><br/>
+          {{'screen.invoice.label.amount' | translate}}: <strong>{{invoiceToResend?.amount | currency: formatService.getCurrencyFormat()}}</strong><br/>
+          {{'screen.invoice.label.expirationDate' | translate}}: <strong>{{invoiceToResend?.expirationDate | date: formatService.getDateFormat()}}</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="resendModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="sendInvoice(invoiceToResend?.token); resendModal.hide()">{{'screen.commons.button.confirm' | translate}}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->
+
+ <div bsModal #detailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-primary modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">{{'screen.invoice.label.invoiceDetails' | translate}}</h4>
+              <button type="button" class="close" (click)="detailModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-sm-7">
+                      <h5 class="text-muted">{{'screen.invoice.label.customer' | translate}}</h5>
+                  </div>
+                  <div class="col-sm-5 text-right">
+                    <button class="btn btn-secondary" (click)="update = !update" *ngIf="canUpdate()">
+                      {{'screen.commons.button.edit' | translate}}
+                    </button>
+                  </div>
+              </div>  
+              <hr/>
+              <form>
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="customerName">{{'screen.invoice.label.name' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="customerName" name="customerName"
+                          [ngModel]="invoiceToShow?.customer?.name" disabled>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="documentNumber">{{invoiceToShow?.customer?.documentType?.name}}</label>
+                          <input type="text" class="form-control form-control-sm" id="documentNumber" name="documentNumber"
+                          mask="{{invoiceToShow?.customer?.documentType?.webMask}}" 
+                          [ngModel]="invoiceToShow?.customer?.documentNumber" disabled>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label for="email">{{'screen.invoice.label.email' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="email" name="email"
+                          [ngModel]="invoiceToShow?.customer?.email" disabled>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row mt-2">
+                  <div class="col-sm-12">
+                      <h5 class="text-muted">{{'screen.invoice.label.details' | translate}}</h5>
+                      <hr/>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="description">{{'screen.invoice.label.documentNumber' | translate}}</label>
+                            <input type="text" class="col form-control form-control-sm" id="invoiceDocumentNumber" name="invoiceDocumentNumber"
+                            onlyNumbers
+                            maxlength="15"
+                            [ngModel]="invoiceToShow?.documentNumber" 
+                            (input)="invoiceToShow.documentNumber = $event.target.value"
+                            [disabled]="!update">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                            <label for="description">{{'screen.invoice.label.description' | translate}}</label>
+                            <textarea type="text" class="col form-control form-control-sm" id="description" name="description"
+                                rols="4" maxlegth="100" 
+                                [ngModel]="invoiceToShow?.description" 
+                                (input)="invoiceToShow.description = $event.target.value"
+                                [disabled]="!update"></textarea>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                  <div class="col-sm-12">
+                      <h5 class="text-muted">{{'screen.invoice.label.invoice' | translate}}</h5>
+                      <hr/>
+                  </div>
+              </div>
+              <div class="row text-right">
+                  <div class="col-sm-12">
+                      <span [ngClass]="[(invoiceToShow?.status == 'OPEN') ? 'bg-secondary pl-3 pt-1 pr-3 pb-1' : '',
+                                       (invoiceToShow?.status == 'CANCELED') ? 'bg-light pl-3 pt-1 pr-3 pb-1' : '',
+                                       (invoiceToShow?.status == 'PAID') ? 'bg-success pl-3 pt-1 pr-3 pb-1' : '',
+                                       (invoiceToShow?.status == 'EXPIRED') ? 'bg-danger pl-3 pt-1 pr-3 pb-1' : '']">{{'screen.invoice.label.status' | translate}}: <strong>{{statusConverterService.convertInvoiceStatus(invoiceToShow?.status)}}</strong></span>
+                  </div>
+              </div>
+          
+              <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="amount">{{'screen.invoice.label.amount' | translate}}</label>
+                        <div class="controls">
+                            <div class="input-prepend input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" id="amount" name="amount"
+                                [(ngModel)]="invoiceToShow.amount"
+                                currencyMask 
+                                [options]="{ 
+                                  prefix: '', 
+                                  thousands: formatService.getCurrencyThousandsFormat(), 
+                                  decimal: formatService.getCurrencyDecimalFormat()}"
+                                  [disabled]="!update">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="expirationDate" >{{'screen.invoice.label.expirationDate' | translate}}</label>
+                        <input type="text"
+                        class="form-control form-control-sm" id="expirationDate" name="expirationDate"
+                        bsDatepicker 
+                        placement="top"
+                        [minDate]="minDate"
+                        [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue'}"
+                        [(ngModel)]="invoiceToShow.expirationDate"
+                        [disabled]="!update"/>
+                    </div>
+                </div>
+              </div>
+              <div class="row ">
+                 
+                  <div class="col-sm-6" *ngIf="invoiceToShow.paymentDate">
+                      <div class="form-group">
+                          <label for="paymentDate" >{{'screen.invoice.label.payment' | translate}}</label>
+                          <input type="text"
+                          class="form-control form-control-sm" id="paymentDate" name="paymentDate"
+                          [ngModel]="invoiceToShow?.paymentDate"
+                          (input)="invoiceToShow.paymentDate = $event.target.value"
+                          [minDate]="minDate"
+                          bsDatepicker 
+                          placement="top"
+                          [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue'}"
+                          disabled/>
+                      </div>
+                  </div>
+                  <div class="col-sm-6" *ngIf="invoiceToShow.cancelationDate">
+                      <div class="form-group">
+                          <label for="cancelationDate" >{{'screen.invoice.label.cancelation' | translate}}</label>
+                          <input type="text"
+                          class="form-control form-control-sm" id="cancelationDate" name="cancelationDate"
+                          [ngModel]="invoiceToShow?.cancelationDate"
+                          (input)="invoiceToShow.cancelationDate = $event.target.value"
+                          [minDate]="minDate"
+                          bsDatepicker 
+                          placement="top"
+                          [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue'}"
+                          disabled/>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="row mt-2" *ngIf="invoiceToShow?.bankBillet">
+                  <div class="col-sm-12">
+                      <h5 class="text-muted">{{'screen.invoice.label.bankBillet' | translate}}</h5>
+                  </div>
+              </div>
+              <div class="row" *ngIf="invoiceToShow?.bankBillet">
+                  <div class="col-sm-12">
+                      <div class="form-group">
+                          <label for="linhaDigitavel">{{'screen.invoice.label.lineCode' | translate}}</label>
+                          <input type="text" class="col form-control form-control-sm" id="linhaDigitavel" name="linhaDigitavel"
+                          [ngModel]="invoiceToShow?.bankBillet?.lineCode" disabled>
+                      </div>
+                  </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12 text-right">
+                  <button type="button" class="btn btn-secondary" (click)="detailModal.hide(); update = false">{{'screen.commons.button.close' | translate}}</button>
+                  <button type="button" class="btn btn-primary" (click)="updateInvoice(); detailModal.hide()" *ngIf="update">{{'screen.commons.button.save' | translate}}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+

@@ -1,0 +1,556 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4 mt-2 mt-sm-0 border-primary">
+            <div class="card-title bg-primary h4 p-2 text-center font-weight-bold">
+                {{'screen.statement.label.currentBalance' | translate}}
+            </div>
+            <div class="card-body h4 text-center p-1">
+                {{currentBalance | currency:formatService.getCurrencyFormat() }}
+            </div>
+        </div>
+        <div class="mb-4 mt-2 mt-sm-0">
+            <button class="btn btn-primary btn-lg btn-block" (click)="withdrawalModal.show(); getBankAccounts();"><i class="icon-plus"></i> {{'screen.statement.button.requestWithdraw' | translate}}</button>
+        </div>
+    </div>  
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h4 class="card-title clearfix mb-0">{{'screen.statement.label.statement' | translate}}</h4>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" for="dateToFilter">{{'screen.commons.label.filterBy' | translate}}</label>
+                            <div class="col">
+                                <div class="row text-right">
+                                    <input type="text"
+                                    class="form-control"
+                                    bsDatepicker
+                                    [(ngModel)]="bsStartDate"
+                                    [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue' }">
+                                    <small class="text-muted">{{'screen.commons.label.startDate' | translate}}</small>
+                                </div>
+                            </div>
+                            <div class="col ml-3 float-right">
+                                <div class="row text-right">
+                                    <input type="text"
+                                    class="form-control"
+                                    bsDatepicker 
+                                    [(ngModel)]="bsEndDate"
+                                    [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue' }">
+                                    <small class="text-muted">{{'screen.commons.label.endDate' | translate}}</small>
+                                </div>
+                            </div>
+                            <div class="col ml-3 float-right">
+                                <div class="row text-right">
+                                    <button class="btn btn-secondary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('statementSeachButton')"  (click)="searchStatements()"><i class="fa fa-search"></i> {{'screen.commons.button.search' | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-body">
+            <div class="row">    
+                <div class="col-md-12 text-right mb-2">
+                    <button type="button" class="btn btn-outline-primary" (click)="amountDetails = !amountDetails" > 
+                        <strong><i class="icon-plus" *ngIf="!amountDetails"></i>
+                            <i class="icon-minus" *ngIf="amountDetails"></i></strong>
+                            {{'screen.statement.button.details' | translate}}</button>
+                </div>
+            </div>
+      
+        <div class="row"> 
+            <div class="col-md-12">
+              <table class="table table-responsive-sm table-hover table-outline mb-0">
+                  <thead class="thead-light">
+                    <tr >
+                      <th class="text-center">{{'screen.statement.label.date' | translate}}</th>
+                      <th class="text-center">{{'screen.statement.label.movementType' | translate}}</th>
+                      <th class="text-center" *ngIf="amountDetails">{{'screen.statement.label.paidAmount' | translate}}</th>
+                      <th class="text-center" *ngIf="amountDetails">{{'screen.statement.label.fees' | translate}}</th>
+                      <th class="text-center" *ngIf="amountDetails">{{'screen.statement.label.netAmount' | translate}}</th>
+                      <th class="text-center">{{'screen.statement.label.detail' | translate}}</th>
+                      <th class="text-center">{{'screen.statement.label.amount' | translate}}</th>
+                      <th class="text-center">{{'screen.statement.label.balance' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="statementList == ''"> <td class="text-muted text-center" colspan="8">{{'screen.commons.text.emptySearch' | translate}}</td></tr>
+                    <tr *ngFor="let statement of statementList; let i = index">
+                      <td class="text-center">
+                          {{statement.statementDate | date: formatService.getDateFormat()}}
+                      </td>
+                      <td class="text-center">
+                          {{statement.type.description}}
+                      </td>
+                      
+                      
+                      <td class="text-center" *ngIf="amountDetails">
+                        <span class="cell-color-box cell-coler-box-no-size" 
+                        [ngClass]="(statement?.payment?.paidAmount < 0) ? 'bg-danger' : 'bg-primary'" 
+                        *ngIf="statement?.payment?.paidAmount">
+                            <span *ngIf="statement?.payment?.paidAmount < 0">- </span>
+                            <span *ngIf="statement?.payment?.paidAmount > 0">+ </span>{{statement?.payment?.paidAmount | currency: formatService.getCurrencyFormat()}}</span>
+
+                        <span class="cell-color-box cell-coler-box-no-size" 
+                        [ngClass]="(statement?.withdraw?.amount < 0) ? 'bg-danger' : 'bg-primary'" 
+                        *ngIf="statement?.withdraw?.amount">
+                            <span *ngIf="statement?.withdraw?.amount < 0">- </span>
+                            <span *ngIf="statement?.withdraw?.amount > 0">+ </span>{{statement?.withdraw?.amount | currency: formatService.getCurrencyFormat()}}</span>
+                      </td>
+                      <td class="text-center" *ngIf="amountDetails">
+                        <span class="cell-color-box cell-coler-box-no-size bg-danger" 
+                        *ngIf="statement?.payment?.fees">
+                            - {{statement?.payment?.fees | currency: formatService.getCurrencyFormat()}}</span>
+
+                        <span class="cell-color-box cell-coler-box-no-size bg-danger" 
+                        *ngIf="statement?.withdraw?.fees">
+                            - {{statement?.withdraw?.fees | currency: formatService.getCurrencyFormat()}}</span>
+                      </td>
+                      <td class="text-center" *ngIf="amountDetails">
+                        <span class="cell-color-box cell-coler-box-no-size" 
+                        [ngClass]="(statement?.payment?.netAmount < 0) ? 'bg-danger' : 'bg-primary'" 
+                        *ngIf="statement?.payment?.netAmount">
+                            <span *ngIf="statement?.payment?.netAmount < 0">- </span>
+                            <span *ngIf="statement?.payment?.netAmount > 0">+ </span>{{statement?.payment?.netAmount | currency: formatService.getCurrencyFormat()}}</span>
+                        
+                            <span class="cell-color-box cell-coler-box-no-size" 
+                        [ngClass]="(statement?.withdraw?.netAmount < 0) ? 'bg-danger' : 'bg-primary'" 
+                        *ngIf="statement?.withdraw?.netAmount">
+                            <span *ngIf="statement?.withdraw?.netAmount < 0">- </span>
+                            <span *ngIf="statement?.withdraw?.netAmount > 0">+ </span>{{statement?.withdraw?.netAmount | currency: formatService.getCurrencyFormat()}}</span>
+                      </td>
+                      <td class="text-center">
+                        <button class="btn btn-link btn-sm" tooltip="{{'screen.commons.tooltip.paymentDetails' | translate}}" placement="top" *ngIf="statement.payment" (click)="preencheModal(statement.payment.invoice.token); invoiceModal.show()" ><i class="fa fa-eye"></i></button>
+                        <button class="btn btn-link btn-sm" tooltip="{{'screen.commons.tooltip.withdrawDetails' | translate}}" placement="top" *ngIf="statement.withdraw" (click)="loadWithdrawToShow(statement.withdraw.token); withdrawDetailModal.show()" ><i class="fa fa-eye"></i></button>
+                      </td>
+                      <td class="text-center">
+                            <span class="cell-color-box cell-coler-box-no-size" 
+                            [ngClass]="(statement.type.direction == 'DEBIT') ? 'bg-danger' : 'bg-primary'">
+                                <span *ngIf="statement.type.direction == 'DEBIT'">- </span>
+                                <span *ngIf="statement.type.direction == 'CREDIT'">+ </span>{{statement.amount | currency: formatService.getCurrencyFormat()}}</span>
+                          </td>
+                      <td class="text-center">
+                         {{statement.balance | currency:formatService.getCurrencyFormat()}}
+                      </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #withdrawDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-primary modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{{'screen.withdraw.message.modalTitle.requestDetails' | translate}}</h4>
+              <button type="button" class="close" (click)="withdrawDetailModal.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                {{'screen.withdraw.label.request' | translate}}: <strong>{{withdrawToShow?.requestDate | date: formatService.getDateFormat()}}</strong><br/>
+                {{'screen.withdraw.label.wantedAmount' | translate}}: <strong>{{withdrawToShow?.amount | currency:formatService.getCurrencyFormat()}}</strong><br/>
+                {{'screen.withdraw.label.fees' | translate}}: <strong>{{withdrawToShow?.fees | currency:formatService.getCurrencyFormat()}}</strong><br/>
+                {{'screen.withdraw.label.netAmount' | translate}}: <strong>{{withdrawToShow?.netAmount | currency:formatService.getCurrencyFormat()}}</strong><br/>
+    
+                {{'screen.withdraw.label.destiny' | translate}}: <strong> {{withdrawToShow?.bankAccount?.description}}</strong><br/>
+                {{'screen.withdraw.label.status' | translate}}: <strong> {{statusConverterService.convertWithdrawStatus(withdrawToShow?.status)}}</strong><br/>
+              <span *ngIf="withdrawToShow?.denyReason">{{'screen.withdraw.label.denyReason' | translate}}: <strong> {{withdrawToShow?.denyReason}}</strong></span>
+    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="withdrawDetailModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+
+<div bsModal #invoiceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-primary modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{'screen.statement.message.modalTitle.paymentDetail' | translate}}</h4>
+                    <button type="button" class="close" (click)="invoiceModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h5 class="text-muted">{{'screen.invoice.label.customer' | translate}}</h5>
+                        </div>
+                    </div>  
+                    <hr/>
+                    <form>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="customerName">{{'screen.invoice.label.name' | translate}}</label>
+                                <input type="text" class="form-control form-control-sm" id="customerName" name="customerName"
+                                [ngModel]="invoiceToShow?.customer?.name" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="documentNumber">{{invoiceToShow?.customer?.documentType?.name}}</label>
+                                <input type="text" class="form-control form-control-sm" id="documentNumber" name="documentNumber"
+                                mask="{{invoiceToShow?.customer?.documentType?.webMask}}" 
+                                [ngModel]="invoiceToShow?.customer?.documentNumber" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="email">{{'screen.invoice.label.email' | translate}}</label>
+                                <input type="text" class="form-control form-control-sm" id="email" name="email"
+                                [ngModel]="invoiceToShow?.customer?.email" disabled>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="row mt-2">
+                        <div class="col-sm-12">
+                            <h5 class="text-muted">{{'screen.invoice.label.details' | translate}}</h5>
+                            <hr/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label for="description">{{'screen.invoice.label.documentNumber' | translate}}</label>
+                                  <input type="text" class="col form-control form-control-sm" id="invoiceDocumentNumber" name="invoiceDocumentNumber"
+                                  onlyNumbers
+                                  maxlength="15"
+                                  [ngModel]="invoiceToShow?.documentNumber" 
+                                  (input)="invoiceToShow.documentNumber = $event.target.value"
+                                  [disabled]="!update">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                  <div class="form-group">
+                                  <label for="description">{{'screen.invoice.label.description' | translate}}</label>
+                                  <textarea type="text" class="col form-control form-control-sm" id="description" name="description"
+                                      rols="4" maxlegth="100" 
+                                      [ngModel]="invoiceToShow?.description" 
+                                      (input)="invoiceToShow.description = $event.target.value"
+                                      [disabled]="!update"></textarea>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-12">
+                            <h5 class="text-muted">{{'screen.invoice.label.invoice' | translate}}</h5>
+                            <hr/>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-sm-12">
+                            <span [ngClass]="[(invoiceToShow?.status == 'OPEN') ? 'bg-secondary pl-3 pt-1 pr-3 pb-1' : '',
+                                             (invoiceToShow?.status == 'CANCELED') ? 'bg-light pl-3 pt-1 pr-3 pb-1' : '',
+                                             (invoiceToShow?.status == 'PAID') ? 'bg-success pl-3 pt-1 pr-3 pb-1' : '',
+                                             (invoiceToShow?.status == 'EXPIRED') ? 'bg-danger pl-3 pt-1 pr-3 pb-1' : '']">{{'screen.invoice.label.status' | translate}}: <strong>{{statusConverterService.convertInvoiceStatus(invoiceToShow?.status)}}</strong></span>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="amount">{{'screen.invoice.label.amount' | translate}}</label>
+                              <div class="controls">
+                                  <div class="input-prepend input-group input-group-sm">
+                                      <div class="input-group-prepend">
+                                          <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                      </div>
+                                      <input type="text" class="form-control form-control-sm" id="amount" name="amount"
+                                      [ngModel]="invoiceToShow?.convertedAmount"
+                                      (input)="invoiceToShow.convertedAmount = $event.target.value"
+                                      currencyMask 
+                                      [options]="{ 
+                                        prefix: '', 
+                                        thousands: formatService.getCurrencyThousandsFormat(), 
+                                        decimal: formatService.getCurrencyDecimalFormat()}"
+                                      required disabled>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="expirationDate" >{{'screen.invoice.label.expirationDate' | translate}}</label>
+                              <input type="text"
+                              class="form-control form-control-sm" id="expirationDate" name="expirationDate"
+                              [ngModel]="invoiceToShow?.expirationDate"
+                              (input)="invoiceToShow.expirationDate = $event.target.value"
+                              bsDatepicker 
+                              placement="top"
+                              [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue'}"
+                               disabled/>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row ">
+                       
+                        <div class="col-sm-6" *ngIf="invoiceToShow.paymentDate">
+                            <div class="form-group">
+                                <label for="paymentDate" >{{'screen.invoice.label.payment' | translate}}</label>
+                                <input type="text"
+                                class="form-control form-control-sm" id="paymentDate" name="paymentDate"
+                                [ngModel]="invoiceToShow?.paymentDate"
+                                (input)="invoiceToShow.paymentDate = $event.target.value"
+                                bsDatepicker 
+                                placement="top"
+                                [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue'}"
+                                disabled/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="invoiceToShow.cancelationDate">
+                            <div class="form-group">
+                                <label for="cancelationDate" >{{'screen.invoice.label.cancelation' | translate}}</label>
+                                <input type="text"
+                                class="form-control form-control-sm" id="cancelationDate" name="cancelationDate"
+                                [ngModel]="invoiceToShow?.cancelationDate"
+                                (input)="invoiceToShow.cancelationDate = $event.target.value"
+                                [minDate]="minDate"
+                                bsDatepicker 
+                                placement="top"
+                                [bsConfig]="{ dateInputFormat: formatService.getDatepickerFormat(), containerClass: 'theme-blue'}"
+                                disabled/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" *ngIf="invoiceToShow?.status =='PAID'">
+                                <div class="form-group">
+                                    <label for="amount">{{'screen.invoice.label.paidAmount' | translate}}</label>
+                                    <div class="controls">
+                                        <div class="input-prepend input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                            </div>
+                                            <input type="text" class="form-control form-control-sm" id="paidAmount" name="paidAmount"
+                                            [ngModel]="invoiceToShow?.paidAmount"
+                                            currencyMask 
+                                            [options]="{ 
+                                              prefix: '', 
+                                              thousands: formatService.getCurrencyThousandsFormat(), 
+                                              decimal: formatService.getCurrencyDecimalFormat()}"
+                                            required disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="invoiceToShow?.status =='PAID'">
+                          <div class="col-sm-6" >
+                              <div class="form-group">
+                                  <label for="amount">{{'screen.withdraw.label.fees' | translate}}</label>
+                                  <div class="controls">
+                                      <div class="input-prepend input-group input-group-sm">
+                                          <div class="input-group-prepend">
+                                              <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                          </div>
+                                          <input type="text" class="form-control form-control-sm" id="fees" name="fees"
+                                          [ngModel]="invoiceToShow?.fees"
+                                          currencyMask 
+                                          [options]="{ 
+                                            prefix: '', 
+                                            thousands: formatService.getCurrencyThousandsFormat(), 
+                                            decimal: formatService.getCurrencyDecimalFormat()}"
+                                          required disabled>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6" >
+                              <div class="form-group">
+                                  <label for="amount">{{'screen.withdraw.label.netAmount' | translate}}</label>
+                                  <div class="controls">
+                                      <div class="input-prepend input-group input-group-sm">
+                                          <div class="input-group-prepend">
+                                              <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                          </div>
+                                          <input type="text" class="form-control form-control-sm" id="netAmount" name="netAmount"
+                                          [ngModel]="invoiceToShow?.netAmount"
+                                          currencyMask 
+                                          [options]="{ 
+                                            prefix: '', 
+                                            thousands: formatService.getCurrencyThousandsFormat(), 
+                                            decimal: formatService.getCurrencyDecimalFormat()}"
+                                          required disabled>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    
+                    <div class="row mt-2" *ngIf="invoiceToShow?.bankBillet">
+                        <div class="col-sm-12">
+                            <h5 class="text-muted">{{'screen.invoice.label.bankBillet' | translate}}</h5>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="invoiceToShow?.bankBillet">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="linhaDigitavel">{{'screen.invoice.label.lineCode' | translate}}</label>
+                                <input type="text" class="col form-control form-control-sm" id="linhaDigitavel" name="linhaDigitavel"
+                                [ngModel]="invoiceToShow?.bankBillet?.lineCode" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-secondary" (click)="invoiceModal.hide(); update = false">{{'screen.commons.button.close' | translate}}</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+        
+
+      <div bsModal #withdrawalModal="bs-modal" class="modal fade" tabindex="-1" 
+            role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{ignoreBackdropClick: true, keyboard: false}">
+            <div class="modal-dialog modal-primary modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{'screen.statement.message.modalTitle.requestWithdraw' | translate}}</h4>
+                  <button type="button" class="close" (click)="withdrawalModal.hide(); addForm.reset(); modalClean(); request = false; disableConfirm = true" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form #addForm="ngForm">
+                    <div class="row">
+                        <div class="col-sm-12 text-center mb-2">
+                            <div class="bg-secondary font-weight-bold pl-3 pt-1 pr-3 pb-1 h5">{{'screen.statement.label.balance' | translate}}: {{currentBalance | currency:formatService.getCurrencyFormat()}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                            <label for="withdrawAmount">{{'screen.statement.label.wantedAmount' | translate}}</label>
+                            <div class="controls">
+                                <div class="input-prepend input-group input-group-lg">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                </div>
+                                <input type="text" name="withdrawAmount" id="withdrawAmount" class="form-control form-control-lg" 
+                                placeholder="0,00"
+                                [class.ng-touched]="addForm.submitted"
+                                [(ngModel)]="withdrawAmount" 
+                                (keypress)="confirmation()"
+                                [readonly]="(currentBalance == 0) || (request)" 
+                                currencyMask 
+                                [options]="{ 
+                                prefix: '', 
+                                thousands: formatService.getCurrencyThousandsFormat(), 
+                                decimal: formatService.getCurrencyDecimalFormat()}" required>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="contaDestino">{{'screen.statement.label.destinyAccount' | translate}}</label>
+                            <div class="input-group">
+                                <select name="withdrawBankAccount" id="withdrawBankAccount" class="form-control form-control-lg"
+                                [class.ng-touched]="addForm.submitted"
+                                [(ngModel)]="withdrawBankAccount" 
+                                (change)="confirmation()"
+                                [disabled]="(currentBalance == 0)" *ngIf="!request" required>
+                                <option value=""></option>
+                                <option *ngFor="let account of bankAccounts;" [ngValue]="account">{{account?.description}}</option>A
+                                </select>
+
+                                <input type="text" class="col form-control text-right" id="withdrawBankAccountReadOnly" name="withdrawBankAccountReadOnly"
+                                [(ngModel)]="withdrawBankAccount.description" *ngIf="request" [readonly]="request">
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="paidBankBilletFee">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="paidBankBilletFee">{{'screen.statement.label.fees' | translate}} </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                </div>
+                                <input type="text" class="col form-control" id="paidBankBilletFee" name="paidBankBilletFee"
+                                [(ngModel)]="paidBankBilletFee"
+                                currencyMask 
+                                [options]="{ 
+                                prefix: '', 
+                                thousands: formatService.getCurrencyThousandsFormat(), 
+                                decimal: formatService.getCurrencyDecimalFormat()}"
+                                disabled>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="netAmount">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="netAmount">{{'screen.statement.label.amountToTransfer' | translate}} </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                                </div>
+                                <input type="text" class="col form-control" id="netAmount" name="netAmount"
+                                [(ngModel)]="netAmount"
+                                currencyMask 
+                                [options]="{ 
+                                prefix: '', 
+                                thousands: formatService.getCurrencyThousandsFormat(), 
+                                decimal: formatService.getCurrencyDecimalFormat()}"
+                                disabled>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <button type="button" class="btn btn-secondary" (click)= "withdrawalModal.hide(); addForm.reset(); modalClean(); request = false; disableConfirm = true">{{'screen.commons.button.cancel' | translate}}</button>
+                            <button type="button" class="btn btn-primary" (click)= "getWithdrawFees(withdrawAmount, withdrawBankAccount.token);" *ngIf="!request" [disabled]="disableConfirm">{{'screen.commons.button.confirm' | translate}}</button>
+                            <button type="submit" class="btn btn-primary" (click)="request = !request; addWithdraw(addForm); withdrawalModal.hide(); addForm.reset(); modalClean();" *ngIf="request">{{'screen.withdraw.button.request' | translate}}</button>
+                        </div>
+                    </div>
+                  </form>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
+          

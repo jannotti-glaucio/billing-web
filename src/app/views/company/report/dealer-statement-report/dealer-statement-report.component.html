@@ -1,0 +1,144 @@
+<div class="animated fadeIn">
+    <div class="row d-print-none">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title clearfix mb-0"> {{'screen.dealerStatementReport.label.dealerStatement' | translate}}</h4>
+                    </div>
+                    
+                    </div>
+                    <hr/>
+                    <form #searchForm="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                        <label for="search" class="col-md-3 col-form-label">{{'screen.dealerStatementReport.label.dealer' | translate}} </label>
+                                    <fieldset class="col form-group">
+                                        <ng-select 
+                                        [allowClear]="true"
+                                        id="dealerToken" name="dealerToken"
+                                        class="bootstrap form-control p-0"
+                                        placeholder="{{'screen.dealerStatementReport.placeholder.selectDealer' | translate}}"
+                                        notFoundMsg="{{'screen.commons.placeholder.lookup' | translate}}"
+                                        [class.ng-touched]="searchForm.submitted"
+                                        [options]="dealerList"
+                                        [(ngModel)]="dealerToken" required></ng-select>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="dateToFilter">{{'screen.dealerStatementReport.label.filterBy' | translate}}</label>
+                                    
+                                <div class="col">
+                                    <div class="row text-right">
+                                    <input type="text" id="startDate" name="startDate"
+                                    class="form-control"
+                                    bsDatepicker
+                                    [(ngModel)]="startDate"
+                                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}">
+                                    <small class="text-muted">{{'screen.commons.label.startDate' | translate}}</small>
+                                    </div>
+                                </div>
+                                <div class="col ml-3 float-right">
+                                    <div class="row text-right">
+                                    <input type="text" id="endDate" name="endDate"
+                                    class="form-control"
+                                    bsDatepicker 
+                                    [(ngModel)]="endDate"
+                                    [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
+                                    <small class="text-muted">{{'screen.commons.label.endDate' | translate}}</small>
+                                    </div>
+                                </div>  
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="float-right">
+                                <button class="btn btn-secondary  btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('dealerStatementReportSearchButton')" (click)="searchStatements(searchForm)" ><i class="fa fa-search"></i>&nbsp;{{'screen.commons.button.search' | translate}}</button>
+                                </div>
+                            </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-secondary d-print-none" (click)="printReport()"><i class="fa fa-print"></i> {{'screen.companyWithdrawReport.button.print' | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="d-none d-print-block mb-2">
+                                <h3>{{'screen.dealerStatementReport.label.dealerStatement' | translate}}</h3>
+                                <p>{{'screen.dealerStatementReport.label.generatedBy' | translate}}: {{user}}<br/>
+                                {{'screen.dealerStatementReport.label.in' | translate}} {{today}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                            <th class="text-center">{{'screen.dealerStatementReport.label.date' | translate}}</th>
+                                            <th class="text-center">{{'screen.dealerStatementReport.label.movementType' | translate}}</th>
+                                            <th class="text-center" >{{'screen.dealerStatementReport.label.paidAmount' | translate}}</th>
+                                            <th class="text-center" >{{'screen.dealerStatementReport.label.fees' | translate}}</th>
+                                            <th class="text-center" >{{'screen.dealerStatementReport.label.netAmount' | translate}}</th>
+                                            <th class="text-center">{{'screen.dealerStatementReport.label.amount' | translate}}</th>
+                                            <th class="text-center">{{'screen.dealerStatementReport.label.balance' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="statementList.length < 1"><td class="text-center bg-light"colspan="7"><span class="text-muted">{{'screen.commons.text.emptySearch' | translate}}</span></td></tr>
+                                    <tr *ngFor="let statement of statementList; let i = index">
+                                        <td class="text-left">{{statement.statementDate | date: formatService.getDateFormat()}}</td>
+                                        <td class="text-truncate text-center"> {{statement.type.description}}</td>
+                                        <td class="text-center"> 
+                                            <span *ngIf="statement?.payment?.paidAmount">
+                                                <span *ngIf="statement?.payment?.paidAmount < 0">- </span>
+                                                <span *ngIf="statement?.payment?.paidAmount > 0">+ </span>
+                                                {{statement?.payment?.paidAmount | currency: formatService.getCurrencyFormat()}}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span *ngIf="statement?.payment?.fees">
+                                            - {{statement?.payment?.fees | currency: formatService.getCurrencyFormat()}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span *ngIf="statement?.payment?.netAmount">
+                                                <span *ngIf="statement?.payment?.netAmount < 0">- </span>
+                                                <span *ngIf="statement?.payment?.netAmount > 0">+ </span>
+                                                {{statement?.payment?.netAmount | currency: formatService.getCurrencyFormat()}}
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <span>
+                                                <span *ngIf="statement.type.direction == 'DEBIT'">- </span>
+                                                <span *ngIf="statement.type.direction == 'CREDIT'">+ </span>
+                                                {{statement.amount | currency: formatService.getCurrencyFormat()}}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">{{statement.balance | currency:formatService.getCurrencyFormat()}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

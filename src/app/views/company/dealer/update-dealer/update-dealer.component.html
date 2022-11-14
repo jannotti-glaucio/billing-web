@@ -1,0 +1,482 @@
+<div class="animated fadeIn">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="card">  
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4 class="card-title clearfix mb-0">{{'screen.updateDealer.label.updateDealer' | translate}}</h4>
+                <hr/>
+              </div>
+            </div>
+            <br/>
+            <div class="row">
+              <div class="col-md-6">
+                <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>{{'screen.updateDealer.label.personalData' | translate}}</h5>
+              </div>
+              <div class="col-md-6 text-right">
+                  <span class="bg-secondary font-weight-bold pl-3 pt-1 pr-3 pb-1 h5">Saldo: {{currentBalance | currency:formatService.getCurrencyFormat()}}</span>
+              </div>
+            </div>
+
+            <hr/>
+            <form #updateForm="ngForm" (ngSubmit)="onSubmit(updateForm)">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="personType">{{'screen.updateDealer.label.type' | translate}}</label>
+                    <div class="input-group">
+                        <select class="form-control form-control-sm"  id="personType" name="personType"
+                        [class.ng-touched]="updateForm.submitted"
+                        [(ngModel)]="dealer.personType" 
+                        (change)="documentTypeComboConfig();" required>
+                          <option value="INDIVIDUAL">{{'screen.updateDealer.label.personTypeIndividual' | translate}}</option>
+                          <option value="LEGAL">{{'screen.updateDealer.label.personTypeLegal' | translate}}</option>
+                        </select>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="name">{{'screen.updateDealer.label.name' | translate}}</label>
+                    <input type="text" class="form-control form-control-sm" id="name" name="name" 
+                    maxlength="100"
+                    [class.ng-touched]="updateForm.submitted"
+                    [(ngModel)]="dealer.name" required>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group ">
+                    <label for="documentNumber">{{'screen.updateDealer.label.document' | translate}}</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">{{dealer?.documentType?.name}}</span>
+                      </div>
+                      <input type="text" class="form-control" id="documentNumber" name="documentNumber"
+                      [documentType]="dealer?.documentType?.code"
+                      documentValidator
+                      mask='{{documentMask}}'
+                      [class.ng-touched]="updateForm.submitted"
+                      [(ngModel)]="dealer.documentNumber" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="phoneNumber">{{'screen.updateDealer.label.phone' | translate}}</label>
+                      <input type="text" class="form-control form-control-sm"  id="phoneNumber" name="phoneNumber"
+                      mask='{{phoneNumberMask}}'
+                      [(ngModel)]="dealer.phoneNumber">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="mobileNumber">{{'screen.updateDealer.label.mobile' | translate}}</label>
+                      <input type="text" class="form-control form-control-sm"  id="mobileNumber" name="mobileNumber"
+                      mask='{{mobileNumberMask}}'
+                      [(ngModel)]="dealer.mobileNumber">
+                    </div>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="email">{{'screen.updateDealer.label.email' | translate}}</label>
+                        <input type="email" class="form-control form-control-sm" id="email" name="email"
+                        maxlength="60"
+                        [class.ng-touched]="updateForm.submitted"
+                        [(ngModel)]="dealer.email" required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="comments">{{'screen.updateDealer.label.comments' | translate}}</label>
+                        <textarea class="form-control form-control-sm"  id="comments" name="comments" 
+                        maxlength="500"
+                        rows="4" 
+                        [(ngModel)]="dealer.comments"></textarea>
+                      </div>
+                </div>
+              </div>
+
+
+
+              <br/>
+              <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.updateDealer.label.feeData' | translate}}</h5>
+              <hr/>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="billingPlan">{{'screen.updateDealer.label.feePlan' | translate}}</label>
+                    <select class="custom-select form-control form-control-sm" id="billingPlan" name="billingPlan"
+                    [class.ng-touched]="updateForm.submitted"
+                    (change)="getBillingPlan(dealer.billingPlan.token)" 
+                    [(ngModel)]="dealer.billingPlan.token" required>
+                      <option *ngFor="let billingPlan of billingPlansList" value="{{billingPlan.token}}">{{billingPlan.description}}</option>
+                    </select> 
+                  </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="paidBankBilletFee">
+                  <div class="form-group">
+                    <label for="paidBankBilletFee">{{'screen.newDealer.label.paidBankBilletFee' | translate}}</label>
+                    
+                    <div class="input-prepend input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                      </div>
+                      <input type="text" class="form-control form-control-sm" id="paidBankBilletFee"  name="paidBankBilletFee" 
+                      [(ngModel)]="paidBankBilletFee" 
+                      currencyMask 
+                      [options]="{ 
+                        prefix: '', 
+                        thousands: formatService.getCurrencyThousandsFormat(), 
+                        decimal: formatService.getCurrencyDecimalFormat()}"
+                      disabled>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3" *ngIf="marketWithdrawFee">
+                  <div class="form-group">
+                    <label for="marketWithdrawFee">{{'screen.newDealer.label.marketWithdrawFee' | translate}}</label>
+                    <div class="input-prepend input-group input-group-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                      </div>
+                      <input type="text" class="form-control form-control-sm" id="marketWithdrawFee"  name="marketWithdrawFee" 
+                      [(ngModel)]="marketWithdrawFee" 
+                      currencyMask 
+                      [options]="{ 
+                        prefix: '', 
+                        thousands: formatService.getCurrencyThousandsFormat(), 
+                        decimal: formatService.getCurrencyDecimalFormat()}"
+                      disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+             <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.updateDealer.label.bankBillet' | translate}}</h5>
+              <hr/>
+
+              
+
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="companyBankAccount">{{'screen.updateDealer.label.accountToSend' | translate}}</label>
+                    <select class="custom-select form-control form-control-sm" id="companyBankAccount" name="companyBankAccount"
+                    [class.ng-touched]="updateForm.submitted"
+                    [(ngModel)]="dealer.companyBankAccount.token" required>
+                    <option [ngValue]="undefined" disabled  selected>{{'screen.newDealer.placeholder.accountToSend' | translate}}</option>
+                      <option *ngFor="let companyBankAccount of companyBankAccountsList" value="{{companyBankAccount.token}}">{{companyBankAccount.description}}</option>
+                    </select> 
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="bankBilletInstructions">{{'screen.updateDealer.label.bankInstructions' | translate}}</label>
+                    <textarea rolls="4" type="text" class="form-control form-control-sm" id="bankBilletInstructions" name="bankBilletInstructions"
+                    maxlength="500"
+                    [(ngModel)]="dealer.bankBilletInstructions"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-sm-3">{{'screen.updateDealer.label.receiveExpired' | translate}}</div>
+                <div class="col-md-9 col-form-label text-left">
+                  <div class="form-check form-check-inline mr-2">
+                    <input class="form-check-input" type="radio" id="inline-checkbox1" name="bankBilletExpiredPayment1" [value]="true" [(ngModel)]="dealer.bankBilletExpiredPayment">
+                    <label class="form-check-label" for="inline-checkbox1">{{'screen.updateDealer.label.yes' | translate}}</label>
+                  </div>
+                  <div class="form-check form-check-inline mr-2">
+                    <input class="form-check-input" type="radio" id="inline-checkbox2" name="bankBilletExpiredPayment2" [value]="false" (click)="resetJurosMulta()" [(ngModel)]="dealer.bankBilletExpiredPayment">
+                    <label class="form-check-label" for="inline-checkbox2">{{'screen.updateDealer.label.no' | translate}}</label>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="bankBilletPenaltyPercent">{{'screen.updateDealer.label.penalty' | translate}}</label>
+                    
+                    <div class="controls">
+                        <div class="input-prepend input-group input-group-sm">
+                            
+                            <input type="text" class="form-control form-control-sm" id="bankBilletPenaltyPercent" name="bankBilletPenaltyPercent" 
+                            maxlength="2"
+                            placeholder="0" 
+                            [class.ng-touched]="updateForm.submitted"
+                            [(ngModel)]="dealer.bankBilletPenaltyPercent" 
+                            [disabled]="dealer?.bankBilletExpiredPayment == false" 
+                            required>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="bankBilletInterestPercent">{{'screen.updateDealer.label.interest' | translate}}</label>
+                    <div class="controls">
+                        <div class="input-prepend input-group input-group-sm">
+                            
+                            <input type="text" class="form-control form-control-sm" id="bankBilletInterestPercent" name="bankBilletInterestPercent" 
+                            maxlength="2"
+                            placeholder="0" 
+                            [class.ng-touched]="updateForm.submitted"
+                            [(ngModel)]="dealer.bankBilletInterestPercent" 
+                            [disabled]="dealer?.bankBilletExpiredPayment == false"
+                            required>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>              
+                
+              </div>
+
+                <br/>
+                <div class="section">
+                  <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.updateDealer.label.bankData' | translate}}</h5>
+                  <hr/>
+                  <div *ngFor="let bankAccount of dealerAccounts; let i = index">
+                    <h6 class="text-muted">{{'screen.updateDealer.label.account' | translate}} {{i+1}}</h6>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label for="bankName">{{'screen.updateDealer.label.bank' | translate}}</label>
+                          <select class="custom-select form-control form-control-sm" id="bankName{{i}}" name="bankName{{i}}"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="bankAccount.bank.code" 
+                          [disabled]="!bankAccount.operation" required>
+                          <option [ngValue]="undefined" disabled  selected>{{'screen.updateDealer.label.bank' | translate}}</option>
+                          <option *ngFor="let bank of banks" value="{{bank.code}}">{{bank.name}}</option>
+
+                          </select> 
+                        </div>
+                      </div>
+                    
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label for="agency">{{'screen.updateDealer.label.agency' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="agency{{i}}"  name="agency{{i}}" 
+                          maxlength="4"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="bankAccount.agencyNumber" 
+                          [disabled]="!bankAccount.operation" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-1">
+                        <div class="form-group">
+                          <label for="agencyDigit">{{'screen.updateDealer.label.agencyDigit' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="agencyDigit{{i}}"  name="agencyDigit{{i}}" 
+                          maxlength="1"
+                          [(ngModel)]="bankAccount.agencyCheckDigit"
+                          [disabled]="!bankAccount.operation">
+                        </div>
+                      </div>
+                      <div class="col-sm-2">
+                        <div class="form-group">
+                          <label for="account">{{'screen.updateDealer.label.account' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="account{{i}}"  name="account{{i}}" 
+                          maxlength="7"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="bankAccount.accountNumber" 
+                          [disabled]="!bankAccount.operation" required>
+                        </div>
+                      </div>
+                      <div class="col-sm-1">
+                        <div class="form-group">
+                          <label for="accountDigit">{{'screen.updateDealer.label.accountDigit' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="accountDigit{{i}}"  name="accountDigit{{i}}" 
+                          maxlength="1"
+                          [(ngModel)]="bankAccount.accountCheckDigit"
+                          [disabled]="!bankAccount.operation">
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="description">{{'screen.updateDealer.label.description' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="description{{i}}"  name="description{{i}}" 
+                          maxlength="50"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="bankAccount.description" 
+                          [disabled]="!bankAccount.operation" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row  text-right">
+                      <div class="col-sm-12">
+                          <button type="button" class="btn btn-secondary btn-sm" (click)="bankAccount.operation = 'UPDATE'" *ngIf="bankAccount.operation == null" >{{'screen.updateDealer.button.update' | translate}}</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" *ngIf="dealerAccounts?.length > 1" (click)="removeAccount(bankAccount, i)"><i class="fa fa-minus-circle"></i> {{'screen.updateDealer.button.remove' | translate}}</button>
+                      <hr/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row text-left">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-outline-success btn-sm" (click)="addAccount()"> <i class="fa fa-plus-circle"></i> {{'screen.updateDealer.button.addAccount' | translate}}</button>
+                  </div>
+                </div>
+
+              <div *ngFor="let address of dealerAddresses; let i = index">
+                <div>
+                  <br/>
+                  <div class="row">
+                    <div class="col-md-7">
+                      <h5 class="text-muted"><i class="fa fa-address-card-o mr-2"></i>{{'screen.updateDealer.label.address' | translate}}</h5>
+                    </div>
+                  </div>
+                  <hr/>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="addressType">{{'screen.updateDealer.label.addressType' | translate}}</label>
+                        <select class="form-control form-control-sm" id="addressType{{i}}" name="addressType{{i}}"
+                        [(ngModel)]="address.addressType" 
+                        [class.ng-touched]="updateForm.submitted"
+                        [disabled]="!address.operation "
+                        required>
+                          <option></option>
+                          <option value="HOME">{{'screen.updateDealer.label.addressTypeHome' | translate}}</option>
+                          <option value="BUSINESS">{{'screen.updateDealer.label.addressTypeBusiness' | translate}}</option>
+                          <option value="MAILING">{{'screen.updateDealer.label.addressTypeMailing' | translate}}</option>
+                        </select> 
+                        <div class="form-check form-check-inline mt-1">
+                          <input class="form-check-input" type="checkbox" id="billingAddress{{i}}" name="billingAddress{{i}}" [(ngModel)]="address.billingAddress">
+                          <label class="form-check-label" for="billingAddress">{{'screen.updateDealer.label.billingAddress' | translate}}</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="zipCode">{{'screen.updateDealer.label.zipCode' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm" id="zipCode{{i}}"  name="zipCode{{i}}" 
+                        maxlength="10"
+                        mask='{{zipCodeMask}}'
+                        [class.ng-touched]="updateForm.submitted"
+                        [(ngModel)]="address.zipCode" 
+                        [disabled]="!address.operation "
+                        required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="street">{{'screen.updateDealer.label.street' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="street{{i}}" name="street{{i}}"
+                          maxlength="80"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="address.street" 
+                          [disabled]="!address.operation "
+                          required>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="number">{{'screen.updateDealer.label.number' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="number{{i}}" name="number{{i}}"
+                          maxlength="10"
+                          [(ngModel)]="address.number" 
+                          [disabled]="!address.operation ">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="complement">{{'screen.updateDealer.label.complement' | translate}}</label>
+                          <input type="text" class="form-control form-control-sm" id="complement{{i}}" name="complement{{i}}"
+                          maxlength="20"
+                          [(ngModel)]="address.complement" 
+                          [disabled]="!address.operation ">
+                        </div>
+                    </div>
+                  </div>
+                
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="district">{{'screen.updateDealer.label.district' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm" id="district{{i}}" name="district{{i}}"
+                        maxlength="30"
+                        [class.ng-touched]="updateForm.submitted"
+                        [(ngModel)]="address.district"
+                        [disabled]="!address.operation "
+                        required>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="state">{{'screen.updateDealer.label.state' | translate}}</label>
+                          <select class="form-control form-control-sm" id="state{{i}}" name="state{{i}}"
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="address.state"
+                          [disabled]="!address.operation"
+                          (change)="getCities(i, address?.state)" required>
+                            <option></option>
+                            <option class="text-capitalize" *ngFor="let state of states" value="{{state.code}}">{{state.name}}</option>
+                          </select> 
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                          <label for="city">{{'screen.updateDealer.label.city' | translate}}</label>
+                          <select class="form-control form-control-sm" id="city{{i}}" name="city{{i}}" 
+                          [class.ng-touched]="updateForm.submitted"
+                          [(ngModel)]="address.city"
+                          [disabled]="cities?.length == 0 || !address.operation" required>
+                            <option></option>
+                            <option class="text-capitalize" *ngFor="let city of cities[i]" value="{{city.name}}">{{city.name}}</option>
+                          </select> 
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="row  text-right">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-secondary btn-sm" (click)="address.operation = 'UPDATE'" *ngIf="address.operation == null" >{{'screen.updateDealer.button.update' | translate}}</button>
+                    <button type="button" class="btn btn-danger btn-sm" *ngIf="dealerAddresses?.length > 1" (click)="removeAddress(address, i)"><i class="fa fa-minus-circle"></i> {{'screen.updateDealer.button.remove' | translate}}</button>
+                    <hr/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row text-left">
+                <div class="col-sm-12">
+                  <button type="button" class="btn btn-outline-success btn-sm" *ngIf="dealerAddresses?.length < 5" (click)="addAddress()"> <i class="fa fa-plus-circle"></i> {{'screen.updateDealer.button.addAddress' | translate}}</button>
+                </div>
+              </div>
+
+              <div class="row mt-4 float-right">
+                <div class="col-sm-12">
+                  <button type="submit" class="btn btn-primary  btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('updateDealerSaveButton')">{{'screen.commons.button.save' | translate}}</button>
+                  <button type="button" class="btn btn-defaut" routerLink="/company/dealer">{{'screen.commons.button.cancel' | translate}}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

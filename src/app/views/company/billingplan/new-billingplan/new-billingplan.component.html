@@ -1,0 +1,81 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.newBillingPlan.label.newBillingPlan' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <form #insertForm="ngForm" (ngSubmit)="onSubmit(insertForm)" autocomplete="off">
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="description">{{'screen.newBillingPlan.label.description' | translate}} <span class="required-mark">*</span></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control form-control-sm" id="description" name="description" 
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="billingPlanRestRequest.description" required>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="paidBankBilletFee">{{'screen.newBillingPlan.label.paidBankBilletFee' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-prepend input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                          </div>
+                          <input type="text" class="col form-control" id="paidBankBilletFee" name="paidBankBilletFee"
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="billingPlanRestRequest.paidBankBilletFee"
+                          currencyMask 
+                          [options]="{ 
+                            prefix: '', 
+                            thousands: formatService.getCurrencyThousandsFormat(), 
+                            decimal: formatService.getCurrencyDecimalFormat()}"
+                          required>
+                      </div>
+                    </div>
+                  </div>
+            
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="marketWithdrawFee">{{'screen.newBillingPlan.label.marketWithdrawFee' | translate}} <span class="required-mark">*</span></label>
+                        <div class="input-prepend input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{formatService.getCurrencyFormat()}}</span>
+                            </div>
+                            <input type="text" class="col form-control" id="marketWithdrawFee" name="marketWithdrawFee"
+                            [class.ng-touched]="insertForm.submitted"
+                            [(ngModel)]="billingPlanRestRequest.marketWithdrawFee"
+                            currencyMask 
+                            [options]="{ 
+                              prefix: '', 
+                              thousands: formatService.getCurrencyThousandsFormat(), 
+                              decimal: formatService.getCurrencyDecimalFormat()}"
+                            required>
+                        </div>
+                    </div>
+                  </div>
+                 
+                </div>
+  
+                <div class="row mt-4 float-right">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('newBillingPlanButton')"  >{{'screen.commons.button.save' | translate}}</button>
+                    <button class="btn btn-default" routerLink="/company/billingplan">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>

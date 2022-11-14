@@ -1,0 +1,74 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.application.title.newApplication' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <form #insertForm="ngForm" (ngSubmit)="onSubmit(insertForm)">
+                
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">{{'screen.application.label.name' | translate}} <span class="required-mark">*</span></label>
+                      <input type="text" class="form-control form-control-sm" id="name" name="name" 
+                      maxlength="100"
+                      placeholder="{{'screen.application.placeholder.applicationName' | translate}}" 
+                      [class.ng-touched]="insertForm.submitted"
+                      [(ngModel)]="application.name" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4 float-right">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('newApplicationSaveButton')" >{{'screen.commons.button.save' | translate}}</button>
+                    <button class="btn btn-default" routerLink="/dealer/customer">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #secretModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'screen.application.title.modalNewApplication' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{'screen.application.label.clientId' | translate}}</span>
+      </div>
+      <input class="form-control" id="clientId" name="clientId" [(ngModel)]="application.clientId"/>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" ngxClipboard [cbContent]="application.clientId"><i class="fa fa-copy"></i> {{'screen.application.button.copy' | translate}}</button>
+      </div>
+    </div>
+   
+
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{'screen.application.label.clientSecret' | translate}}</span>
+      </div>
+      <input class="form-control" id="clientSecret" name="clientSecret" [(ngModel)]="application.clientSecret"/>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" ngxClipboard [cbContent]="application.clientSecret"><i class="fa fa-copy"></i> {{'screen.application.button.copy' | translate}}</button>
+      </div>
+    </div>
+    <span class="text-danger">{{'screen.application.message.information.secretDontShowAgain' | translate}}</span>
+  </div>
+  <div class="modal-footer text-right">
+      <button class="btn" (click)="finishNewApplication()">{{'screen.commons.button.close' | translate}}</button>
+    </div>
+</ng-template>

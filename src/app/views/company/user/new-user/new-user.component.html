@@ -1,0 +1,99 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.newUser.label.newUser' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>{{'screen.newUser.label.userData' | translate}}</h5>
+              <hr/>
+              <form #insertForm="ngForm" (ngSubmit)="onSubmit(insertForm)">
+                <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="pesquisa">{{'screen.newUser.label.dealer' | translate}} <span class="required-mark">*</span></label>
+                        <ng-select
+                        [allowClear]="true"
+                        class="bootstrap form-control form-control-sm p-0" id="dealerToken" name="dealerToken"
+                        placeholder="Digite uma empresa"
+                        notFoundMsg="{{'screen.commons.placeholder.lookup' | translate}}"
+                        [options]="dealerList"
+                        [(ngModel)]="userRestRequest.dealer"></ng-select>
+                      </div>
+                      
+                    </div>
+                  </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="userName">{{'screen.newUser.label.user' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" id="userName" name="userName" 
+                        placeholder="Usuário"
+                        maxlength="30"
+                        [class.ng-touched]="insertForm.submitted"
+                        [(ngModel)]="userRestRequest.userName" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                      <div class="form-group ">
+                        <label for="realName">{{'screen.newUser.label.name' | translate}} <span class="required-mark">*</span></label>
+                          <input type="text" class="form-control form-control-sm" id="realName" name="realName" 
+                          placeholder="Nome"
+                          maxlength="100" 
+                          [class.ng-touched]="insertForm.submitted"
+                          [(ngModel)]="userRestRequest.realName" required>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="email">{{'screen.newUser.label.mail' | translate}} <span class="required-mark">*</span></label>
+                        <input type="email" class="form-control form-control-sm" id="email" name="email" 
+                        placeholder="{{'screen.dealer.placeholder.email' | translate}}"
+                        maxlength="60"
+                        [class.ng-touched]="insertForm.submitted"
+                        [(ngModel)]="userRestRequest.email" required>
+                      </div>
+                  </div>
+                  <div class="col-sm-3">
+                      <div class="form-group">
+                        <label for="password">{{'screen.newUser.label.password' | translate}} <span class="required-mark">*</span></label>
+                        <input type="password" class="form-control form-control-sm" id="password" name="password" 
+                        maxlength="60"
+                        [class.ng-touched]="insertForm.submitted"
+                        #inputPassword
+                        [(ngModel)]="userRestRequest.password" required>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="form-group">
+                        <label for="passwordConfirmation">{{'screen.newUser.label.passwordConfirmation' | translate}} <span class="required-mark">*</span></label>
+                        <input type="password" class="form-control form-control-sm" id="passwordConfirmation" name="passwordConfirmation" 
+                        maxlength="60"
+                        [class.ng-touched]="insertForm.submitted"
+                        #inputPasswordConfirmation
+                        [(ngModel)]="passwordConfirmation" required>
+                      </div>
+                    </div>
+                </div>
+                <div class="row mt-4 float-right">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('newUserButton')" >{{'screen.commons.button.save' | translate}}</button>
+                    <button class="btn btn-default" routerLink="/company/user">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

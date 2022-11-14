@@ -1,0 +1,45 @@
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <div class="card-group mb-4">
+          <div class="card p-4">
+            <div class="card-body text-center">
+              <img class="login-logo mb-3" src="../../../assets/img/logo.png">
+              <hr/>
+              <h1>{{'screen.login.title.enter' | translate}}</h1>
+              <p class="text-muted">{{'screen.login.text.enter' | translate}}</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" id="username" name="username" 
+                  [(ngModel)]="userLogin.username" 
+                  (keyup.enter)="logar()" 
+                  placeholder="{{'screen.login.placeholder.username' | translate}}"
+                  autocomplete="on">
+                </div>
+                <div class="input-group mb-4 mt-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" class="form-control" id="password" name="password"  [(ngModel)]="userLogin.password" (keyup.enter)="logar()" placeholder="{{'screen.login.placeholder.password' | translate}}">
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <button type="button" class="btn btn-primary btn-block px-4  btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('loginButton')" (click)="loaderService.startLoader('loginButton'); logar()">{{'screen.login.button.enter' | translate}}</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-center">
+                    <button type="button" class="btn btn-link px-0">{{'screen.login.link.forgotPassword' | translate}}</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

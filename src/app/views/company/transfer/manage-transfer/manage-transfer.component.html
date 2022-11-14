@@ -1,0 +1,290 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card"> 
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4 class="card-title clearfix mb-0">{{'screen.manageTransfer.label.allWithdraws' | translate}}</h4>
+              </div>
+            </div>
+            <hr/>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label for="search" class="col-md-3 col-form-label">{{'screen.manageTransfer.label.dealer' | translate}}</label>
+                    <fieldset class="col form-group">
+                        <ng-select
+                        [allowClear]="true"
+                        class="bootstrap"
+                        placeholder="Digite uma empresa"
+                        notFoundMsg="{{'screen.commons.placeholder.lookup' | translate}}"
+                        [options]="dealerList"
+                        [(ngModel)]="dealerToken"></ng-select>
+                      </fieldset>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="dateToFilter">{{'screen.commons.label.filterBy' | translate}}</label>
+                    <div class="col">
+                      <div class=" text-right">
+                        <input type="text" class="form-control" id="startDate"
+                        bsDatepicker
+                        [(ngModel)]="bsStartDate"
+                        [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}"/>
+                        <small class="text-muted">{{'screen.commons.label.startDate' | translate}}</small>
+                      </div>
+                    </div>
+                    <div class="col ml-3 float-right">
+                      <div class=" text-right">
+                        <input type="text" class="form-control" id="endDate"
+                        bsDatepicker 
+                        [(ngModel)]="bsEndDate"
+                        [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
+                        <small class="text-muted">{{'screen.commons.label.endDate' | translate}}</small>
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group row">
+                    <label class="col-md-2 col-form-label" for="inline-radios">{{'screen.manageTransfer.label.status' | translate}}</label>
+                    <div class="col-md-10 col-form-label ">
+                      <div class="form-check form-check-inline mr-2">
+                        <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" value="" [(ngModel)]="status">
+                        <label class="form-check-label" for="inline-checkbox1">{{'screen.manageTransfer.label.statusType.all' | translate}}</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-2">
+                        <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" [value]="withdrawStatus.requested" [(ngModel)]="status">
+                        <label class="form-check-label" for="inline-checkbox1">{{'screen.manageTransfer.label.statusType.requested' | translate}}</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-2">
+                        <input class="form-check-input" type="radio" id="inline-checkbox2" name="status" [value]="withdrawStatus.approved" [(ngModel)]="status">
+                        <label class="form-check-label" for="inline-checkbox2">{{'screen.manageTransfer.label.statusType.approved' | translate}}</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-2">
+                        <input class="form-check-input" type="radio" id="inline-checkbox5" name="status" [value]="withdrawStatus.denied" [(ngModel)]="status">
+                        <label class="form-check-label" for="inline-checkbox5">{{'screen.manageTransfer.label.statusType.denied' | translate}}</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-2">
+                        <input class="form-check-input" type="radio" id="inline-checkbox3" name="status" [value]="withdrawStatus.released" [(ngModel)]="status">
+                        <label class="form-check-label" for="inline-checkbox3">{{'screen.manageTransfer.label.statusType.released' | translate}}</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-2">
+                        <input class="form-check-input" type="radio" id="inline-checkbox4" name="status" [value]="withdrawStatus.canceled" [(ngModel)]="status">
+                        <label class="form-check-label" for="inline-checkbox4">{{'screen.manageTransfer.label.statusType.canceled' | translate}}</label>
+                      </div> 
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="float-right">
+                    <button class="btn btn-secondary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('manageTransferSearchButton')" (click)="searchWithdraws(0)" ><i class="fa fa-search"></i>&nbsp;{{'screen.commons.button.search' | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+          <div class="form-group float-right">
+              <small class="form-text">{{'screen.commons.label.pageRegister' | translate}}</small>
+              <select 
+              class="custom-select form-control form-control-sm" 
+              id="pageSize" 
+              name="pageSize" 
+              [(ngModel)]="pageSize"
+              (change)="searchWithdraws(pagingService?.page.number);" [disabled]="withdrawList.length < 1">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+              </select>
+          </div>
+        </div>
+      </div>
+
+    <div class="row" *ngIf="withdrawList.length < 1">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row ">
+                <div class="col-md-12 text-center">
+                  <span class="text-muted ">{{'screen.commons.text.emptySearch' | translate}}</span>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="row" *ngFor="let withdraw of withdrawList; let i = index">
+    <div class="col-md-12">
+      <div class="card mb-1"> 
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <div class="text-truncate font-weight-bold mb-2">
+                <span [ngClass]="[(withdraw?.status == 'REQUESTED') ? 'bg-primary pl-3 pt-1 pr-3 pb-1' : '',
+                                  (withdraw?.status == 'APPROVED') ? 'bg-warning pl-3 pt-1 pr-3 pb-1' : '', 
+                                  (withdraw?.status == 'RELEASED') ? 'bg-success pl-3 pt-1 pr-3 pb-1' : '',
+                                  (withdraw?.status == 'CANCELED') ? 'bg-info pl-3 pt-1 pr-3 pb-1' : '', 
+                                  (withdraw?.status == 'DENIED') ? 'bg-danger pl-3 pt-1 pr-3 pb-1' : '']">{{statusConverterService.convertWithdrawStatus(withdraw?.status)}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 border-right">
+              <div class="text-truncate font-weight-bold text-uppercase">{{withdraw?.marketAccount?.dealer?.name}}</div>
+              <div class="text-truncate ">{{withdraw?.marketAccount?.dealer?.documentType?.name}}: {{withdraw?.marketAccount?.dealer?.documentNumber | mask:withdraw?.marketAccount?.dealer?.documentType?.webMask}}</div>
+              <div class="text-truncate">{{'screen.manageTransfer.label.request' | translate}}: {{withdraw?.requestDate  | date:formatService.getDateFormat()}}</div>
+              
+            </div>
+            <div class="col-md-3 border-right">
+              <div class="text-truncate">{{'screen.manageTransfer.label.amount' | translate}}: <strong>{{withdraw?.amount  | currency:formatService.getCurrencyFormat()}}</strong></div>
+              <div class="text-truncate">{{'screen.manageTransfer.label.fees' | translate}}: <strong>{{withdraw?.fees  | currency:formatService.getCurrencyFormat()}}</strong></div>
+              <div class="text-truncate"><span *ngIf="withdraw?.status != 'RELEASED'">{{'screen.manageTransfer.label.netAmount' | translate}}:</span>
+                                         <span *ngIf="withdraw?.status == 'RELEASED'">{{'screen.manageTransfer.label.netAmountReleased' | translate}}:</span>  
+                <strong>{{withdraw?.netAmount  | currency:formatService.getCurrencyFormat()}}</strong></div>
+              
+            </div>
+            <div class="col-md-3">
+              <div class="text-truncate">{{'screen.manageTransfer.label.bank' | translate}}: {{withdraw?.bankAccount?.bank?.name}} - {{withdraw?.bankAccount?.bank?.code}}</div>
+              <div class="text-truncate">{{'screen.manageTransfer.label.agency' | translate}}: {{withdraw?.bankAccount.agencyNumber}}<span *ngIf="withdraw?.bankAccount.agencyCheckDigit">-</span>{{withdraw?.bankAccount.agencyCheckDigit}}</div>
+              <div class="text-truncate">{{'screen.manageTransfer.label.account' | translate}}: {{withdraw?.bankAccount.accountNumber}}<span *ngIf="withdraw?.bankAccount.accountCheckDigit">-</span>{{withdraw?.bankAccount.accountCheckDigit}}</div>
+            </div>
+            <div class="col-md-3 border-left text-left" *ngIf="withdraw.releaseDate  || withdraw.reviewDate">  
+              <div class="text-truncate " *ngIf="withdraw?.reviewDate">
+                <strong *ngIf="withdraw?.status == 'APPROVED' || withdraw?.status == 'RELEASED'">{{'screen.manageTransfer.label.statusType.approved' | translate}}:</strong> 
+                <strong *ngIf="withdraw?.status == 'DENIED'">{{'screen.manageTransfer.label.statusType.denied' | translate}}:</strong>
+                <strong *ngIf="withdraw?.status == 'CANCELED'">{{'screen.manageTransfer.label.statusType.canceled' | translate}}:</strong>
+                {{withdraw?.reviewDate  | date:formatService.getDateFormat()}}
+              </div>
+              <div class="text-truncate " *ngIf="withdraw?.releaseDate">
+                <strong>{{'screen.manageTransfer.label.statusType.released' | translate}}:</strong> {{withdraw?.releaseDate  | date:formatService.getDateFormat()}}
+              </div>
+              <div class="" *ngIf="withdraw?.denyReason">
+                <strong>{{'screen.manageTransfer.label.denyReason' | translate}}:</strong> {{withdraw?.denyReason}}
+                <br/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer" *ngIf="withdraw?.status != 'RELEASED'">
+          <div class="float-right">
+            <button type="button" class="btn btn-danger btn-sm" (click)="loadWithdrawToDeny(withdraw); denyModal.show()" *ngIf="withdraw?.status == 'REQUESTED'">
+              <i class="fa fa-close"></i> {{'screen.manageTransfer.button.deny' | translate}}</button>
+            <button type="button" class="btn btn-success btn-sm" (click)="loadWithdrawToApprove(withdraw); acceptModal.show()" *ngIf="withdraw?.status == 'REQUESTED'">
+              <i class="fa fa-check"></i> {{'screen.manageTransfer.button.approve' | translate}}</button>
+            <button type="button" class="btn btn-success btn-sm" (click)="loadWithdrawToProvide(withdraw); provideModal.show()" *ngIf="withdraw?.status == 'APPROVED'">
+              <i class="fa fa-check"></i> {{'screen.manageTransfer.button.release' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-md-center" *ngIf="withdrawList.length > 0">
+    <div class="col-md-4">
+      <ul class="pagination mt-2">
+          <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchWithdraws(0)" >{{'screen.commons.button.first' | translate}}</a></li>
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchWithdraws(pagingService?.getPrevPage())" >{{'screen.commons.button.previous' | translate}}</a></li>
+        <li class="page-item" *ngFor="let number of pagingService?.page?.pageNumbersList" [ngClass]="{'active' : (number == pagingService?.page.number)}" ><a class="page-link" *ngIf="pagingService?.showNumber(number)" (click)="searchWithdraws(number)">{{number + 1 }}</a></li>
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchWithdraws(pagingService?.getNextPage())" >{{'screen.commons.button.next' | translate}}</a></li>
+        <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchWithdraws(pagingService?.page.totalPages - 1)" >{{'screen.commons.button.last' | translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div bsModal #denyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{'screen.manageTransfer.message.confirmation.denyWithdraw' | translate}}</h4>
+          <button type="button" class="close" (click)="denyModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">
+                 <div>{{'screen.manageTransfer.label.dealer' | translate}}: <strong>{{withdrawToDeny?.marketAccount?.dealer?.name}}</strong></div> 
+                 <div>{{withdrawToDeny?.marketAccount?.dealer?.documentType?.name}}: <strong>{{withdrawToDeny?.marketAccount?.dealer?.documentNumber | mask:withdrawToDeny?.marketAccount?.dealer?.documentType?.webMask}}</strong></div>
+                 <div>{{'screen.manageTransfer.label.date' | translate}}: <strong>{{withdrawToDeny?.requestDate  | date:formatService.getDateFormat()}}</strong></div> 
+                 <div>{{'screen.manageTransfer.label.amount' | translate}}: <strong>{{withdrawToDeny?.amount  | currency:formatService.getCurrencyFormat()}}</strong></div> 
+                 <br/>
+                 <div>
+                  <label for="denyReason">{{'screen.manageTransfer.label.denyReason' | translate}}:</label>
+                  <textarea rolls="4" class="form-control form-control-sm" maxlength="100"
+                  [ngModel]="withdrawToDeny?.denyReason"
+                  (input)="withdrawToDeny.denyReason = $event.target.value"></textarea></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="denyModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+          <button type="button" class="btn btn-danger" (click)="denyWithdraw(withdrawToDeny); denyModal.hide()">{{'screen.manageTransfer.button.deny' | translate}}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+
+   <div bsModal #acceptModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{'screen.manageTransfer.message.confirmation.approveWithdraw' | translate}}</h4>
+          <button type="button" class="close" (click)="acceptModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>{{'screen.manageTransfer.label.dealer' | translate}}: <strong>{{withdrawToApprove?.marketAccount?.dealer?.name}}</strong> </div>
+          <div>{{withdrawToApprove?.marketAccount?.dealer?.documentType?.name}}: <strong>{{withdrawToApprove?.marketAccount?.dealer?.documentNumber | mask:withdrawToApprove?.marketAccount?.dealer?.documentType?.webMask}}</strong></div>
+          <div>{{'screen.manageTransfer.label.amount' | translate}}: <strong>{{withdrawToApprove?.amount | currency:formatService.getCurrencyFormat()}}</strong> </div>
+          <div>{{'screen.manageTransfer.label.bank' | translate}}: <strong>{{withdrawToApprove?.bankAccount?.bank?.name}}</strong> </div>
+          <div>{{'screen.manageTransfer.label.agency' | translate}}: <strong>{{withdrawToApprove?.bankAccount?.agencyNumber}}<span *ngIf="withdrawToApprove?.bankAccount?.agencyCheckDigit">-</span>{{withdrawToApprove?.bankAccount?.agencyCheckDigit}}</strong></div>
+          <div>{{'screen.manageTransfer.label.account' | translate}}: <strong>{{withdrawToApprove?.bankAccount?.accountNumber}}<span *ngIf="withdrawToApprove?.bankAccount?.accountCheckDigit">-</span>{{withdrawToApprove?.bankAccount?.accountCheckDigit}}</strong></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="acceptModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+          <button type="button" class="btn btn-primary" (click)="approveWithdraw(withdrawToApprove); acceptModal.hide()">{{'screen.manageTransfer.button.approve' | translate}}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div bsModal #provideModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-primary modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{'screen.manageTransfer.message.confirmation.releaseWithdraw' | translate}}</h4>
+            <button type="button" class="close" (click)="provideModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>{{'screen.manageTransfer.label.dealer' | translate}}: <strong>{{withdrawToProvide?.marketAccount?.dealer?.name}}</strong> </div>
+            <div>{{withdrawToApprove?.marketAccount?.dealer?.documentType?.name}}: <strong>{{withdrawToApprove?.marketAccount?.dealer?.documentNumber | mask:withdrawToApprove?.marketAccount?.dealer?.documentType?.webMask}}</strong></div>
+            <div>{{'screen.manageTransfer.label.amount' | translate}}: <strong>{{withdrawToProvide?.amount | currency:formatService.getCurrencyFormat()}}</strong> </div>
+            <div>{{'screen.manageTransfer.label.bank' | translate}}: <strong>{{withdrawToProvide?.bankAccount?.bank?.name}}</strong> </div>
+            <div>{{'screen.manageTransfer.label.agency' | translate}}: <strong>{{withdrawToProvide?.bankAccount?.agencyNumber}}<span *ngIf="withdrawToProvide?.bankAccount?.agencyCheckDigit">-</span>{{withdrawToProvide?.bankAccount?.agencyCheckDigit}}</strong></div>
+            <div>{{'screen.manageTransfer.label.account' | translate}}: <strong>{{withdrawToProvide?.bankAccount?.accountNumber}}<span *ngIf="withdrawToProvide?.bankAccount?.accountCheckDigit">-</span>{{withdrawToProvide?.bankAccount?.accountCheckDigit}}</strong></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="provideModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="provideWithdraw(withdrawToProvide); provideModal.hide()">{{'screen.manageTransfer.button.release' | translate}}</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  

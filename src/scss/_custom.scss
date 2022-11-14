@@ -1,0 +1,182 @@
+// Here you can add other styles
+.navbar {
+  .form-inline {
+    i {
+      color: $navbar-color;
+    }
+    .form-control {
+      margin-top: -3px;
+      color: $navbar-color;
+      border: 0;
+
+      &::placeholder {
+        color: $navbar-color;
+      }
+    }
+    .form-control::-webkit-input-placeholder { color: $navbar-color; }
+    .form-control:-moz-placeholder { color: $navbar-color; }
+    .form-control::-moz-placeholder { color: $navbar-color; }
+    .form-control:-ms-input-placeholder { color: $navbar-color; }
+  }
+  .nav-item {
+
+    .nav-link.nav-pill {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      line-height: 32px;
+      border: 1px solid $navbar-color;
+      border-radius: 50em;
+
+      &:hover {
+        border-color: $navbar-hover-color;
+      }
+
+      .badge-pill {
+        margin-top: -18px;
+        margin-left: -5px;
+        border: 2px solid #fff !important;
+        line-height: 14px;
+      }
+
+      &.avatar {
+        width: 38px;
+        height: 38px;
+
+        img {
+          width: 36px;
+          height: 36px;
+          margin: 0;
+          border: 0;
+        }
+
+        .badge {
+          margin-top: -22px;
+          margin-left: 5px;
+        }
+
+        &.dropdown-toggle:after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+.nav-item{
+  cursor:pointer;
+}
+
+
+.sidebar .sidebar-nav .nav {
+  .nav-title {
+    span {
+      position: relative;
+      display: inline-block;
+
+      &:before, &:after {
+        position: absolute;
+        top: 50%;
+        width: 25px;
+        height: 1px;
+        margin-top: -1px;
+        content: '';
+        border-bottom: 1px solid $sidebar-nav-title-color;
+      }
+
+      &:before {
+        left: -30px;
+      }
+
+      &:after {
+        right: -30px;
+      }
+    }
+  }
+
+  li.nav-dropdown > ul > li > a{
+    margin-left: 10px !important;
+  }
+}
+
+.ng-invalid.ng-touched:not(form) {
+  border-color: red;
+}
+
+.required-mark{
+  color: red;
+}
+
+.hide-arrows{ 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.login-logo{
+  max-width: 150px;
+}
+
+section>hr{
+  border-top: 3px solid rgba(0, 0, 0, 0.1);
+}
+
+.cell-color-box{
+  padding: 2px 6px 2px 6px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+
+}
+
+.cell-coler-box-no-size{
+  font-size: inherit;
+}
+
+.video-hr{
+  border-top: 5px solid #20a8d8;
+}
+
+.video-title{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.video-description{
+  color:  #666666;
+}
+.register-view{
+  background-color: deepskyblue;
+  
+  .card:first-child{
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+  }
+
+  .card:last-child{
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+}
+
+.form-control {
+  color: #000;
+}
+
+.form-control:disabled{
+  background-color:f0f3f5;
+}
+
+.bottom-item{
+  bottom: 0 !important;
+  position: absolute !important;
+  width: 100% !important;
+}
+
+accordion-group .panel{
+  margin-bottom: 10px;
+}
+
+accordion-group .panel-heading{
+  padding: 0;
+  cursor: pointer;
+}

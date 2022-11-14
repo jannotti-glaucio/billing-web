@@ -1,0 +1,41 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.application.title.newApplication' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <form #insertForm="ngForm" (ngSubmit)="onSubmit(insertForm)">
+                
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">{{'screen.application.label.name' | translate}} <span class="required-mark">*</span></label>
+                      <input type="text" class="form-control form-control-sm" id="name" name="name" 
+                      maxlength="100"
+                      placeholder="{{'screen.application.placeholder.applicationName' | translate}}" 
+                      [class.ng-touched]="insertForm.submitted"
+                      [(ngModel)]="application.name" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-sm-12 text-right">
+                    <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('updateApplicationSaveButton')" >{{'screen.commons.button.save' | translate}}</button>
+                    <button class="btn btn-default" routerLink="/dealer/application">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+  

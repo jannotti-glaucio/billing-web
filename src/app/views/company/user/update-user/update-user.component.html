@@ -1,0 +1,75 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="card-title clearfix mb-0">{{'screen.updateUser.label.updateUser' | translate}}</h4>
+                  <hr/>
+                </div>
+              </div>
+              <br/>
+              <h5 class="text-muted"><i class="fa fa-user-o mr-2"></i>{{'screen.updateUser.label.userData' | translate}}</h5>
+              <hr/>
+              <form #updateForm="ngForm" (ngSubmit)="onSubmit(updateForm)">
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="dealer">{{'screen.updateUser.label.dealer' | translate}} </label>
+                        <div class="input-group">
+                          <input type="text" class="form-control form-control-sm" id="dealer" name="dealer" 
+                         
+                          [ngModel]="userRestRequest?.dealer?.name" disabled>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="userName">{{'screen.updateUser.label.user' | translate}} <span class="required-mark">*</span></label>
+                      <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" id="userName" name="userName" 
+                        placeholder="Usuário"
+                        maxlength="30"
+                        [(ngModel)]="userRestRequest.userName">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="email">{{'screen.updateUser.label.mail' | translate}}</label>
+                        <input type="email" class="form-control form-control-sm" id="email" name="email" 
+                        placeholder="{{'screen.dealer.placeholder.email' | translate}}"
+                        maxlength="60"
+                        [(ngModel)]="userRestRequest.email" >
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group ">
+                      <label for="realName">{{'screen.updateUser.label.name' | translate}}</label>
+                        <input type="text" class="form-control form-control-sm" id="realName" name="realName" 
+                        placeholder="Nome" 
+                        maxlength="100"
+                        [(ngModel)]="userRestRequest.realName" >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-4 float-right">
+                  <div class="col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('updateUserButton')"  >{{'screen.commons.button.save' | translate}}</button>
+                    <button class="btn btn-default" routerLink="/company/user">{{'screen.commons.button.cancel' | translate}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

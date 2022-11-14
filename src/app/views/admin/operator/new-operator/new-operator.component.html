@@ -1,0 +1,70 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">  
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="card-title clearfix mb-0">Novo usuário</h4>
+              <hr/>
+            </div>
+          </div>
+          <form>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input type="text" id="nome" class="form-control form-control-sm">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="email">E-mail</label>
+                  <input type="text" id="email" class="form-control form-control-sm">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="role">Perfil</label>
+                  <div class="input-group">
+                    <select id="role" class="form-control form-control-sm">
+                      <option></option>
+                      <option>Administrador</option>
+                      <option>Empresa</option>
+                      <option>Fornecedor</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="entity">Entidade</label>
+                  <div class="input-group">
+                    <select id="entity" class="form-control form-control-sm">
+                      <option></option>
+                      <option>LML</option>
+                      <option>Lingerie BR</option>
+                      <option>Gigalink</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4 float-right">
+              <div class="col-sm-12">
+                <button class="btn btn-primary">Salvar</button>
+                <button class="btn btn-default" routerLink="/admin/operator">Cancelar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

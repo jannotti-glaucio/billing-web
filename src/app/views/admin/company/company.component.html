@@ -1,0 +1,86 @@
+<div class="animated fadeIn">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="card">  
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-5">
+                <h4 class="card-title clearfix mb-0"> Empresas</h4>
+              </div>
+              <div class="col-sm-7">
+                <a class="btn btn-primary float-right" routerLink="./new-company"><i class="icon-plus"></i> &nbsp; Novo</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 col-md-5 mt-2">
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-prepend">
+                      <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                    </span>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr/>
+            <table class="table table-responsive-sm table-hover table-outline mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Nome</th>
+                  <th class="text-center">Documento</th>
+                  <th class="text-center">E-mail</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center">Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let company of companyList; let i = index">
+                  <td>
+                    {{company?.nome}}
+                  </td>
+                  <td class="text-center">
+                    {{company?.numeroDocumento}}
+                  </td>
+                  <td class="text-center">
+                    {{company?.email}}
+                  </td>
+                  <td class="text-center">
+                    {{company?.status}}
+                  </td>
+                  <td class="text-center">
+                    <button class="btn btn-link btn-sm" tooltip="Editar" placement="top"><i class="fa fa-eye" (click)="updateCompany(company?.id)"></i></button>
+                    <button class="btn btn-link btn-sm" tooltip="Excluir" placement="top"><i class="fa fa-trash ml-2" style="color: red;" (click)="removeModal.show(); modalExcluir(company, i);"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div bsModal #removeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Excluir Fornecedor?</h4>
+        <button type="button" class="close" (click)="removeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Nome: <strong>{{companyToRemove?.name}}</strong><br/>
+        Tipo Documento: <strong>{{companyToRemove?.tipoDocumento}}</strong><br/>
+        Numero Documento: <strong>{{companyToRemove?.numeroDocumento}}</strong><br/>
+        Email: <strong>{{companyToRemove?.email}}</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="removeModal.hide()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="remove(); removeModal.hide()">Excluir</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

@@ -1,0 +1,180 @@
+<div class="animated fadeIn">
+    <div class="row d-print-none">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                <form #searchForm="ngForm">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="card-title clearfix mb-0">{{'screen.companyInvoiceReport.label.invoiceReport' | translate}}</h4>
+                    </div>
+
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="search" class="col-md-3 col-form-label">{{'screen.companyInvoiceReport.label.dealer' | translate}} <span class="required-mark">*</span></label>
+                                <fieldset class="col form-group">
+                                    <ng-select
+                                    [allowClear]="true"
+                                    class="bootstrap form-control p-0" id="dealerToken" name="dealerToken"
+                                    placeholder="{{'screen.companyInvoiceReport.placeholder.selectDealer' | translate}}"
+                                    notFoundMsg="{{'screen.commons.placeholder.lookup' | translate}}"
+                                    [class.ng-touched]="searchForm.submitted"
+                                    [options]="dealerList"
+                                    [(ngModel)]="dealerToken" required></ng-select>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" for="dateToFilter">{{'screen.companyInvoiceReport.label.filterBy' | translate}}</label>
+                                <select class="col custom-select  form-control form-control-md" id="dateToFilter" name="dateToFilter"
+                                    [(ngModel)]="dateToFilter" required>
+                                    <option value="EXPIRATION" >{{'screen.companyInvoiceReport.label.expirationDate' | translate}}</option>
+                                    <option value="PAYMENT">{{'screen.companyInvoiceReport.label.paymentDate' | translate}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                        <div class="form-group row">
+                            <div class="col-md-3"></div>
+                            <div class="col">
+                                <div class="row text-right">
+                                <input type="text" id="startDate" name="startDate"
+                                class="form-control"
+                                bsDatepicker
+                                [(ngModel)]="startDate"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue'}">
+                                <small class="text-muted">{{'screen.commons.label.startDate' | translate}}</small>
+                                </div>
+                            </div>
+                            <div class="col ml-3 float-right">
+                                <div class="row text-right">
+                                <input type="text" id="endDate" name="endDate"
+                                class="form-control"
+                                bsDatepicker
+                                [(ngModel)]="endDate"
+                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-blue' }">
+                                <small class="text-muted">{{'screen.commons.label.endDate' | translate}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label" for="inline-radios">{{'screen.companyInvoiceReport.label.status' | translate}}</label>
+                                <div class="col-md-10 col-form-label row">
+                                <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox1" name="status" value="" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox1">{{'screen.companyInvoiceReport.label.statusType.all' | translate}}</label>
+                                </div>
+                                <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox2" name="status" [value]="invoiceStatus.open" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox2">{{'screen.companyInvoiceReport.label.statusType.open' | translate}}</label>
+                                </div>
+                                <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox5" name="status" [value]="invoiceStatus.expired" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox5">{{'screen.companyInvoiceReport.label.statusType.expired' | translate}}</label>
+                                </div>
+                                <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox3" name="status" [value]="invoiceStatus.paid" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox3">{{'screen.companyInvoiceReport.label.statusType.paid' | translate}}</label>
+                                </div>
+                                <div class="form-check form-check-inline mr-2">
+                                    <input class="form-check-input" type="radio" id="inline-checkbox4" name="status" [value]="invoiceStatus.canceled" [(ngModel)]="status">
+                                    <label class="form-check-label" for="inline-checkbox4">{{'screen.companyInvoiceReport.label.statusType.canceled' | translate}}</label>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="float-right">
+                                <button class="btn btn-secondary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('companyInvoiceReportSearchButton')" (click)="searchInvoices(searchForm, 0)"><i class="fa fa-search"></i> &nbsp; {{'screen.commons.button.search' | translate}}</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-secondary d-print-none" (click)="printReport()"><i class="fa fa-print"></i> {{'screen.companyInvoiceReport.button.print' | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="d-none d-print-block mb-2">
+                                <h3>{{'screen.companyInvoiceReport.label.invoiceReport' | translate}}</h3>
+                                <p>{{'screen.companyInvoiceReport.label.generatedBy' | translate}}: {{user}}<br/>
+                                    {{'screen.companyInvoiceReport.label.in' | translate}} {{today}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">{{'screen.companyInvoiceReport.label.customer' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.document' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.mail' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.amount' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.paidAmount' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.fees' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.netAmount' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.expiration' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.payment' | translate}}</th>
+                                        <th class="text-center">{{'screen.companyInvoiceReport.label.status' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="invoiceList.length < 1"><td class="text-center bg-light"colspan="10"><span class="text-muted">{{'screen.commons.text.emptySearch' | translate}}</span></td></tr>
+                                    <tr *ngFor="let invoice of invoiceList; let i = index">
+                                        <td class="text-left">{{invoice?.customer?.name}}</td>
+                                        <td class="text-truncate text-center">{{invoice?.customer?.documentNumber | mask:invoice?.customer?.documentType?.webMask}}</td>
+                                        <td class="text-truncate text-center">{{invoice?.customer?.email}}</td>
+                                        <td class="text-center">{{invoice?.amount| currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{invoice?.paidAmount| currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{invoice?.fees| currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{invoice?.netAmount| currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="text-center">{{invoice?.expirationDate | date: formatService.getDateFormat()}}</td>
+                                        <td class="text-center">{{invoice?.paymentDate | date: formatService.getDateFormat()}}</td>
+                                        <td class="text-center">{{statusConverterService.convertInvoiceStatus(invoice?.status)}}</td>
+                                    </tr>
+                                    <tr class="bg-secondary" *ngIf="invoiceList.length > 0" >
+                                        <td class="border-top border-dark">{{'screen.invoiceReport.label.total' | translate}}</td>
+                                        <td class="border-top border-dark text-center"></td>
+                                        <td class="border-top border-dark text-center"></td>
+                                        <td class="border-top border-dark text-center"></td>
+                                        <td class="border-top border-dark text-center">{{totalPaidAmount | currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="border-top border-dark text-center">{{totalFees | currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="border-top border-dark text-center">{{totalNetAmount | currency:formatService.getCurrencyFormat()}}</td>
+                                        <td class="border-top border-dark text-center"></td>
+                                        <td class="border-top border-dark text-center"></td>
+                                        <td class="border-top border-dark text-center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

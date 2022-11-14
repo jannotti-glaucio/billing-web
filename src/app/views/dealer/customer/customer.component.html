@@ -1,0 +1,119 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-5">
+                  <h4 class="card-title clearfix mb-0"> {{'screen.customer.title.customers' | translate}}</h4>
+                </div>
+                <div class="col-md-7">
+                  <a class="btn btn-primary float-right" routerLink="./new-customer"><i class="icon-plus"></i> &nbsp; {{'screen.customer.button.new' | translate}}</a>
+                </div>
+              </div>
+              <hr/>
+              <div class="row">
+                <div class="col-md-6 col-md-5 mt-2">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="text" class="form-control" 
+                      placeholder="{{'screen.customer.placeholder.searchFilter' | translate}}"
+                      [(ngModel)]="searchKeyword" 
+                      (keyup.enter)="searchCustomer()"  >
+                      <span class="input-group-prepend">
+                        <button type="button" class="btn btn-primary btn-ladda" data-style="zoom-out" [ladda]="loaderService.isLoading('customerSearchButton')"  (click)="searchCustomer()"><i class="fa fa-search"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            
+            </div>
+          </div>
+          <div class="card">  
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12 mt-2">
+                    <div class="form-group float-right">
+                      <small class="form-text">{{'screen.customer.label.pageRegister' | translate}}</small>
+                      <select 
+                      class="custom-select form-control form-control-sm" 
+                      id="pageSize" 
+                      name="pageSize" 
+                      [(ngModel)]="pageSize"
+                      (change)="searchCustomer();" [disabled]="customerList == ''">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <table class="table table-responsive-sm table-hover table-outline mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>{{'screen.customer.label.name' | translate}}</th>
+                    <th>{{'screen.customer.label.document' | translate}}</th>
+                    <th>{{'screen.customer.label.email' | translate}}</th>
+                    <th class="text-center">{{'screen.customer.label.action' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="customerList == ''"> <td class="text-muted text-center" colspan="5">{{'screen.commons.text.emptySearch' | translate}}</td></tr>
+                  <tr *ngFor="let customer of customerList; let i = index">
+                    <td>
+                      {{customer.name}}
+                    </td>
+                    <td>
+                      {{customer.documentType.name}}: {{customer.documentNumber | mask: customer.documentType.webMask }}
+                    </td>
+                    <td>
+                      {{customer.email}}
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.customer.tooltip.edit' | translate}}" placement="top" (click)="updateCustomer(customer.token)"><i class="fa fa-eye"></i></button>
+                      <button class="btn btn-link btn-sm" tooltip="{{'screen.customer.tooltip.delete' | translate}}" placement="top" (click)="dangerModal.show(); loadCustomerToRemove(customer);"><i class="fa fa-trash ml-2" style="color: red;"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="row justify-content-md-center" *ngIf="customerList != ''">
+                <div class="col-md-4">
+                  <ul class="pagination mt-2">
+                    <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchCustomer(0)" >{{'screen.commons.button.first' | translate}}</a></li>
+                    <li class="page-item" [ngClass]="{'disabled' : pagingService?.getPrevPage() == -1}"><a class="page-link" (click)="searchCustomer(pagingService?.getPrevPage())" >{{'screen.commons.button.previous' | translate}}</a></li>
+                    <li class="page-item" *ngFor="let number of pagingService?.page?.pageNumbersList" [ngClass]="{'active' : (number == pagingService?.page.number)}" ><a class="page-link" *ngIf="pagingService?.showNumber(number)" (click)="searchCustomer(number)">{{number + 1 }}</a></li>
+                    <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchCustomer(pagingService?.getNextPage())" >{{'screen.commons.button.next' | translate}}</a></li>
+                    <li class="page-item" [ngClass]="{'disabled' : pagingService?.getNextPage() == -1}"><a class="page-link" (click)="searchCustomer(pagingService?.page.totalPages - 1)" >{{'screen.commons.button.last' | translate}}</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-danger modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{'screen.customer.title.deleteCustomer' | translate}}</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{'screen.customer.label.name' | translate}}: <strong>{{customerToRemove?.name}}</strong><br/>
+         {{customerToRemove?.documentType?.name}}: <strong>{{customerToRemove?.documentNumber | mask: customerToRemove?.documentType?.webMask}}</strong><br/>
+          {{'screen.customer.label.email' | translate}}: <strong>{{customerToRemove?.email}}</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">{{'screen.commons.button.cancel' | translate}}</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCustomer(customerToRemove.token); dangerModal.hide()">{{'screen.commons.button.confirm' | translate}}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->

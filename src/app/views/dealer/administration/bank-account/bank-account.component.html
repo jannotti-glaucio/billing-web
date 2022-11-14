@@ -1,0 +1,125 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card"> 
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-5">
+              <h4 class="card-title clearfix mb-0"> Contas Bancárias</h4>
+            </div>
+            <div class="col-md-7">
+              <button class="btn btn-primary float-right" (click)="novaContaModal.show()"><i class="icon-plus"></i> &nbsp; Nova</button>
+            </div>
+          </div>
+          <hr/>
+
+          <div *ngFor="let bankAccount of bankAccountList; let i = index">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="text-muted">Conta {{i+1}}</div>
+                <hr class="m-0 mb-2"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="alias">Apelido</label>
+                    <input type="text" id="alias" class="form-control form-control-sm" [(ngModel)]="bankAccount.alias" disabled>
+                  </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="bank">Banco</label>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="bankAccount.bankName" id="bank" disabled>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="account">Conta</label>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="bankAccount.accountNumber" id="account" disabled>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label for="agency">Agência</label>
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="bankAccount.agency" id="agency" disabled>
+                </div>
+              </div>
+              <div class="col-sm-1 pt-1" *ngIf="bankAccountList.length > 1 ">
+                  <button type="button" class="btn btn-danger btn-sm mt-4" (click)="modalExcluir(bankAccount, i); bankAccountDeleteModal.show();"><i class="fa fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>   
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #novaContaModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Nova conta</h4>
+          <button type="button" class="close" (click)="novaContaModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="alias">Apelido</label>
+                      <input type="text" class="form-control form-control-sm" id="description"  [ngModel]="newBankAccount?.description">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="bank">Banco</label>
+                    <input type="text" class="form-control form-control-sm" id="bank" [ngModel]="newBankAccount?.bank?.name">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="account">Conta</label>
+                    <input type="text" class="form-control form-control-sm" id="account" [ngModel]="newBankAccount?.accountNumber" >
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="agency">Agência</label>
+                    <input type="text" class="form-control form-control-sm" id="agency" [ngModel]="newBankAccount?.agencyNumber" >
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="novaContaModal.hide()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="novaContaModal.hide()">Salvar</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+
+   <div bsModal #bankAccountDeleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-danger modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Excluir Conta?</h4>
+            <button type="button" class="close" (click)="bankAccountDeleteModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Apelido: <strong>{{bankAccountToRemove?.description}}</strong><br/>
+            Banco: <strong>{{bankAccountToRemove?.bank.name}}</strong><br/>
+            Conta: <strong>{{bankAccountToRemove?.bank.code}}</strong><br/>
+            Agencia: <strong>{{bankAccountToRemove?.agencyNumber}}</strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="bankAccountDeleteModal.hide()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="remove(); bankAccountDeleteModal.hide()">Excluir</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+     </div><!-- /.modal -->
